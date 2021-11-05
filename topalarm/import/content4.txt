@@ -1,9 +1,0 @@
-&textField=
-<font color%3D"#40E0D0">cím:</font>    Budapest 1119 Fejér Lipót u 65
-<a href%3D"https://pannonline.pannon.hu/pannonline/fwk/Login2.aspx%3FReturnUrl%3Dhttps%253a%252f%252fstudio.pannon.hu%252fapp%252fweb_interface.php%253fview%253dv_mailbox"  target%3D"_blank"><font color%3D"#40E0D0">e-mail:</font> egresits@pannongsm.hu</a><a href%3D"http://bymisi.selfip.com/shared/topa.html" >
-<font color%3D"#40E0D0">
-web:</font>    topalarm.webhop.net</a>
-<font color%3D"#40E0D0">
-tel:</font>      (%2B36) 20/ 9 56 58 54
-<font color%3D"#40E0D0">tel:</font>      (%2B36) 20/ 322 83 42
-                                                                                      Szerkesztõ :<a href%3D"http://bymisi.selfip.com"  target%3D"_blank"><font color%3D"#0F0F0F"><font size%3D"12">by_[MiSi]</a>
