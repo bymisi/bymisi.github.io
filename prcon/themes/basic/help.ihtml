@@ -1,0 +1,55 @@
+<!-- start help.ihtml -->
+
+<center>
+
+  <span class=head>{TOPICHELP}</span><br>
+
+  <br><br>
+
+  <table><tr><td>
+
+  <span class=head>{TITLETOPIC}</span><br><br>
+
+  <a href="#a">{TOPICSERVERINFO}</a><br>
+  <a href="#b">{TOPICRCONCOMMAND}</a><br>
+  <a href="#c">{TOPICSERVERRULES}</a><br>
+  <a href="#d">{TOPICSERVERBANLIST}</a><br>
+  <a href="#e">{TOPICSERVERMAPS}</a><br>
+  <a href="#f">{TOPICSERVERCONFIG}</a><br>
+  <a href="#g">{TOPICNEWS}</a><br>
+
+  <br><hr><br>
+
+  <a name="a"><span class=head>{TOPICSERVERINFO}</span></a> <a href="./rcon_index.php"><span class=note>({HELPLINK2PAGE})</span></a><br>
+  {HELPSERVERINFO}
+  <br><hr><br>
+
+  <a name="b"><span class=head>{TOPICRCONCOMMAND}</span></a> <a href="./rcon_command.php"><span class=note>({HELPLINK2PAGE})</span></a><br>
+  {HELPRCONCOMMAND}
+  <br><hr><br>
+
+  <a name="c"><span class=head>{TOPICSERVERRULES}</span></a> <a href="./rcon_serverrules.php"><span class=note>({HELPLINK2PAGE})</span></a><br>
+  {HELPSERVERRULES}
+  <br><hr><br>
+
+  <a name="d"><span class=head>{TOPICSERVERBANLIST}</span></a> <a href="./rcon_banlist.php"><span class=note>({HELPLINK2PAGE})</span></a><br>
+  {HELPSERVERBANLIST}
+  <br><hr><br>
+
+  <a name="e"><span class=head>{TOPICSERVERMAPS}</span></a> <a href="./rcon_servermaps.php"><span class=note>({HELPLINK2PAGE})</span></a><br>
+  {HELPSERVERMAPS}
+  <br><hr><br>
+
+  <a name="f"><span class=head>{TOPICSERVERCONFIG}</span></a> <a href="./rcon_serverconfig.php"><span class=note>({HELPLINK2PAGE})</span></a><br>
+  {HELPSERVERCONFIG}
+  <br><hr><br>
+
+  <a name="g"><span class=head>{TOPICNEWS}</span></a> <a href="./rcon_news.php"><span class=note>({HELPLINK2PAGE})</span></a><br>
+  {HELPNEWS}
+  <br><hr><br>
+
+  </td></tr></table>
+
+</center>
+
+<!-- end help.ihtml -->

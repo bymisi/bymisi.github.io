@@ -1,0 +1,2 @@
+Shortcut.exe /F:radio.html /A:C|E|Q [/T:target] [/P:parameters] [/W:workingdir]
+Shortcut.exe /f:"%USERPROFILE%\Desktop\Launcher.lnk" /a:c /t:hl.exe /p:-nomaster -game cstrike /r:1 /i:cstrike\game.ico /d:cr_[MiSi]

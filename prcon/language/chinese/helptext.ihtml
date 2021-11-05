@@ -1,0 +1,54 @@
+<!--
+
+  No variables in here. These are all the helptexts to the sites.
+
+-->
+
+<!-- start helptext.ihtml -->
+
+<!-- BEGIN helpserverinfo -->
+<table width=600><tr><td>
+  &nbsp;&nbsp;服务器信息. 上面的表中信息为服务器相关信息，下面的是玩家信息。 在最下面可以直接调用Rcon指令，输入指令点击 <i>"{BUTTONSUBMIT}"</i> 键运行。在玩家信息表中后面，有两个 <i>"Kick"</i> 和 <i>"Ban"</i> ，可以直接对玩家操作。点 <i>"{TOPICRCONCOMMAND}"</i> 运行指定Rcon命令. 点 <i>"{GENERALREFRESHSERVER}"</i> 刷新服务器信息.
+</td></tr></table>
+<!-- END helpserverinfo -->
+
+<!-- BEGIN helprconcommand -->
+<table width=600><tr><td>
+  &nbsp;&nbsp;本部分是最核心的部分，所有显示在下面的命令都将立即执行。输入号指令后，点击<i>"{BUTTONSUBMIT}"</i>来运行命令，结果的信息会显示在下面的信息框内，如果要清除信息，请点击最下面的<i>"{BUTTONCLEAROUTPUT}"</i>。<br>
+</td></tr></table>
+<!-- END helprconcommand -->
+
+<!-- BEGIN helpserverrules -->
+<table width=600><tr><td>
+  &nbsp;&nbsp;关于Halflife 或 Halflife-Mod 服务器参数设置，可以在下面的表中进行。点击每行后面的<i>"{SERVERRULESCHANGE}"</i> 来改变服务器当前参数的值。点击后，会调用<i>"{TOPICRCONCOMMAND}"</i>，点击同意后指令运行。点击<i>"{GENERALREFRESHSERVER}"</i> 刷新服务器个参数值。
+</td></tr></table>
+<!-- END helpserverrules -->
+
+<!-- BEGIN helpservermaps -->
+<table width=600><tr><td>
+  &nbsp;&nbsp;当前现实的是服务器运行地图的信息。地图名称是以"名称"和"路径"排序列出。直接点击地图名的连接将立即更换地图。点击<i>"{GENERALREFRESHSERVER}"</i> 刷新地图信息。
+</td></tr></table>
+<!-- END helpservermaps -->
+
+<!-- BEGIN helpserverbanlist -->
+<table width=600><tr><td>
+  {TITLEBANID}:<br>
+  &nbsp;&nbsp;输入你要BAN 的WonID 和 需要BAN 的时间(0= 永远）。如果想Kick 某人请选择复选框。点击<i>"{BUTTONBANID}"</i> 进行BAN操作。<br><br>
+  {TITLEUNBANID}:<br> 
+  &nbsp;&nbsp;输入你想UnBan的WonID。点击<i>"{BUTTONUNBANID}"</i>进行UnBan操作。
+</td></tr></table>
+<!-- END helpserverbanlist -->
+
+<!-- BEGIN helpserverconfig -->
+<table width=600><tr><td>
+  &nbsp;&nbsp;如果本项在Config.php中激活($localserver=1), 可以编辑服务器配置文件。配置文件会显示在下面，点击后可进行编辑，如果要存储，请先确定有对此目录的写操作权限。<br><br>
+  &nbsp;&nbsp;编辑完成后，点击<i>"{BUTTONSAVE}"</i>进行保存，如果想重新编辑，请点击<i>"{BUTTONRESET}"</i>。
+</td></tr></table>
+<!-- END helpserverconfig -->
+
+<!-- BEGIN helpnews -->
+<table width=600><tr><td>
+  你可以从<a href="http://www.phprcon.net" target=_new>PHPrcon.net</a> 上得到更多的最新 消息。 </td></tr></table>
+<!-- END helpnews -->
+
+<!-- end helptext.ihtml -->

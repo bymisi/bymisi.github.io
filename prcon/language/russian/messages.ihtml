@@ -1,0 +1,143 @@
+<!--
+
+  No variables in here. These are all the messages of the site.
+
+-->
+
+<!-- start messages.ihtml -->
+
+
+<!-- GENERAL -->
+
+<!-- BEGIN generalnotconnected -->Невозможно осуществить подключение. На данном IP нет сервера.<!-- END generalnotconnected -->
+<!-- BEGIN generalnotresponding -->Сервер не отвечает. Сервер не прослушивается на этом порту с этим IP.<!-- END generalnotresponding -->
+<!-- BEGIN generalbadrcon -->Неправильный rcon пароль.<!-- END generalbadrcon -->
+<!-- BEGIN generalrefreshserver -->Обновите север.<!-- END generalrefreshserver -->
+
+
+
+<!-- TITLE -->
+
+<!-- BEGIN titlehostname -->Хостовое имя<!-- END titlehostname -->
+<!-- BEGIN titleversion -->Версия<!-- END titleversion -->
+<!-- BEGIN titletcpip -->TCP/IP<!-- END titletcpip -->
+<!-- BEGIN titlemap -->Карта<!-- END titlemap -->
+<!-- BEGIN titleplayers -->Игроки<!-- END titleplayers -->
+<!-- BEGIN titlename -->Имя<!-- END titlename -->
+<!-- BEGIN titleid -->ID<!-- END titleid -->
+<!-- BEGIN titlewonid -->WonID<!-- END titlewonid -->
+<!-- BEGIN titlefrag -->Фраги<!-- END titlefrag -->
+<!-- BEGIN titletime -->Время<!-- END titletime -->
+<!-- BEGIN titleping -->Пинг<!-- END titleping -->
+<!-- BEGIN titleadress -->Адрес<!-- END titleadress -->
+<!-- BEGIN titlerule -->Правило<!-- END titlerule -->
+<!-- BEGIN titlevalue -->Значение<!-- END titlevalue -->
+<!-- BEGIN titlebanid -->Забаненые ID<!-- END titlebanid -->
+<!-- BEGIN titletimeframe -->Фреймовое время<!-- END titletimeframe -->
+<!-- BEGIN titlekick -->Кик<!-- END titlekick -->
+<!-- BEGIN titleunbanid -->Разбаненые ID<!-- END titleunbanid -->
+<!-- BEGIN titledir -->Директория:<!-- END titledir -->
+<!-- BEGIN titleconfigfiles -->Конфиги<!-- END titleconfigfiles -->
+<!-- BEGIN titleport -->Порт<!-- END titleport -->
+<!-- BEGIN titlekey -->Ключ<!-- END titlekey -->
+<!-- BEGIN titleconnectingplayer -->Подключаемый игрок<!-- END titleconnectingplayer -->
+<!-- BEGIN titletopic -->Топик<!-- END titletopic -->
+
+
+
+<!-- LOGIN -->
+
+<!-- BEGIN loginusername -->Имя пользователя<!-- END loginusername -->
+<!-- BEGIN loginpwd -->Пароль<!-- END loginpwd -->
+<!-- BEGIN loginerror -->Неверное имя пользователя или пароль.<!-- END loginerror -->
+
+
+
+<!-- SERVERINFO -->
+
+<!-- BEGIN serverinfocommanddescr -->Послать команду серверу<!-- END serverinfocommanddescr -->
+
+
+
+<!-- RCONCOMMAND -->
+
+<!-- BEGIN rconcommandnotexecuted -->Вы можете изменять парметры сейчас. Команда пока не была отправлена.<br><br><!-- END rconcommandnotexecuted -->
+<!-- BEGIN rconcommanddescr -->Команда:<!-- END rconcommanddescr -->
+
+
+
+<!-- SERVERRULES -->
+
+<!-- BEGIN serverruleschange -->Изменить<!-- END serverruleschange -->
+
+
+
+<!-- SERVERBANLIST -->
+
+<!-- BEGIN serverbanlistban -->ID успешно забанен.<!-- END serverbanlistban -->
+<!-- BEGIN serverbanlistnoban -->ID не может быть забанен.<!-- END serverbanlistnoban -->
+<!-- BEGIN serverbanlistunban -->ID успешно разбанен.<!-- END serverbanlistunban -->
+<!-- BEGIN serverbanlistnounban -->ID не может быть разбанен.<!-- END serverbanlistnounban -->
+<!-- BEGIN serverbanlistpermanent -->Перменная<!-- END serverbanlistpermanent -->
+
+
+
+<!-- SERVERMAPS -->
+
+<!-- BEGIN servermapschangedescr -->Нажмите для смены карты<!-- END servermapschangedescr -->
+<!-- BEGIN servermapschange -->Карта успешно сменена.<!-- END servermapschange -->
+<!-- BEGIN servermapsnochange -->Карта не может быть сменена.<!-- END servermapsnochange -->
+
+
+
+<!-- SERVERCONFIG -->
+
+<!-- BEGIN serverconfigstatus -->Статус<!-- END serverconfigstatus -->
+<!-- BEGIN serverconfigeditdescr -->Щелкните на файл для редактирования<!-- END serverconfigeditdescr -->
+<!-- BEGIN serverconfigeditdescr2 -->Примечание: <span style="font-size:12px">Все HTML и PHP тэги будут исключены из файла по причинам безопастности .</span><br><!-- END serverconfigeditdescr2 -->
+<!-- BEGIN serverconfignolocalserver -->Функция недоступна. Localserver опция не включена в "config.php".<br>Вы можете исмользовать жту функцию только если PHPrcon и игровой сервер запущены на одной машине.<!-- END serverconfignolocalserver -->
+<!-- BEGIN serverconfigok -->OK.<!-- END serverconfigok -->
+<!-- BEGIN serverconfignopermission -->Нет прав на запись.<!-- END serverconfignopermission -->
+<!-- BEGIN serverconfignofileexist -->Файл не существет.<!-- END serverconfignofileexist -->
+<!-- BEGIN serverconfigfilesaved -->Файл успешно сохранен.<!-- END serverconfigfilesaved -->
+
+
+
+<!-- HELP -->
+
+<!-- BEGIN helplink2page -->Соединиться по старницей<!-- END helplink2page -->
+<!-- BEGIN helpnoiframe -->Ваш браузер не позволяет просматривать фреймы. Вы можете попасть на сайт через эту ссылку:<!-- END helpnoiframe -->
+
+
+
+<!-- TOPICS -->
+
+<!-- BEGIN topicserverinfo -->Информация о сервере<!-- END topicserverinfo -->
+<!-- BEGIN topicrconcommand -->rcon команда<!-- END topicrconcommand -->
+<!-- BEGIN topicserverrules -->Правила сервера<!-- END topicserverrules -->
+<!-- BEGIN topicserverbanlist -->Банлист сервера<!-- END topicserverbanlist -->
+<!-- BEGIN topicservermaps -->Карты сервера<!-- END topicservermaps -->
+<!-- BEGIN topicserverconfig -->Конфиг сервера<!-- END topicserverconfig -->
+<!-- BEGIN topichelp -->Помощь<!-- END topichelp -->
+<!-- BEGIN topicnews -->Новости<!-- END topicnews -->
+<!-- BEGIN topicpublicinfo -->PHPrcon общедоступная информация о сервере<!-- END topicpublicinfo -->
+<!-- BEGIN topicmultiindex -->PHPrcon предосмотр сервера<!-- END topicmultiindex -->
+
+
+
+<!-- BUTTONS -->
+
+<!-- BEGIN buttonsubmit -->Submit<!-- END buttonsubmit -->
+<!-- BEGIN buttonclearoutput -->Очистить выход<!-- END buttonclearoutput -->
+<!-- BEGIN buttonbanid -->Забанить ID<!-- END buttonbanid -->
+<!-- BEGIN buttonunbanid -->Разбанить ID<!-- END buttonunbanid -->
+<!-- BEGIN buttonsave -->Save<!-- END buttonsave -->
+<!-- BEGIN buttonreset -->Перезапуск<!-- END buttonreset -->
+<!-- BEGIN buttonlogin -->Подключиться<!-- END buttonlogin -->
+
+
+
+<!-- BEGIN  -->
+<!-- END  -->
+
+<!-- end messages.ihtml -->

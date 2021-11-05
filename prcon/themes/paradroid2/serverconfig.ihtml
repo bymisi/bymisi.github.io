@@ -1,0 +1,79 @@
+<!-- start serverconfig.ihtml -->
+
+<!-- navigation -->
+<table border=0 cellpadding=0 cellspacing=0>
+  <tr>
+    <td style="padding:0px;" height=74><img src="{TEMPLATEDIR}/topleft.gif" border=0></td>
+    <td style="padding:0px;" valign=top align=center><a href="./rcon_serverconfig.php"><img src="{TEMPLATEDIR}/serverconfig.gif" border=0></a></td>
+  </tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" height=74 width=74 border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" height=74 width=74 border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" height=74 width=74 border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" height=74 width=74 border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/bottomright.gif" border=0></td></tr>
+</table>
+
+
+<!-- dividing cell -->
+</td><td valign=top align=center>
+
+
+<!-- Content -->
+
+  <span class=head>{TOPICSERVERCONFIG}</span><br>
+
+  <br>
+
+  {HELPSERVERCONFIG}
+
+  <br>
+
+
+  <!-- BEGIN list -->
+
+  <table cellpadding=0 cellspacing=0 border=0 class=border><tr><td style="padding:0px">
+
+  <table>
+    <tr>
+      <td class=row_head><span class=descr>{TITLECONFIGFILES}</span><br><span style="font-size:12px">{SERVERCONFIGEDITDESCR}</span></td>
+    </tr>
+
+    <!-- BEGIN row -->
+    <tr>
+      <td class={ROWSTYLE}><a href="./rcon_serverconfig.php?mod=edit&key={KEY}">{CFG}</a><br><span style="font-size:12px">{SERVERCONFIGSTATUS}: {STATUS}</span></td>
+    </tr>
+    <!-- END row -->
+
+    <!-- BEGIN norow -->
+    <tr>
+      <td class={ROWSTYLE}><span style="color:#aa3333;font-weight:bold;">{CFG}</span><br><span style="font-size:12px">{SERVERCONFIGSTATUS}: {STATUS}</span></td>
+    </tr>
+    <!-- END norow -->
+
+  </table>
+
+  </td></tr></table>
+
+  <!-- END list -->
+
+  <!-- BEGIN edit -->
+    <span class=descr>{CFG}</span><br><br>
+
+    {SERVERCONFIGEDITDESCR2}
+
+    <form action="./rcon_serverconfig.php?mod=save&key={KEY}" method="post">
+    <textarea name="configfile" cols="100" rows="25" wrap=virtual>{TEXT}</textarea><br>
+    <input type="submit" value="{BUTTONSAVE}">&nbsp;&nbsp;<input type="reset" value="{BUTTONRESET}">
+    </form>
+
+    <span class=descr>{FEEDBACK}</span>
+
+  <!-- END edit -->
+
+<!-- end serverconfig.ihtml -->

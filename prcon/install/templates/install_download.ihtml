@@ -1,0 +1,98 @@
+<!-- start install.ihtml -->
+
+<!-- BEGIN description_ok --><li><i>Download</i> your config.php file by clicking the <i>Download</i> button.</li>
+<li>If the download does not start, please Copy&Paste the text below into a config.php file of your own.</li>
+<li>Copy the config.php file into "./config/" of the PHPrcon root directory.</li><!-- END description_ok -->
+<!-- BEGIN description_error -->Please correct the following settings.<!-- END description_error -->
+
+<!-- BEGIN error_usernametoshort --><i>Loginname</i> has to be 3 characters or more
+<span class=note><a href="./install.php">(click)</a></span><br><!-- END error_usernametoshort -->
+<!-- BEGIN error_userpasswordtoshort --><i>Loginpassword</i> has to be 3 characters or more
+<span class=note><a href="./install.php">(click)</a></span><br><!-- END error_userpasswordtoshort -->
+<!-- BEGIN error_userpasswordnoconfirm --><i>Loginpassword</i> has to be the same as <i>Confirm</i>
+<span class=note><a href="./install.php">(click)</a></span><br><!-- END error_userpasswordnoconfirm -->
+<!-- BEGIN error_noserverip --><i>Server IP</i> has to be the Gameserver's IP
+<span class=note><a href="./install_server.php">(click)</a></span><br><!-- END error_noserverip -->
+<!-- BEGIN error_noserverport --><i>Server Port</i> has to be the Gameserver's Port
+<span class=note><a href="./install_server.php">(click)</a></span><br><!-- END error_noserverport -->
+<!-- BEGIN error_noserverpassword --><i>rcon Password</i> has to be the Gameserver's rcon Password
+<span class=note><a href="./install_server.php">(click)</a></span><br><!-- END error_noserverpassword -->
+<!-- BEGIN error_mapamounttolow --><i>Map Amount</i> has to be greater than 0
+<span class=note><a href="./install_server.php">(click)</a></span><br><!-- END error_mapamounttolow -->
+
+<!-- BEGIN configuration -->
+<?php
+  //User
+  <!-- BEGIN user -->//Name
+  $config_user_name = "{USER_NAME}";
+  //Password
+  $config_user_password = "{USER_PASSWORD}";
+  <!-- END user -->
+  
+  //Gameserver
+  <!-- BEGIN gameserver -->//IP or Domain Name
+  $config_server_ip = "{SERVER_IP}";
+  //Port
+  $config_server_port = "{SERVER_PORT}";
+  //rcon password
+  $config_server_password = "{SERVER_PASSWORD}";
+  //Number of pages of maps that are sent from the server
+  $config_map_amount = {SERVER_MAP_PAGES};
+  <!-- END gameserver -->
+  
+  //relative path to the selected theme, from PHPrcon root dir
+  $config_theme = "{THEME}";
+
+  //1 = a small helptext will be displayed on top of every page; 0 = no helptext
+  $config_helptext = {HELPTEXT};
+
+  //language of PHPrcon
+  $config_language = "{LANGUAGE}";
+
+  //1 = PHPrcon is running on the same server as your Gameserver, 0 = PHPrcon is running anywhere
+  $config_localserver = {LOCALSERVER};
+
+  //List of Config Files
+  //absolute path to the xxxx.cfg that should be editable in PHPrcon (if $config_localserver = 0 this has no effect at all)
+  <!-- BEGIN config_file -->$config_file[{KEY}] = "{VALUE}";
+  <!-- END config_file -->
+  <!-- BEGIN no_config_file -->//no config files specified
+  <!-- END no_config_file -->
+?>
+<!-- END configuration -->
+
+<script type="text/javascript">
+<!--
+  document.install.action = "./install_download.php";
+-->
+</script>
+
+<table width=760 bgcolor={COLORDOWNLOAD}>
+  <tr>
+    <td>
+      <span class=head><br>config.php</span>
+      <br>
+      <span class=note>{DESCRIPTION}</span>
+      <br><br>
+    </td>
+
+  </tr>
+
+  <tr>
+    <td>
+
+      <!-- BEGIN feedback -->
+      <button name="Download" type="button" value="download"
+      onClick="javascript:formlocation('./install_download.php?action=download');">Download</button>
+      <br><br>
+      <!-- END feedback -->
+
+      {CONFIGURATION}
+    </td>
+  </tr>
+
+  <tr><td><br><br><br></td></tr>
+
+</table>
+
+<!-- end install.ihtml -->

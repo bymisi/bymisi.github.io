@@ -1,0 +1,95 @@
+<!-- start tabpane.ihtml -->
+
+<!-- BEGIN tabpaneglobals --><table cellspacing=0 cellpadding=0 border=0 width=760>
+<tr>
+  <td class="tabpane" style="background-color:#{COLORGLOBALS};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install.php');"><span class=descr>Globals</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORSERVER};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_server.php');"><span class=descr>Server</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORSERVERDETAILS};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_server_details.php');"><span class=descr>Server Details</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORDOWNLOAD};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_download.php');"><span class=descr>Download</span></td>
+  <td><img src="./pics/1px.gif" alt="" border=0></td>
+</tr>
+<tr>
+  <td bgcolor=#{COLORGLOBALS} style="height:4px"><img src="./pics/1px.gif" alt="" border=0></td>
+  <td bgcolor=#ffffff style="height:4px" colspan=7><img src="./pics/1px.gif" alt="" border=0></td>
+</tr>
+</table><!-- END tabpaneglobals -->
+
+<!-- BEGIN tabpaneserver --><table cellspacing=0 cellpadding=0 border=0 width=760>
+<tr>
+  <td class="tabpane" style="background-color:#{COLORGLOBALS};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install.php');"><span class=descr>Globals</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORSERVER};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_server.php');"><span class=descr>Server</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORSERVERDETAILS};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_server_details.php');"><span class=descr>Server Details</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORDOWNLOAD};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_download.php');"><span class=descr>Download</span></td>
+  <td><img src="./pics/1px.gif" alt="" border=0></td>
+</tr>
+<tr>
+  <td bgcolor=#ffffff style="height:4px" colspan=2><img src="./pics/1px.gif" alt="" border=0></td>
+  <td bgcolor=#{COLORSERVER} style="height:4px"><img src="./pics/1px.gif" alt="" border=0></td>
+  <td bgcolor=#ffffff style="height:4px" colspan=5><img src="./pics/1px.gif" alt="" border=0></td>
+</tr>
+</table><!-- END tabpaneserver -->
+
+<!-- BEGIN tabpaneserverdetails --><table cellspacing=0 cellpadding=0 border=0 width=760>
+<tr>
+  <td class="tabpane" style="background-color:#{COLORGLOBALS};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install.php');"><span class=descr>Globals</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORSERVER};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_server.php');"><span class=descr>Server</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORSERVERDETAILS};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_server_details.php');"><span class=descr>Server Details</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORDOWNLOAD};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_download.php');"><span class=descr>Download</span></td>
+  <td><img src="./pics/1px.gif" alt="" border=0></td>
+</tr>
+<tr>
+  <td bgcolor=#ffffff style="height:4px" colspan=4><img src="./pics/1px.gif" alt="" border=0></td>
+  <td bgcolor=#{COLORSERVERDETAILS} style="height:4px"><img src="./pics/1px.gif" alt="" border=0></td>
+  <td bgcolor=#ffffff style="height:4px" colspan=3><img src="./pics/1px.gif" alt="" border=0></td>
+</tr>
+</table><!-- END tabpaneserverdetails -->
+
+<!-- BEGIN tabpanedownload --><table cellspacing=0 cellpadding=0 border=0 width=760>
+<tr>
+  <td class="tabpane" style="background-color:#{COLORGLOBALS};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install.php');"><span class=descr>Globals</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORSERVER};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_server.php');"><span class=descr>Server</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORSERVERDETAILS};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_server_details.php');"><span class=descr>Server Details</span></td>
+  <td style="background-color:#ffffff;width:4px"><img src="./pics/1px.gif" alt="" width=4 border=0></td>
+  <td class="tabpane" style="background-color:#{COLORDOWNLOAD};"
+    onmouseover="style.cursor='hand';" onclick="javascript:formlocation('./install_download.php');"><span class=descr>Download</span></td>
+  <td><img src="./pics/1px.gif" alt="" border=0></td>
+</tr>
+<tr>
+  <td bgcolor=#ffffff style="height:4px" colspan=6><img src="./pics/1px.gif" alt="" border=0></td>
+  <td bgcolor=#{COLORDOWNLOAD} style="height:4px"><img src="./pics/1px.gif" alt="" border=0></td>
+</tr>
+</table><!-- END tabpanedownload -->
+
+<!-- BEGIN colorglobals -->b8ccd8<!-- END colorglobals -->
+<!-- BEGIN colorserver -->c4d5df<!-- END colorserver -->
+<!-- BEGIN colorserverdetails -->d1dfe7<!-- END colorserverdetails -->
+<!-- BEGIN colordownload -->dee9ef<!-- END colordownload -->
+
+<!-- end tabpane.ihtml -->
+

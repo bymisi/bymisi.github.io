@@ -1,0 +1,80 @@
+<!-- start install.ihtml -->
+
+<script type="text/javascript">
+<!--
+  document.install.action = "./install_server_details.php";
+
+  function addconfig()
+  {
+    if(document.install.config_file_new.value != "")
+    {
+      document.install.action = "./install_server_details.php?action=addconfig";
+      document.install.submit();
+    }
+  }
+
+  function removeconfig(Key)
+  {
+    document.install.action = "./install_server_details.php?action=removeconfig&key=" + Key;
+    document.install.submit()
+  }
+-->
+</script>
+
+
+<table width=760 bgcolor={COLORSERVERDETAILS}>
+
+  <tr>
+    <th style="width:150px"><img src="./pics/1px.gif" alt="" border=0 width=1 height=1></th>
+    <th style="width:410px"><img src="./pics/1px.gif" alt="" border=0 width=1 height=1></th>
+    <th style="width:200px"><img src="./pics/1px.gif" alt="" border=0 width=1 height=1></th>
+  </tr>
+
+
+  <tr>
+    <td colspan=3>
+      <span class=head><br>Server Details</span>
+      <br><br>
+      <span class=note>
+        <li>Check <i>Local Server</i>, if your Gameserver runs on the same machine as your Webserver. Uncheck if not</li>
+        <li><i>Add Config File</i>, adds a new config file to list. This file will appear editable in PHPrcon</li>
+        <li>All Config Files will only apply, if <i>Local Server</i> is checked</li>
+        <li>Click on <i>Remove</i> behind the list entry, to remove the config from the list</li>
+      </span>
+      <br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Local Server</td>
+    <td>
+      <input type="radio" name="config_localserver" value="1" {LOCALSERVERYES}> Yes &nbsp;&nbsp;
+      <input type="radio" name="config_localserver" value="0" {LOCALSERVERNO}> No
+    </td>
+  </tr>
+
+  <tr>
+    <td>Add Config File</td>
+    <td><input type="text" name="config_file_new" style="width:380px;"></td>
+    <td><button onClick="javascript:addconfig();">Add Config File</button></td>
+  </tr>
+
+  <!-- BEGIN configfilelist -->
+  <tr>
+    <td class=descr colspan=3><br>Current Config File List</td>
+  </tr>
+
+  <!-- BEGIN configfile -->
+  <tr>
+    <td colspan=2>{PATH}</td>
+    <td><a href="javascript:removeconfig({NUMBER});">Remove</a></td>
+  </tr>
+  <!-- END configfile -->
+
+  <!-- END configfilelist -->
+
+  <tr><td><br><br><br></td></tr>
+
+</table>
+
+<!-- end install.ihtml -->

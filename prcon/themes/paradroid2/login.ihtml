@@ -1,0 +1,22 @@
+<!-- start login.ihtml -->
+<center>
+
+<table width=100% height=100%><tr><td align=center valign=center height=50%>
+  <form action="{LOGIN_CURRENTURL}" method="post" name="loginform">
+  <table>
+    <tr><td>{LOGINUSERNAME}:</td><td><input type="text" name="name" value="{LOGIN_NAME}"></td></tr>
+    <tr><td>{LOGINPWD}:</td><td><input type="password" name="password" value="{LOGIN_PASSWORD}"></td></tr>
+    <tr><td>&nbsp;</td><td><input type="submit" value="{BUTTONLOGIN}"></td></tr>
+  </table>
+  </form>
+  {FEEDBACK}
+</td></tr></table>
+
+</center>
+
+<script type="text/javascript">
+  document.loginform.name.focus();
+  document.loginform.name.select();
+</script>
+
+<!-- end login.ihtml -->

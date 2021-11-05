@@ -1,0 +1,52 @@
+<!--
+
+  No variables in here. These are all the helptexts to the sites.
+
+-->
+
+<!-- start helptext.ihtml -->
+
+<!-- BEGIN helpserverinfo -->
+<table width=600><tr><td>
+  All basis-informasjon om serveren blir vist her. Noe server-spesifik informasjon p&aring; toppen og spiller-informasjon p&aring; bunnen. P&aring; bunnen av siden kan du kj&oslash;re rcon kommandoer direkte p&aring; serveren. Bare skriv inn kommandoen og trykk p&aring; <i>"{BUTTONSUBMIT}"</i> knappen. De to linkene <i>"Kick"</i> and <i>"Ban"</i> bak hver spiller kan endes p&aring; ved og endre p&aring; "serverinfo.ihtml" templaten i ditt valgte tema. N&aring;r du klikker p&aring; dem vil siden <i>"{TOPICRCONCOMMAND}"</i> vises. Kommandoen vil bli utf&oslash;rt med en gang. Klikk p&aring; <i>"{GENERALREFRESHSERVER}"</i> for &aring; oppdatere all informasjonen fra serveren.
+</td></tr></table>
+<!-- END helpserverinfo -->
+
+<!-- BEGIN helprconcommand -->
+<table width=600><tr><td>
+  Dette er hjertet i PHPrcon programmet. Alle kommandoer som blir sendt til enne siden vil bli utf&oslash;rt eller bare vist, slik at kommandoen fortsatt kan bli redigert. Hvis kommandoen ikke blir utf&oslash;rt vil en beskjed vises nedenfor i tekstfeltet. Tast inn en rcon kommando i tekstfeltet p&aring; toppen av siden og trykk p&aring; <i>"{BUTTONSUBMIT}"</i> knappen for &aring; utf&oslash;re kommandoen. Resultatet av de sist utf&oslash;rte kommandoene vil bli vist i tekstboksen. For &aring; t&oslash;mme tekstboksen, trykk p&aring; <i>"{BUTTONCLEAROUTPUT}"</i> knappen p&aring; bunnen av siden.
+</td></tr></table>
+<!-- END helprconcommand -->
+
+<!-- BEGIN helpserverrules -->
+<table width=600><tr><td>
+  En Halflife eller Halflife-Mod server har en mengde server-variabler som er tilgjenglig for alle. Disse server-variablene vises her. Klikk p&aring; <i>"{SERVERRULESCHANGE}"</i> linken bak hver variabel for &aring; endre verdien p&aring; den aktuelle variablen. <i>"{TOPICRCONCOMMAND}"</i> siden vil vises. Endringer i en variable vil IKKE bli utf&oslash;rt med en gang. Klikk p&aring; <i>"{GENERALREFRESHSERVER}"</i> for &aring; oppdatere all informasjon fra serveren.
+</td></tr></table>
+<!-- END helpserverrules -->
+
+<!-- BEGIN helpservermaps -->
+<table width=600><tr><td>
+  Dette er en liste over alle kart som er tilgjenglig p&aring; serveren. Kartene er sortert etter plassering og navn. Rot-katalogen for disse er den samme katalogen hvor Halflife eller Halflife-Mod serveren har blitt startet fra. Klikk p&aring; kartnavnet for &aring; endre til dette kartet. Klikk p&aring; <i>"{GENERALREFRESHSERVER}"</i> for &aring; oppdatere all informasjon fra serveren.
+</td></tr></table>
+<!-- END helpservermaps -->
+
+<!-- BEGIN helpserverbanlist -->
+<table width=600><tr><td>
+  {TITLEBANID}:<br>Tast inn WonID'en du vil banne, og antall minutter du vil banne (0 = permanent). Marker checkboksen om du vil sparke spillern fra det aktuelle kartet. Klikk p&aring; <i>"{BUTTONBANID}"</i> for &aring; fullf&oslash;re.<br><br>{TITLEUNBANID}:<br>Tast inn WonID'en du &oslash;nsker og unbanne. Klikk p&aring; <i>"{BUTTONUNBANID}"</i> knappen for &aring; fullf&oslash;re.
+</td></tr></table>
+<!-- END helpserverbanlist -->
+
+<!-- BEGIN helpserverconfig -->
+<table width=600><tr><td>
+  Om denne egenskapen er sl&aring;tt p&aring; ($localserver = 1), kan en konfig-fil som skal redigeres velges. Konfig-filens status vil vises under filnavnet. Filnavnet vil vises som klartekst, hvis filen ikke er tilgjenglig for deg, eller du ikke har skrive-tillatelse p&aring; filen.<br><br>Den valgte filen kan redigeres. Klikk p&aring; <i>"{BUTTONSAVE}"</i> knappen for &aring; lagre dine endringer. Trykk p&aring; <i>"{BUTTONRESET}"</i> for &aring; forkaste dine siste endringer.
+</td></tr></table>
+<!-- END helpserverconfig -->
+
+<!-- BEGIN helpnews -->
+<table width=600><tr><td>
+  Du kan finne de siste nyhetene her. Direkte fra <a href="http://www.phprcon.net" target=_new>PHPrcon.net</a> hjemmesiden.
+</td></tr></table>
+<!-- END helpnews -->
+
+
+<!-- end helptext.ihtml -->

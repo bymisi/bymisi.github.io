@@ -1,0 +1,143 @@
+<!--
+
+  No variables in here. These are all the messages of the site.
+
+-->
+
+<!-- start messages.ihtml -->
+
+
+<!-- GENERAL -->
+
+<!-- BEGIN generalnotconnected -->Kunne ikke koble til. Ingen server tilgjenglig p&aring; denne IP adressen.<!-- END generalnotconnected -->
+<!-- BEGIN generalnotresponding -->Serveren svarer ikke. Ingen server lytter til denne porten p&aring; denne IP adressen.<!-- END generalnotresponding -->
+<!-- BEGIN generalbadrcon -->Feil RCON passord.<!-- END generalbadrcon -->
+<!-- BEGIN generalrefreshserver -->Oppdater Server<!-- END generalrefreshserver -->
+
+
+
+<!-- TITLE -->
+
+<!-- BEGIN titlehostname -->Hostname<!-- END titlehostname -->
+<!-- BEGIN titleversion -->Versjon<!-- END titleversion -->
+<!-- BEGIN titletcpip -->TCP/IP<!-- END titletcpip -->
+<!-- BEGIN titlemap -->Kart<!-- END titlemap -->
+<!-- BEGIN titleplayers -->Spillere<!-- END titleplayers -->
+<!-- BEGIN titlename -->Navn<!-- END titlename -->
+<!-- BEGIN titleid -->ID<!-- END titleid -->
+<!-- BEGIN titlewonid -->WonID<!-- END titlewonid -->
+<!-- BEGIN titlefrag -->Frag<!-- END titlefrag -->
+<!-- BEGIN titletime -->Tid<!-- END titletime -->
+<!-- BEGIN titleping -->Ping<!-- END titleping -->
+<!-- BEGIN titleadress -->Adresse<!-- END titleadress -->
+<!-- BEGIN titlerule -->Regel<!-- END titlerule -->
+<!-- BEGIN titlevalue -->Verdi<!-- END titlevalue -->
+<!-- BEGIN titlebanid -->Ban ID<!-- END titlebanid -->
+<!-- BEGIN titletimeframe -->Tidsramme<!-- END titletimeframe -->
+<!-- BEGIN titlekick -->Spark<!-- END titlekick -->
+<!-- BEGIN titleunbanid -->Unban ID<!-- END titleunbanid -->
+<!-- BEGIN titledir -->Katalog:<!-- END titledir -->
+<!-- BEGIN titleconfigfiles -->Config Filer<!-- END titleconfigfiles -->
+<!-- BEGIN titleport -->Port<!-- END titleport -->
+<!-- BEGIN titlekey -->N&oslash;kkel<!-- END titlekey -->
+<!-- BEGIN titleconnectingplayer -->Kobler til spiller<!-- END titleconnectingplayer -->
+<!-- BEGIN titletopic -->Emne<!-- END titletopic -->
+
+
+
+<!-- LOGIN -->
+
+<!-- BEGIN loginusername -->Brukernavn<!-- END loginusername -->
+<!-- BEGIN loginpwd -->Passord<!-- END loginpwd -->
+<!-- BEGIN loginerror -->Feil brukernavn eller passord.<!-- END loginerror -->
+<
+
+
+<!-- SERVERINFO -->
+
+<!-- BEGIN serverinfocommanddescr -->Send en kommando til serveren<!-- END serverinfocommanddescr -->
+
+
+
+<!-- RCONCOMMAND -->
+
+<!-- BEGIN rconcommandnotexecuted -->Du kan endre parameterne n&aring;. Kommandoen har ikke blitt sendt enn&aring;.<br><br><!-- END rconcommandnotexecuted -->
+<!-- BEGIN rconcommanddescr -->Kommando:<!-- END rconcommanddescr -->
+
+
+
+<!-- SERVERRULES -->
+
+<!-- BEGIN serverruleschange -->Skift<!-- END serverruleschange -->
+
+
+
+<!-- SERVERBANLIST -->
+
+<!-- BEGIN serverbanlistban -->ID bannet.<!-- END serverbanlistban -->
+<!-- BEGIN serverbanlistnoban -->ID kune ikke bli bannet.<!-- END serverbanlistnoban -->
+<!-- BEGIN serverbanlistunban -->ID unbannet.<!-- END serverbanlistunban -->
+<!-- BEGIN serverbanlistnounban -->ID kunne ikke bli unbannet.<!-- END serverbanlistnounban -->
+<!-- BEGIN serverbanlistpermanent -->permanent<!-- END serverbanlistpermanent -->
+
+
+
+<!-- SERVERMAPS -->
+
+<!-- BEGIN servermapschangedescr -->Klikk for &aring; endre kart<!-- END servermapschangedescr -->
+<!-- BEGIN servermapschange -->Kart endret.<!-- END servermapschange -->
+<!-- BEGIN servermapsnochange -->Kart kunne ikke endres.<!-- END servermapsnochange -->
+
+
+
+<!-- SERVERCONFIG -->
+
+<!-- BEGIN serverconfigstatus -->Status<!-- END serverconfigstatus -->
+<!-- BEGIN serverconfigeditdescr -->Klikk p&aring; fil for &aring; redigere<!-- END serverconfigeditdescr -->
+<!-- BEGIN serverconfigeditdescr2 -->Merk: <span style="font-size:12px">Alle HTML og PHP tags vil bli fjernet fra filen av sikkerhetsmessige &aring;rsaker.</span><br><!-- END serverconfigeditdescr2 -->
+<!-- BEGIN serverconfignolocalserver -->Denne funksjonen er ikke tilgjenglig. Lokalservermuligheten er ikke sl&aring;tt p&aring; i "config.php".<br>Du kan bare bruke denne funksjonen dersom PHPrcon og spillserveren kj&oslash;rer p&aring; samme maskin.<!-- END serverconfignolocalserver -->
+<!-- BEGIN serverconfigok -->OK.<!-- END serverconfigok -->
+<!-- BEGIN serverconfignopermission -->Ingen skriverettigheter.<!-- END serverconfignopermission -->
+<!-- BEGIN serverconfignofileexist -->Filen eksisterer ikke.<!-- END serverconfignofileexist -->
+<!-- BEGIN serverconfigfilesaved -->Fil lagret.<!-- END serverconfigfilesaved -->
+
+
+
+<!-- HELP -->
+
+<!-- BEGIN helplink2page -->Link til side<!-- END helplink2page -->
+<!-- BEGIN helpnoiframe -->Din browser kan ikke vise iframes. Du kan hente siden direkte via linken:<!-- END helpnoiframe -->
+
+
+
+<!-- TOPICS -->
+
+<!-- BEGIN topicserverinfo -->Server Info<!-- END topicserverinfo -->
+<!-- BEGIN topicrconcommand -->rcon Kommando<!-- END topicrconcommand -->
+<!-- BEGIN topicserverrules -->Server Regler<!-- END topicserverrules -->
+<!-- BEGIN topicserverbanlist -->Server Banliste<!-- END topicserverbanlist -->
+<!-- BEGIN topicservermaps -->Server Kart<!-- END topicservermaps -->
+<!-- BEGIN topicserverconfig -->Server Config<!-- END topicserverconfig -->
+<!-- BEGIN topichelp -->Hjelp<!-- END topichelp -->
+<!-- BEGIN topicnews -->Nyheter<!-- END topicnews -->
+<!-- BEGIN topicpublicinfo -->PHPrcon offentlig serverinfo<!-- END topicpublicinfo -->
+<!-- BEGIN topicmultiindex -->PHPrcon server sammendrag<!-- END topicmultiindex -->
+
+
+
+<!-- BUTTONS -->
+
+<!-- BEGIN buttonsubmit -->Send<!-- END buttonsubmit -->
+<!-- BEGIN buttonclearoutput -->Fjern<!-- END buttonclearoutput -->
+<!-- BEGIN buttonbanid -->Ban ID<!-- END buttonbanid -->
+<!-- BEGIN buttonunbanid -->Unban ID<!-- END buttonunbanid -->
+<!-- BEGIN buttonsave -->Lagre<!-- END buttonsave -->
+<!-- BEGIN buttonreset -->Reset<!-- END buttonreset -->
+<!-- BEGIN buttonlogin -->Login<!-- END buttonlogin -->
+
+
+
+<!-- BEGIN  -->
+<!-- END  -->
+
+<!-- end messages.ihtml -->

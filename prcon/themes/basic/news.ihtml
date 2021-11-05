@@ -1,0 +1,18 @@
+<!-- start news.ihtml -->
+<center>
+
+  <span class=head>{TOPICNEWS}</span><br>
+
+  <br>
+
+  {HELPNEWS}
+
+  <br>
+
+  <iframe src="http://www.phprcon.net/news_phprcon063.html" width="90%" height="500" name="PHPrcon V0.6.3 News">
+    {HELPNOIFRAME} <a href="http://www.phprcon.net/news_phprcon063.html">PHPrcon V0.6.3 News</a>
+  </iframe>
+
+</center>
+
+<!-- end news.ihtml -->
