@@ -1,0 +1,576 @@
+/* Style1 - Green and Orange with Blue */
+
+/* General Style */
+
+body {
+	color: #555;
+}
+
+a:link,
+a:visited {
+	color: #90C306;
+}
+
+a:hover {
+	color: #007737;
+}
+
+/* access */
+
+a.large .button {
+	background: url(access-l.png);
+}
+
+a.small .button {
+	background: url(access-s.png);
+}
+
+a.default .button {
+	background: url(access-m.png);
+}
+
+/* Layout */
+#page-bg {
+  background: #014f25 url(bg000000.png) repeat-x;
+}
+
+#mainbody {
+	background: #ffffff url(head-bg-.png) 0 0 repeat-x;
+}
+
+.suckerfish #mainbody {
+	background: #ffffff url(head-bg0.png) 0 0 repeat-x;	
+}
+
+#mainbody .shad-1 {
+	background: url(shadow-l.png) 0 0 repeat-y;
+}
+
+#mainbody .shad-2 {
+	background: url(shadow-r.png) 100% 0 repeat-y;
+}
+
+#mainbody .shad-3 {
+	background: url(head-r-t.png) 100% 0 no-repeat;
+}
+
+.suckerfish #mainbody .shad-3 {
+	background: url(head-r-s.png) 100% 0 no-repeat;
+}
+
+#mainbody #header {
+	background: url(logo-tab.png) 0 0 no-repeat;
+}
+
+.suckerfish #mainbody #header {
+	background: url(logo-suc.png) 0 0 no-repeat;
+}
+
+.border-pad {
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+}
+
+.border-bottom {
+	border-bottom: 1px solid #eee;
+}
+
+#content-bg {
+	background: #ffffff;
+}
+
+#showcase {
+	border-top: 1px solid #eee;
+	/*background: #ffffff url(../images/style1/showcase-bg.png) 0 0 repeat-x;*/
+	background-color:#eeeeee;
+	border-bottom: 1px solid #ddd;
+	color: #555;
+}
+
+#fakecolumn1 {
+	border-left: 194px solid #ffffff;
+}
+
+#fakecolumn2 {
+	/*background: url(../images/style1/left-div.png) 0 0 repeat-y;*/
+	background-color:#ddd;
+}
+
+div#inset {
+	border-bottom: 1px solid #eee;
+}
+
+#footer {
+	background: #A75700 url(footer-b.png) 0 0 repeat-x;
+}
+
+#bottom {
+	background: url(bottom-b.png) 0 0 repeat-x;
+}
+
+#bottom .shad-1 {
+	background: url(bottom-r.png) 100% 0 no-repeat;
+}
+
+#bottom .shad-2 {
+	background: url(bottom-l.png) 0 0 no-repeat;
+}
+
+/* Modules */
+
+div.moduletable h3,
+div.module h3,
+div.module-hilite1 h3,
+div.module-hilite2 h3,
+div.module-hilite3 h3,
+div.module-hilite4 h3 {
+	color: #000;
+}
+
+#rightcolumn div.module a:link,
+#rightcolumn div.module a:visited,
+div.module-hilite2 a:link,
+div.module-hilite2 a:visited,
+div.module-hilite3 a:link,
+div.module-hilite3 a:visited,
+div.module-hilite4 a:link,
+div.module-hilite4 a:link {
+	color: #fff;
+	border-bottom: 1px #fff solid;
+}
+
+#showcase div.moduletable h3 {
+	border-bottom: 4px solid #b3d980;
+	color: #000;	
+}
+
+#leftcolumn div.moduletable,
+#leftcolumn div.module {
+	background: url(module-l.png) 100% 100% no-repeat;
+}
+
+#leftcolumn div.moduletable h3 {
+	border-bottom: 4px solid #b3d980;
+}
+
+#rightcolumn div.module h3,
+div.module-hilite4 h3 {
+	color: #014F25;
+	border-bottom: 4px solid #A75700;
+}
+
+div.module h3,
+div.module-hilite1 h3 {
+	color: #EB8A00;
+	border-bottom: 4px solid #b3d980;
+}
+
+div.module-hilite2 h3 {
+	color: #014F25;
+	border-bottom: 4px solid #44850E;	
+}
+
+div.module-hilite3 h3 {
+	color: #014F25;
+	border-bottom: 4px solid #2B64B2;	
+}
+
+#footer div.moduletable h3 {
+	color: #014F25;
+	border-bottom: 4px solid #559011;
+}
+
+#footer div.moduletable {
+	color: #014F25;
+}
+
+div.module-hilite1,
+#componentcolumn div.module {
+	background: url(module-1.png) 100% 100% no-repeat;
+}
+
+div.module-hilite2 {
+	color: #014F25;
+	background: url(module-2.png) 100% 0 no-repeat;
+}
+
+div.module-hilite2 div {
+	background: url(module-2.png) 0 0 no-repeat;
+}
+
+div.module-hilite2 div div {
+	background: url(module-2.png) 100% 100% no-repeat;
+}
+
+div.module-hilite2 div div div {
+	background: url(module-2.png) 0 100% no-repeat;
+}
+
+div.module-hilite3  {
+	color: #014F25;
+	background: url(module-3.png) 100% 0 no-repeat;
+}
+
+div.module-hilite3 div {
+	background: url(module-3.png) 0 0 no-repeat;
+}
+
+div.module-hilite3 div div {
+	background: url(module-3.png) 100% 100% no-repeat;
+}
+
+div.module-hilite3 div div div {
+	background: url(module-3.png) 0 100% no-repeat;
+}
+
+div.module-hilite4,
+#rightcolumn div.module {
+	color: #014F25;
+	background: url(module-4.png) 100% 0 no-repeat;
+}
+
+div.module-hilite4 div,
+#rightcolumn div.module div {
+	background: url(module-4.png) 0 0 no-repeat;
+}
+
+div.module-hilite4 div div,
+#rightcolumn div.module div div {
+	background: url(module-4.png) 100% 100% no-repeat;
+}
+
+div.module-hilite4 div div div,
+#rightcolumn div.module div div div {
+	background: url(module-4.png) 0 100% no-repeat;
+}
+
+/* Top tabmenu styles */
+
+#tabmenu a {
+	color: #b3d980;
+}
+
+#tabmenu li {
+	background-image: url(tabs-top.png);
+}
+
+#tabmenu li a {
+	background-image: url(tabs-toq.png);
+}
+
+#tabmenu li.active {
+	background-image:  url(tabs-tor.png);	
+}
+
+#tabmenu li.active a {
+	background-image: url(tabs-tor.png);
+	color: #E14B04;
+}
+
+/**** CONTENT STYLES *****/
+
+/* headers */
+
+h1 {
+	color: #90C306;
+}
+
+h2,h4,h5 {
+	color: #000;
+}
+
+h3 {
+	color: #EB8A00;
+}
+
+
+/* Joomla styles */
+.small,
+.modifydate,
+.createdate,
+div.mosimage_caption {
+	color: #666;
+}
+
+.componentheading {
+	color: #EB8A00;
+	border-bottom: 4px solid #b3d980;	
+}
+
+.contentheading {
+	color: #014F25;
+}
+
+a.readon {
+	background:  url(bullet-r.png) 0 0 no-repeat;
+}
+
+span.pathway img {
+	background: url(arrow-ro.png) 50% 50% no-repeat;
+}
+
+table.adminform textarea {
+  color: #666;
+}
+
+.sectiontableheader {
+	background: #333;
+	border-bottom: 1px solid #222;
+}
+
+.sectiontableentry1,
+.sectiontableentry2 {
+	border-bottom: 1px solid #222;
+}
+
+.sectiontableentry2 {
+	background: #fff;
+}
+
+/* List styles */
+
+ul li {
+	background: url(arrow-ro.png) 0 3px no-repeat;
+}
+
+ul.arrow li {
+	background: url(bullet-a.png) 0 0 no-repeat;
+}
+
+ul.check li {
+	background: url(bullet-c.png) 0 0 no-repeat;
+}
+
+ul.big li.big1 {
+	background: url(list-100.png) 0 -3px no-repeat;
+}
+
+ul.big li.big2 {
+	background: url(list-200.png) 0 -3px no-repeat;
+}
+
+ul.big li.big3 {
+	background: url(list-300.png) 0 -3px no-repeat;
+}
+
+ul.big li.big4 {
+	background: url(list-400.png) 0 -3px no-repeat;
+}
+
+ul.big li.big5 {
+	background: url(list-500.png) 0 -3px no-repeat;
+}
+
+ul.big li.big6 {
+	background: url(list-600.png) 0 -3px no-repeat;
+}
+
+ul.big li.big7 {
+	background: url(list-700.png) 0 -3px no-repeat;
+}
+
+ul.big li.big8 {
+	background: url(list-800.png) 0 -3px no-repeat;
+}
+
+ul.big li.big9 {
+	background: url(list-900.png) 0 -3px no-repeat;
+}
+
+/* Alert styles */
+
+span.alert {
+	background: #751010 url(icon-ale.png) 5px 5px no-repeat;
+	border-top: 4px solid #5C1010;
+	border-bottom: 4px solid #5C1010;
+	color: #fff;
+}
+
+span.info {
+	background: #2E5076 url(icon-inf.png) 5px 5px no-repeat;
+	border-top: 4px solid #244067;
+	border-bottom: 4px solid #244067;
+	color: #fff;
+}
+
+span.star {
+	background: #8F8F42 url(icon-sta.png) 5px 5px no-repeat;
+	border-top: 4px solid #8F7510;
+	border-bottom: 4px solid #8F7510;
+	color: #fff;
+}
+
+span.note {
+	background: #545454 url(icon-not.png) 5px 5px no-repeat;
+	border-top: 4px solid #2E2E2E;
+	border-bottom: 4px solid #2E2E2E;
+	color: #fff;
+}
+
+span.download {
+	background: #576A1C url(icon-dow.png) 5px 5px no-repeat;
+	border-top: 4px solid #2C4E16;
+	border-bottom: 4px solid #2C4E16;
+	color: #fff;
+}
+
+blockquote {
+	background: #B2D980 url(quote-st.png) 5px 5px no-repeat;
+	border-top: 4px solid #141414;
+	border-bottom: 4px solid #141414;
+}
+
+blockquote p {
+	background: url(quote-en.png) 100% 100% no-repeat;
+}
+
+pre {
+	background: #244067 url(icon-cod.png) 5px 5px no-repeat;
+	border-top: 4px solid #1B314D;
+	border-bottom: 4px solid #1B314D;	
+	color: #fff;
+}
+
+/* Misc styles */
+
+div.style {
+	border: 4px solid #b3d980;
+}
+
+#classmedia {
+	background: url(classmed.jpg) 0 0 no-repeat;
+	width:176px;
+	height:45px;
+}
+
+/******* MENU SYSTEMS *******/
+
+/* Default Joomla! menu */
+a.mainlevel:link,
+a.mainlevel:visited {
+	background: url(menu-ind.png) 100% 0 no-repeat;
+}
+
+a.mainlevel#active,
+a.sublevel#active {
+	color: #EB8A00;
+}
+
+/* SplitMenu & SplitMenu2 */
+.splitmenu #nav-main a {
+	color: #b3d980;
+}
+
+.splitmenu #nav-main li {
+	background-image: url(tabs-mai.png);
+}
+
+.splitmenu #nav-main li a {
+	background-image: url(tabs-maj.png);
+}
+
+.splitmenu #nav-main li.active {
+	background-image:  url(tabs-mak.png);	
+}
+
+.splitmenu #nav-main li.active a {
+	background-image: url(tabs-mal.png);
+	color: #fff;
+}
+
+.splitmenu #nav-sub a {
+	color: #b3d980;
+}
+
+.splitmenu #nav-sub li {
+	background-image: url(tabs-sec.png);
+}
+
+.splitmenu #nav-sub li a {
+	background-image: url(tabs-sed.png);
+}
+
+.splitmenu #nav-sub li.active {
+	background-image:  url(tabs-see.png);	
+}
+
+.splitmenu #nav-sub li.active a {
+	background-image: url(tabs-sef.png);
+	color: #fff;
+}
+
+.splitmenu #vert-menu a {
+	background: url(menu-ind.png) 100% 0 no-repeat;
+}
+
+.splitmenu #vert-menu li.active a {
+	color: #ccc;
+}
+
+.splitmenu #vert-menu li.active li a {
+	color: #EB8A00;
+}
+
+/* Suckerfish Menu */
+.suckerfish #nav-sub {
+	border-right: 1px solid #000;
+}
+
+.suckerfish #nav-sub ul {
+	border-left: 1px solid #eee;
+}
+
+.suckerfish #nav-sub li {
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #eee;	
+}
+
+.suckerfish #nav-sub a {
+	color: #ccc;
+}
+
+.suckerfish #nav-sub li:hover a,
+.suckerfish #nav-sub li.sfhover a {
+	color: #fff;
+}
+
+.suckerfish #nav-sub li:hover,
+.suckerfish #nav-sub li.sfhover {
+	background: url(sucker-a.png) 0 0 repeat-x;
+	color: #333;
+	border-left: 1px solid #ED9615;
+	border-right: 1px solid #A75700;
+}
+
+.suckerfish #nav-sub li li a:link.daddy,
+.suckerfish #nav-sub li li a:visited.daddy {
+	background: url(sucker-b.png) 100% 50% no-repeat;
+}
+
+.suckerfish #nav-sub li li:hover,
+.suckerfish #nav-sub li li.sfhover {
+	background: #BE6B00;
+}
+
+.suckerfish #nav-sub li li a:link,
+.suckerfish #nav-sub li li a:visited {
+	color: #fff;
+	border-top: 1px solid #ED9615;
+	border-bottom: 1px solid #A75700;
+}
+
+.suckerfish #nav-sub li li {
+	background: #CC7900;
+	border-left: 1px solid #ED9615;
+	border-right: 1px solid #A75700;
+}
+#logo{
+background:url(logo0000.jpg) no-repeat top left;
+width:407px !important;
+height:38px !important;
+z-index:1 !important;
+margin-top:8px !important;
+margin-left:416px !important;}
+
+.to-top {clear: both;}
+.to-top a {background: url(link-arr.jpg) no-repeat 0% 50%; padding-left: 20px;}

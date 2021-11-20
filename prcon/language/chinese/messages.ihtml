@@ -1,0 +1,143 @@
+<!--
+
+  No variables in here. These are all the messages of the site.
+
+-->
+
+<!-- start messages.ihtml -->
+
+
+<!-- GENERAL -->
+
+<!-- BEGIN generalnotconnected -->不能完成连接操作，没有找到IP.<!-- END generalnotconnected -->
+<!-- BEGIN generalnotresponding -->服务器无反应. 端口操作失败.<!-- END generalnotresponding -->
+<!-- BEGIN generalbadrcon -->RCON 密码错误.<!-- END generalbadrcon -->
+<!-- BEGIN generalrefreshserver -->刷新服务器<!-- END generalrefreshserver -->
+
+
+
+<!-- TITLE -->
+
+<!-- BEGIN titlehostname -->主机名称<!-- END titlehostname -->
+<!-- BEGIN titleversion -->运行版本<!-- END titleversion -->
+<!-- BEGIN titletcpip -->地址<!-- END titletcpip -->
+<!-- BEGIN titlemap -->运行地图<!-- END titlemap -->
+<!-- BEGIN titleplayers -->玩家数量<!-- END titleplayers -->
+<!-- BEGIN titlename -->玩家<!-- END titlename -->
+<!-- BEGIN titleid -->ID<!-- END titleid -->
+<!-- BEGIN titlewonid -->Won ID<!-- END titlewonid -->
+<!-- BEGIN titlefrag -->得分<!-- END titlefrag -->
+<!-- BEGIN titletime -->Time<!-- END titletime -->
+<!-- BEGIN titleping -->Ping<!-- END titleping -->
+<!-- BEGIN titleadress -->地址<!-- END titleadress -->
+<!-- BEGIN titlerule -->参数<!-- END titlerule -->
+<!-- BEGIN titlevalue -->当前值<!-- END titlevalue -->
+<!-- BEGIN titlebanid -->Ban ID<!-- END titlebanid -->
+<!-- BEGIN titletimeframe -->Timeframe<!-- END titletimeframe -->
+<!-- BEGIN titlekick -->Kick<!-- END titlekick -->
+<!-- BEGIN titleunbanid -->Unban ID<!-- END titleunbanid -->
+<!-- BEGIN titledir -->目录:<!-- END titledir -->
+<!-- BEGIN titleconfigfiles -->设置文件<!-- END titleconfigfiles -->
+<!-- BEGIN titleport -->端口<!-- END titleport -->
+<!-- BEGIN titlekey -->密码<!-- END titlekey -->
+<!-- BEGIN titleconnectingplayer -->正在联接的玩家<!-- END titleconnectingplayer -->
+<!-- BEGIN titletopic -->主题<!-- END titletopic -->
+
+
+
+<!-- LOGIN -->
+
+<!-- BEGIN loginusername -->用户名<!-- END loginusername -->
+<!-- BEGIN loginpwd -->密码<!-- END loginpwd -->
+<!-- BEGIN loginerror -->无效的用户名或密码。<!-- END loginerror -->
+
+
+
+<!-- SERVERINFO -->
+
+<!-- BEGIN serverinfocommanddescr -->给服务器发送指令。<!-- END serverinfocommanddescr -->
+
+
+
+<!-- RCONCOMMAND -->
+
+<!-- BEGIN rconcommandnotexecuted -->输入新的参数，命令还未被发送.<br><br><!-- END rconcommandnotexecuted -->
+<!-- BEGIN rconcommanddescr -->Rcon指令:<!-- END rconcommanddescr -->
+
+
+
+<!-- SERVERRULES -->
+
+<!-- BEGIN serverruleschange -->设置<!-- END serverruleschange -->
+
+
+
+<!-- SERVERBANLIST -->
+
+<!-- BEGIN serverbanlistban -->Ban ID 成功.<!-- END serverbanlistban -->
+<!-- BEGIN serverbanlistnoban -->Ban ID 失败.<!-- END serverbanlistnoban -->
+<!-- BEGIN serverbanlistunban -->Ban ID 删除成功.<!-- END serverbanlistunban -->
+<!-- BEGIN serverbanlistnounban -->Ban ID 删除失败.<!-- END serverbanlistnounban -->
+<!-- BEGIN serverbanlistpermanent -->永久<!-- END serverbanlistpermanent -->
+
+
+
+<!-- SERVERMAPS -->
+
+<!-- BEGIN servermapschangedescr -->换地图<!-- END servermapschangedescr -->
+<!-- BEGIN servermapschange -->地图更换完成！<!-- END servermapschange -->
+<!-- BEGIN servermapsnochange -->地图更换失败！.<!-- END servermapsnochange -->
+
+
+
+<!-- SERVERCONFIG -->
+
+<!-- BEGIN serverconfigstatus -->状态<!-- END serverconfigstatus -->
+<!-- BEGIN serverconfigeditdescr -->点击进行编辑<!-- END serverconfigeditdescr -->
+<!-- BEGIN serverconfigeditdescr2 -->备注: <span style="font-size:12px">由于安全方面的原因，所有的 HTML 和 PHP 标记将被去掉.</span><br><!-- END serverconfigeditdescr2 -->
+<!-- BEGIN serverconfignolocalserver -->本项未激活，本机选项未在"config.php"中激活.<br>你只能适用本功能在PHPrcon 与 运行服务器的机器。<!-- END serverconfignolocalserver -->
+<!-- BEGIN serverconfigok -->OK.<!-- END serverconfigok -->
+<!-- BEGIN serverconfignopermission -->权限不够.<!-- END serverconfignopermission -->
+<!-- BEGIN serverconfignofileexist -->文件不存在.<!-- END serverconfignofileexist -->
+<!-- BEGIN serverconfigfilesaved -->文件保存完成.<!-- END serverconfigfilesaved -->
+
+
+
+<!-- HELP -->
+
+<!-- BEGIN helplink2page -->网页连接<!-- END helplink2page -->
+<!-- BEGIN helpnoiframe -->你的网页不支持 iframes.你可以直接点机连接进入。<!-- END helpnoiframe -->
+
+
+
+<!-- TOPICS -->
+
+<!-- BEGIN topicserverinfo -->服务器INFO<!-- END topicserverinfo -->
+<!-- BEGIN topicrconcommand -->Rcon 命令<!-- END topicrconcommand -->
+<!-- BEGIN topicserverrules -->服务器Rules<!-- END topicserverrules -->
+<!-- BEGIN topicserverbanlist -->Ban 用户列表<!-- END topicserverbanlist -->
+<!-- BEGIN topicservermaps -->服务器地图<!-- END topicservermaps -->
+<!-- BEGIN topicserverconfig -->服务器Config<!-- END topicserverconfig -->
+<!-- BEGIN topichelp -->帮助<!-- END topichelp -->
+<!-- BEGIN topicnews -->新闻<!-- END topicnews -->
+<!-- BEGIN topicpublicinfo -->PHP 服务器信息<!-- END topicpublicinfo -->
+<!-- BEGIN topicmultiindex -->PHPrcon 服务器预览<!-- END topicmultiindex -->
+
+
+
+<!-- BUTTONS -->
+
+<!-- BEGIN buttonsubmit -->同意！<!-- END buttonsubmit -->
+<!-- BEGIN buttonclearoutput -->清除<!-- END buttonclearoutput -->
+<!-- BEGIN buttonbanid -->Ban ID<!-- END buttonbanid -->
+<!-- BEGIN buttonunbanid -->Unban ID<!-- END buttonunbanid -->
+<!-- BEGIN buttonsave -->保存<!-- END buttonsave -->
+<!-- BEGIN buttonreset -->Reset<!-- END buttonreset -->
+<!-- BEGIN buttonlogin -->登陆<!-- END buttonlogin -->
+
+
+
+<!-- BEGIN  -->
+<!-- END  -->
+
+<!-- end messages.ihtml -->

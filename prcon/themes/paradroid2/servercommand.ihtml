@@ -1,0 +1,48 @@
+<!-- start servercommand.ihtml -->
+
+<!-- navigation -->
+<table border=0 cellpadding=0 cellspacing=0>
+  <tr>
+    <td style="padding:0px;" height=74><img src="{TEMPLATEDIR}/topleft.gif" border=0></td>
+    <td style="padding:0px;" valign=top align=center><a href="./rcon_command.php"><img src="{TEMPLATEDIR}/rconcommand.gif" border=0></a></td>
+  </tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+  <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/bottomright.gif" border=0></td></tr>
+</table>
+
+
+<!-- dividing cell -->
+</td><td valign=top align=center>
+
+
+<!-- Content -->
+  <span class=head>{TOPICRCONCOMMAND}</span><br>
+
+  <br>
+
+  {HELPRCONCOMMAND}
+
+  <br>
+
+  <form action="./rcon_command.php" method="post" name="commandform">
+    <input type="hidden" name="action" value="1">
+    {RCONCOMMANDDESCR}
+    <input type="text" name="command" value="{COMMAND}" size="40">
+    <input type="submit" value="{BUTTONSUBMIT}"><br><br>
+
+    {CALLTYPE}
+
+    <textarea name="commandoutput" cols="100" rows="25" dataformatas="html">{COMMANDOUTPUT}</textarea><br>
+
+    <button name="clear" type="button"
+      value="Clear" onClick="commandoutput.innerText='';">{BUTTONCLEAROUTPUT}</button>
+
+    <script type="text/javascript">
+      document.commandform.command.focus();
+      document.commandform.command.select();
+    </script>
+
+  </form>
+
+<!-- end servercommand.ihtml -->

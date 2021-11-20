@@ -1,0 +1,143 @@
+<!--
+
+  No variables in here. These are all the messages of the site.
+
+-->
+
+<!-- start messages.ihtml -->
+
+
+<!-- GENERAL -->
+
+<!-- BEGIN generalnotconnected -->Kunde inte ansluta till servern. Ingen server finns p&aring; denna IP adress.<!-- END generalnotconnected -->
+<!-- BEGIN generalnotresponding -->Servern svarar inte. Ingen server finns p&aring; denna port f&ouml;r detta IP.<!-- END generalnotresponding -->
+<!-- BEGIN generalbadrcon -->Fel rcon l&ouml;senord.<!-- END generalbadrcon -->
+<!-- BEGIN generalrefreshserver -->Uppdatera servern<!-- END generalrefreshserver -->
+
+
+
+<!-- TITLE -->
+
+<!-- BEGIN titlehostname -->Server Namn<!-- END titlehostname -->
+<!-- BEGIN titleversion -->Version<!-- END titleversion -->
+<!-- BEGIN titletcpip -->TCP/IP<!-- END titletcpip -->
+<!-- BEGIN titlemap -->Bana<!-- END titlemap -->
+<!-- BEGIN titleplayers -->Spelare<!-- END titleplayers -->
+<!-- BEGIN titlename -->Namn<!-- END titlename -->
+<!-- BEGIN titleid -->ID<!-- END titleid -->
+<!-- BEGIN titlewonid -->WonID<!-- END titlewonid -->
+<!-- BEGIN titlefrag -->Frag<!-- END titlefrag -->
+<!-- BEGIN titletime -->Tid<!-- END titletime -->
+<!-- BEGIN titleping -->Ping<!-- END titleping -->
+<!-- BEGIN titleadress -->Adress<!-- END titleadress -->
+<!-- BEGIN titlerule -->Regler<!-- END titlerule -->
+<!-- BEGIN titlevalue -->V&auml;rde<!-- END titlevalue -->
+<!-- BEGIN titlebanid -->Banna ID<!-- END titlebanid -->
+<!-- BEGIN titletimeframe -->Tids ram<!-- END titletimeframe -->
+<!-- BEGIN titlekick -->Kicka<!-- END titlekick -->
+<!-- BEGIN titleunbanid -->Obanna ID<!-- END titleunbanid -->
+<!-- BEGIN titledir -->Bibliotek:<!-- END titledir -->
+<!-- BEGIN titleconfigfiles -->Konfig. Fil<!-- END titleconfigfiles -->
+<!-- BEGIN titleport -->Port<!-- END titleport -->
+<!-- BEGIN titlekey -->Nyckel<!-- END titlekey -->
+<!-- BEGIN titleconnectingplayer -->Anslutande spelare<!-- END titleconnectingplayer -->
+<!-- BEGIN titletopic -->Topic<!-- END titletopic -->
+
+
+
+<!-- LOGIN -->
+
+<!-- BEGIN loginusername -->Anv&auml;ndarnamn<!-- END loginusername -->
+<!-- BEGIN loginpwd -->L&ouml;senord<!-- END loginpwd -->
+<!-- BEGIN loginerror -->Ogiltigt anv&auml;ndarnamn eller l&ouml;senord.<!-- END loginerror -->
+
+
+
+<!-- SERVERINFO -->
+
+<!-- BEGIN serverinfocommanddescr -->Skicka ett kommando till servern<!-- END serverinfocommanddescr -->
+
+
+
+<!-- RCONCOMMAND -->
+
+<!-- BEGIN rconcommandnotexecuted -->Du kan &auml;ndra parametrarna nu. Kommandot har inte skickats &auml;n.<br><br><!-- END rconcommandnotexecuted -->
+<!-- BEGIN rconcommanddescr -->Kommand:<!-- END rconcommanddescr -->
+
+
+
+<!-- SERVERRULES -->
+
+<!-- BEGIN serverruleschange -->&Auml;ndra<!-- END serverruleschange -->
+
+
+
+<!-- SERVERBANLIST -->
+
+<!-- BEGIN serverbanlistban -->Banning av WonID nr. lyckad.<!-- END serverbanlistban -->
+<!-- BEGIN serverbanlistnoban -->WonID nr. kunde inte bannas.<!-- END serverbanlistnoban -->
+<!-- BEGIN serverbanlistunban -->Borttagning av WonID nr. lyckad<!-- END serverbanlistunban -->
+<!-- BEGIN serverbanlistnounban -->WonID nr. kunde inte unbannas.<!-- END serverbanlistnounban -->
+<!-- BEGIN serverbanlistpermanent -->permanent<!-- END serverbanlistpermanent -->
+
+
+
+<!-- SERVERMAPS -->
+
+<!-- BEGIN servermapschangedescr -->Klicka f&ouml;r att &auml;ndra bana.<!-- END servermapschangedescr -->
+<!-- BEGIN servermapschange -->Banbytet lyckades.<!-- END servermapschange -->
+<!-- BEGIN servermapsnochange -->Banbytet misslyckades.<!-- END servermapsnochange -->
+
+
+
+<!-- SERVERCONFIG -->
+
+<!-- BEGIN serverconfigstatus -->Status<!-- END serverconfigstatus -->
+<!-- BEGIN serverconfigeditdescr -->Klicka p&aring; filen f&ouml;r att &auml;ndra<!-- END serverconfigeditdescr -->
+<!-- BEGIN serverconfigeditdescr2 -->Notera: <span style="font-size:12px">All HTML och PHP tagar kommer att tas bort från filen, för säkerhets skäl.</span><br><!-- END serverconfigeditdescr2 -->
+<!-- BEGIN serverconfignolocalserver -->Denna funktion &auml;r inte tillg&auml;nglig. "Localserver" funktionen beh&ouml;ver aktiveras i "config.php".<br>Du kan bara anv&auml;nda denna funktion om servern och PHPrcon &auml;r p&aring; samma dator.<!-- END serverconfignolocalserver -->
+<!-- BEGIN serverconfigok -->OK.<!-- END serverconfigok -->
+<!-- BEGIN serverconfignopermission -->Ingen skriv beh&ouml;righet.<!-- END serverconfignopermission -->
+<!-- BEGIN serverconfignofileexist -->Filen exesterar inte.<!-- END serverconfignofileexist -->
+<!-- BEGIN serverconfigfilesaved -->Filen sparad.<!-- END serverconfigfilesaved -->
+
+
+
+<!-- HELP -->
+
+<!-- BEGIN helplink2page -->L&auml;nk till sida<!-- END helplink2page -->
+<!-- BEGIN helpnoiframe -->Din webbl&auml;sare kan inte visa ramar. Du kan g&aring; till sidan direkt genom l&auml;nken:<!-- END helpnoiframe -->
+
+
+
+<!-- TOPICS -->
+
+<!-- BEGIN topicserverinfo -->Server Info<!-- END topicserverinfo -->
+<!-- BEGIN topicrconcommand -->rcon Kommand<!-- END topicrconcommand -->
+<!-- BEGIN topicserverrules -->Server Regler<!-- END topicserverrules -->
+<!-- BEGIN topicserverbanlist -->Server Bannlista<!-- END topicserverbanlist -->
+<!-- BEGIN topicservermaps -->Server Banor<!-- END topicservermaps -->
+<!-- BEGIN topicserverconfig -->Server Konfig<!-- END topicserverconfig -->
+<!-- BEGIN topichelp -->Hj&auml;lp<!-- END topichelp -->
+<!-- BEGIN topicnews -->Nyheter<!-- END topicnews -->
+<!-- BEGIN topicpublicinfo -->PHPrcon allm&auml;nna serverinfo<!-- END topicpublicinfo -->
+<!-- BEGIN topicmultiindex -->PHPrcon Server &Ouml;versikte<!-- END topicmultiindex -->
+
+
+
+<!-- BUTTONS -->
+
+<!-- BEGIN buttonsubmit -->Skicka<!-- END buttonsubmit -->
+<!-- BEGIN buttonclearoutput -->Rensa utskick<!-- END buttonclearoutput -->
+<!-- BEGIN buttonbanid -->Banna ID<!-- END buttonbanid -->
+<!-- BEGIN buttonunbanid -->Obanna ID<!-- END buttonunbanid -->
+<!-- BEGIN buttonsave -->Spara<!-- END buttonsave -->
+<!-- BEGIN buttonreset -->&Aring;terst&auml;lla<!-- END buttonreset -->
+<!-- BEGIN buttonlogin -->Inlogning<!-- END buttonlogin -->
+
+
+
+<!-- BEGIN  -->
+<!-- END  -->
+
+<!-- end messages.ihtml -->

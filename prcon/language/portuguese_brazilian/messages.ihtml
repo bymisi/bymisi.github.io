@@ -1,0 +1,143 @@
+<!--
+
+  No variables in here. These are all the messages of the site.
+
+-->
+
+<!-- start messages.ihtml -->
+
+
+<!-- GENERAL -->
+
+<!-- BEGIN generalnotconnected -->N&atilde;o foi poss&iacute;vel completar a tentativa de conex&atilde;o. Nenhum servidor dispon&iacute;vel neste IP.<!-- END generalnotconnected -->
+<!-- BEGIN generalnotresponding -->O servidor n&atilde;o est&aacute; repondendo. Nenhum servidor est&aacute; escutando esta porta neste IP.<!-- END generalnotresponding -->
+<!-- BEGIN generalbadrcon -->Senha rcon incorreta.<!-- END generalbadrcon -->
+<!-- BEGIN generalrefreshserver -->Atualizar Servidor<!-- END generalrefreshserver -->
+
+
+
+<!-- TITLE -->
+
+<!-- BEGIN titlehostname -->Hostname<!-- END titlehostname -->
+<!-- BEGIN titleversion -->Vers&atilde;o<!-- END titleversion -->
+<!-- BEGIN titletcpip -->TCP/IP<!-- END titletcpip -->
+<!-- BEGIN titlemap -->Mapa<!-- END titlemap -->
+<!-- BEGIN titleplayers -->Jogadores<!-- END titleplayers -->
+<!-- BEGIN titlename -->Nome<!-- END titlename -->
+<!-- BEGIN titleid -->ID<!-- END titleid -->
+<!-- BEGIN titlewonid -->WonID<!-- END titlewonid -->
+<!-- BEGIN titlefrag -->Frag<!-- END titlefrag -->
+<!-- BEGIN titletime -->Tempo<!-- END titletime -->
+<!-- BEGIN titleping -->Ping<!-- END titleping -->
+<!-- BEGIN titleadress -->Endere&ccedil;o<!-- END titleadress -->
+<!-- BEGIN titlerule -->Regra<!-- END titlerule -->
+<!-- BEGIN titlevalue -->Valor<!-- END titlevalue -->
+<!-- BEGIN titlebanid -->Banir ID<!-- END titlebanid -->
+<!-- BEGIN titletimeframe -->Timeframe<!-- END titletimeframe -->
+<!-- BEGIN titlekick -->Kickar<!-- END titlekick -->
+<!-- BEGIN titleunbanid -->"Desbanir" ID<!-- END titleunbanid -->
+<!-- BEGIN titledir -->Diret&oacute;rio:<!-- END titledir -->
+<!-- BEGIN titleconfigfiles -->Arquivos de Configura&ccedil;&atilde;o<!-- END titleconfigfiles -->
+<!-- BEGIN titleport -->Porta<!-- END titleport -->
+<!-- BEGIN titlekey -->Tecla<!-- END titlekey -->
+<!-- BEGIN titleconnectingplayer -->Conectando Jogador<!-- END titleconnectingplayer -->
+<!-- BEGIN titletopic -->T&oacute;pico<!-- END titletopic -->
+
+
+
+<!-- LOGIN -->
+
+<!-- BEGIN loginusername -->Usu&aacute;rio<!-- END loginusername -->
+<!-- BEGIN loginpwd -->Senha<!-- END loginpwd -->
+<!-- BEGIN loginerror -->Usu&aacute;rio ou senha invalidos.<!-- END loginerror -->
+
+
+
+<!-- SERVERINFO -->
+
+<!-- BEGIN serverinfocommanddescr -->Enviar um comando para o servidor<!-- END serverinfocommanddescr -->
+
+
+
+<!-- RCONCOMMAND -->
+
+<!-- BEGIN rconcommandnotexecuted -->Voc&ecirc; pode alterar os param&ecirc;tros agora. O comando ainda n&atilde;o foi enviado.<br><br><!-- END rconcommandnotexecuted -->
+<!-- BEGIN rconcommanddescr -->Comando:<!-- END rconcommanddescr -->
+
+
+
+<!-- SERVERRULES -->
+
+<!-- BEGIN serverruleschange -->Alterar<!-- END serverruleschange -->
+
+
+
+<!-- SERVERBANLIST -->
+
+<!-- BEGIN serverbanlistban -->ID banido com sucesso.<!-- END serverbanlistban -->
+<!-- BEGIN serverbanlistnoban -->ID n&atilde;o p&ocirc;de ser banido.<!-- END serverbanlistnoban -->
+<!-- BEGIN serverbanlistunban -->ID "desbanido" com sucesso.<!-- END serverbanlistunban -->
+<!-- BEGIN serverbanlistnounban -->ID n&atilde;o p&ocirc;de ser "desbanido".<!-- END serverbanlistnounban -->
+<!-- BEGIN serverbanlistpermanent -->permanente<!-- END serverbanlistpermanent -->
+
+
+
+<!-- SERVERMAPS -->
+
+<!-- BEGIN servermapschangedescr -->Clique para alterar o mapa<!-- END servermapschangedescr -->
+<!-- BEGIN servermapschange -->Mapa alterado com sucesso.<!-- END servermapschange -->
+<!-- BEGIN servermapsnochange -->Mapa n&atilde;o p&ocirc;de ser alterado.<!-- END servermapsnochange -->
+
+
+
+<!-- SERVERCONFIG -->
+
+<!-- BEGIN serverconfigstatus -->Status<!-- END serverconfigstatus -->
+<!-- BEGIN serverconfigeditdescr -->Clique no arquivo para edit&aacute;-lo<!-- END serverconfigeditdescr -->
+<!-- BEGIN serverconfigeditdescr2 -->Nota: <span style="font-size:12px">Todas as tags em PHP e HTML ser&atilde;o removidas do arquivo, por raz&otilde;es de seguran&ccedil;a.</span><br><!-- END serverconfigeditdescr2 -->
+<!-- BEGIN serverconfignolocalserver -->Esta fun&ccedil;&atilde;o n&atilde;o est&aacute; dispon&iacute;vel. A op&ccedil;&atilde;o Localserver n&atilde;o est&aacute; habilitada em "config.php".<br>Voc&ecirc; s&oacute; pode utilizar esta fun&ccedil;&atilde;o se PHPrcon e o Servidor do Jogo estiverem sendo executados na mesma m&aacute;quina.<!-- END serverconfignolocalserver -->
+<!-- BEGIN serverconfigok -->OK.<!-- END serverconfigok -->
+<!-- BEGIN serverconfignopermission -->Sem permiss&otilde;es de escrita.<!-- END serverconfignopermission -->
+<!-- BEGIN serverconfignofileexist -->Arquivo n&atilde;o existe.<!-- END serverconfignofileexist -->
+<!-- BEGIN serverconfigfilesaved -->Arquivo salvo com sucesso.<!-- END serverconfigfilesaved -->
+
+
+
+<!-- HELP -->
+
+<!-- BEGIN helplink2page -->Link para a p&aacute;gina<!-- END helplink2page -->
+<!-- BEGIN helpnoiframe -->Seu Navegador n&atilde;o &eacute; capaz de visualizar iframes. Voc&ecirc; pode chamar o site diretamente atrav&eacute;s do link:<!-- END helpnoiframe -->
+
+
+
+<!-- TOPICS -->
+
+<!-- BEGIN topicserverinfo -->Informa&ccedil;&otilde;es do Servidor<!-- END topicserverinfo -->
+<!-- BEGIN topicrconcommand -->Comando rcon<!-- END topicrconcommand -->
+<!-- BEGIN topicserverrules -->Regras do Servidor<!-- END topicserverrules -->
+<!-- BEGIN topicserverbanlist -->BanList do Servidor<!-- END topicserverbanlist -->
+<!-- BEGIN topicservermaps -->Mapas do Servidor<!-- END topicservermaps -->
+<!-- BEGIN topicserverconfig -->Configura&ccedil;&atilde;o do Servidor<!-- END topicserverconfig -->
+<!-- BEGIN topichelp -->Ajuda<!-- END topichelp -->
+<!-- BEGIN topicnews -->Not&iacute;cias<!-- END topicnews -->
+<!-- BEGIN topicpublicinfo -->Informa&ccedil;&atilde;o P&uacute;blica do Servidor PHPrcon<!-- END topicpublicinfo -->
+<!-- BEGIN topicmultiindex -->Vis&atilde;o Geral do Servidor PHPrcon<!-- END topicmultiindex -->
+
+
+
+<!-- BUTTONS -->
+
+<!-- BEGIN buttonsubmit -->Enviar<!-- END buttonsubmit -->
+<!-- BEGIN buttonclearoutput -->Limpar Sa&iacute;da<!-- END buttonclearoutput -->
+<!-- BEGIN buttonbanid -->Banir ID<!-- END buttonbanid -->
+<!-- BEGIN buttonunbanid -->Desbanir ID<!-- END buttonunbanid -->
+<!-- BEGIN buttonsave -->Salvar<!-- END buttonsave -->
+<!-- BEGIN buttonreset -->Cancelar<!-- END buttonreset -->
+<!-- BEGIN buttonlogin -->Login<!-- END buttonlogin -->
+
+
+
+<!-- BEGIN  -->
+<!-- END  -->
+
+<!-- end messages.ihtml -->

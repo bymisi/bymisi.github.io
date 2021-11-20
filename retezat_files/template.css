@@ -1,0 +1,934 @@
+/* @group Main */
+
+html {
+  height: 100%;
+  margin-bottom: 1px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+p {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+h1, h2, h3, h4, h4, h5, h6 {
+	padding-bottom: 5px;
+	margin: 15px 0;
+}
+
+fieldset {
+	border: 0;
+	padding: 5px 0;
+}
+
+/* @group Fonts */
+
+/* @group Sizes */
+
+
+body.f-smaller {
+	font-size: 10px;
+}
+
+body.f-default {
+	font-size: 12px;
+}
+
+body.f-larger {
+	font-size: 15px;
+}
+
+h1,h2,h3,h4 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+h1 {
+	font-size: 150%;
+	/* color: see style css */
+}
+
+h2 {
+	font-size: 140%;
+	/* color: see style css */
+}
+
+h3 { 
+   font-size: 130%;
+}
+
+h4 {
+	font-size:  110%;
+}
+
+h5 {
+	font-size: 100%;
+	font-style: italic;
+}
+
+
+.small,
+.modifydate,
+.createdate,
+div.mosimage_caption {
+	font-size: 95%;
+	/* color: see style css */
+}
+
+#nav a,
+#tabmenu a,
+#nav-main a,
+#nav-sub a,
+.moduletable h3,
+.module h3,
+.module-hilite1 h3,
+.module-hilite2 h3,
+.module-hilite3 h3,
+.module-hilite4 h3,
+#vert-menu a,
+a.mainlevel,
+a.sublevel,
+.componentheading {
+	font-size: 92%;
+	font-family: Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.componentheading {
+	/* color: see style css */
+ 	margin-bottom: 15px;
+}
+
+td.componentheading {
+	padding-bottom: 15px;
+}
+
+/* @end */
+
+/* @group Family */
+
+body {
+		line-height: 125%;
+		font-family: Lucida Grande, Helvetica, Arial, sans-serif;
+		/* color: see style css */
+}
+
+.contentheading {
+	font-family: Arial Narrow, Helvetica, sans-serif;
+	font-size: 140%;
+	font-weight: bold;
+	/* see style css */
+}
+
+
+a:link,
+a:visited {
+	text-decoration: none;
+	/* color: see style css */
+}
+
+a:hover {
+	text-decoration: underline;
+	/* color: see style css */
+}
+
+/* @end */
+
+/* @end */
+
+/* @end */
+
+/* @group Custom */
+
+/* @group accessibility */
+
+/* accessibility stuff */
+
+#accessibility span {
+	background-repeat: no-repeat;
+}
+
+#accessibility a {
+	text-decoration: none;
+}
+
+#accessibility #buttons {
+	float: right;
+}
+
+#accessibility .button {
+	display: block;
+	float: right;
+	width: 38px;
+	height: 18px;
+	margin-left: 1px;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+/* @end */
+
+/* @group layout */
+
+#page-bg {
+	height: 100%; 
+	padding: 0;
+	margin-bottom: 1px;
+  /* background: see style css */
+}
+
+
+/*****************************************************
+ * CHANGE WIDTH SETTINGS HERE
+ *
+ * To change the width of this template just edit this 
+ * div#wrapper element.
+ *
+ * Fixed - just chagne the width to your desired width
+ * Fluid - set the width to 100%;
+ *
+ *****************************************************/
+div#wrapper {
+	width: 883px;
+	margin: 0 auto;
+	position: relative;
+}
+
+#mainbody #header {
+	/* background: see style css */
+	width: 100%;
+	position: relative;
+	height: 142px;
+}
+
+.suckerfish #mainbody #header {
+	/* background: see style css */
+	height: 151px;
+}
+
+
+#header #accessibility {
+	position: absolute;
+	left: 400px;
+	top:  6px;
+	width: 150px;
+	height: 21px;
+	border: 0;
+}
+
+#header #tabmenu {
+	position: absolute;
+	right: 30px;
+	top:  3px;
+	width: 400px;
+	height:  30px;
+}
+
+#header #nav-main ul {
+	padding-top:  82px;
+}
+
+#header #logo {
+	position: absolute;
+	left:  35px;
+	top:  38px;
+	width: 150px;
+	height: 85px;
+}
+
+#header #search {
+	position: absolute;
+	left: 155px;
+	top: 0px;
+	width: 230px;
+	height: 32px;
+	color:#fff;
+}
+
+#header #nav-main {
+	height: 74px;
+	padding-top: 42px;
+	margin-right: 23px;
+	margin-left:  214px;
+}
+
+#header #nav-main.splitmenu2 {
+	height: 116px;
+	padding: 0;
+	margin-right: 23px;
+	margin-left:  214px;
+}
+
+#header #nav-sub {
+	margin-right: 23px;
+	margin-left:  214px;
+}
+
+.border-pad {
+	margin-left: 4px;
+	margin-right: 4px;
+	padding: 0 1px;
+}
+
+.border-bottom {
+	padding-bottom: 0px;
+}
+
+#content-bg {
+	margin-left:16px;
+	margin-right: 16px;
+}
+
+#showcase {
+	padding: 5px 7px 0 7px;
+	margin: 0;
+}
+
+.usermodule {
+	float: left;
+}
+
+#fakecolumn2 {
+
+}
+
+#fakecolumn1.sc_0 {
+	border-left: 0;
+}
+
+#fakecolumn1.sc_0 #fakecolumn2 {
+	margin-left: 0;
+	background: none;
+}
+
+div#middlecolumn .padding {
+	padding: 10px 20px;
+}
+
+div#leftcolumn {
+	float: left;
+	width: 195px;
+	margin-left: -195px;
+	padding-top: 10px;
+	position: relative;
+}
+
+div#align-padding {
+	margin-left: 2px;
+	margin-right: -1px;
+	background-color:#FFFFFF;
+}
+
+div#inset {
+	padding: 1px;	
+}
+
+div#rightcolumn {
+	float: right;
+	width: 191px;
+	padding: 5px 5px 0 0;
+	background-color:#FFFFFF;
+}
+
+div#componentcolumn {
+	margin-right: 206px;
+}
+
+div#componentcolumn.sc_0 {
+	margin-right: 0;
+}
+
+#footer {
+	padding: 7px 7px 5px 7px;
+}
+
+#bottom {
+	margin-bottom: 20px;
+}
+
+#bottom .shad-1 {
+
+}
+
+#bottom .shad-2 {
+	height: 74px;
+}
+
+#bottom .rocket {
+	
+}
+
+/* @end */
+
+/* @group modules */
+
+div.moduletable {
+	margin-bottom: 15px;
+}
+
+div.moduletable-flush {
+	margin: 0;
+	padding: 0;
+}
+
+div.module,
+div.module-hilite1,
+div.module-hilite2,
+div.module-hilite3,
+div.module-hilite4 {
+	margin-bottom: 10px;
+}
+
+div.moduletable h3,
+div.module h3,
+div.module-hilite1 h3,
+div.module-hilite2 h3,
+div.module-hilite3 h3,
+div.module-hilite4 h3 {
+	margin: 10px 0;
+	padding: 0 0 1px 0;
+	line-height: 100%;
+	height: auto;
+}
+
+div#showcase div.moduletable,
+div#footer div.moduletable {
+	padding: 10px 5px;
+	margin: 0;
+}
+
+#showcase div.moduletable h3 {
+	margin: 0 0 10px 0;
+}
+
+#leftcolumn div.moduletable {
+	padding: 0 10px 20px 10px;
+}
+
+div.module h3,
+div.module-hilite4 h3,
+div.module-hilite1 h3 {
+	margin: 0 0 10px 0;
+}
+
+div.module-hilite2 h3 {
+	margin: 0 0 10px 0;	
+}
+
+div.module-hilite3 h3,
+#footer div.moduletable h3 {
+	margin: 0 0 10px 0;	
+}
+
+
+div.module div div div,
+div.module-hilite1 div div div,
+div.module-hilite2 div div div,
+div.module-hilite3 div div div,
+div.module-hilite4 div div div {
+	padding: 15px 15px;
+}
+
+div.module-hilite1,
+#componentcolumn div.module {
+	padding-bottom: 5px
+}
+
+div.module-hilite1 div,
+#componentcolumn div.module div {
+	background: none;
+}
+
+div.module div div div div,
+#rightcolumn div.module div div div div,
+div.module-hilite1 div div div div,
+div.module-hilite2 div div div div,
+div.module-hilite3 div div div div,
+div.module-hilite4 div div div div {
+	background: none;
+	padding: 0;
+}
+
+/* @end */
+
+/* @group menus */
+
+/* For other menu CSS see individual style files: splitmenu.css and suckerfish.css */
+
+/* @group top tabmenu */
+
+/* styles are in the style.css for tabs */
+
+#tabmenu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	float:  right;
+}
+
+#tabmenu li {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+#tabmenu a {
+	float:  left;
+	margin: 0;
+	height: 28px;
+	line-height: 34px;
+	padding: 0 20px;
+}
+
+#tabmenu li {
+	background-repeat:  no-repeat;
+	background-position: 100% 0;
+}
+
+#tabmenu li a {
+	background-repeat: no-repeat;
+	background-position:  -2px 0;
+}
+
+#tabmenu li.index-1 a {
+	background-position: 0 0;
+}
+
+/* @end */
+
+/* @end */
+
+/* @group content */
+
+/* @group headers */
+
+/* see style css files for colors */
+
+/* @end */
+
+/* @group search box */
+
+#search form {
+	margin: 0;
+	padding: 0;
+}
+
+#search .search {
+	float: left;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+#search input.inputbox {
+	width: 130px;
+	padding-left: 5px;
+}
+
+span.searchtitle {
+	display: block;
+	float: left;
+	height: 33px;
+	line-height: 33px
+}
+
+/* @end */
+
+/* @group lists */
+
+ul {
+	list-style: none;
+	padding: 0;
+	padding-left: 10px;	
+}
+
+ul li {
+	margin: 5px 0;
+	padding-left: 25px;
+	/* background: see style css */
+}
+
+#componentcolumn ul li {
+	margin: 15px 0;
+}
+
+div.moduletable ul li {
+	margin: 5px 0;
+	padding-left: 20px;
+}
+
+ul.arrow {
+
+}
+
+ul.arrow li {
+	/* background: see style css */
+	padding-bottom: 10px;
+	padding-left: 40px;
+}
+
+ul.check li {
+	/* background: see style css */
+	padding-bottom: 10px;
+	padding-left: 40px;
+}
+
+ul.big li {
+	padding-bottom: 10px;
+	padding-left: 55px;	
+}
+
+/* @end */
+
+/* @group alert styles */
+
+span.alert {
+	/*background: see style css*/
+	display: block;
+	margin:  10px;
+	padding: 10px 10px 10px 45px;
+}
+
+span.info {
+	/*background: see style css*/
+	display: block;
+	margin:  10px;
+	padding: 10px 10px 10px 45px;
+}
+
+span.star {
+	/*background: see style css*/
+	display: block;
+	margin:  10px;
+	padding: 10px 10px 10px 45px;
+}
+
+span.note {
+	/*background: see style css*/
+	display: block;
+	margin:  10px;
+	padding: 10px 10px 10px 45px;
+}
+
+span.download {
+	/*background: see style css*/
+	display: block;
+	margin:  10px;
+	padding: 10px 10px 10px 45px;
+}
+
+
+/* @end */
+
+/* @group quote */
+
+span.quote {
+	display: block;
+	font-style: italic;
+}
+
+div.author {
+	text-align: right;
+	font-weight: bold;
+}
+
+/* @end */
+
+/* @group blockquote */
+
+blockquote {
+	/* background: see style css */
+	margin:  10px;
+	padding: 10px 10px 5px 45px;
+}
+
+blockquote p {
+	/* background: see style css */
+	padding-right: 35px;
+}
+
+/* @end */
+
+/* @group code */
+
+pre {
+	margin: 10px;
+	padding: 10px 10px 10px 40px;
+	font-family: "courier new",helvetica,"times new roman",serif;
+	font-size: 1.1em;
+}
+
+/* @end */
+
+/* @group content area */
+
+.left_image {
+	float: left;
+	margin-right: 10px;
+}
+
+.right_image {
+	float: right;
+	margin-left: 10px;
+}
+
+/* @end */
+
+
+/* @group styles */
+
+img.album.left {
+	margin-right: 5px;
+}
+
+img.alubm.right {
+	margin-right: 5px;
+}
+
+div.style {
+	float: left;
+	margin-left: 10px;
+	width: 175px;
+	text-align: center;
+	margin-top: 20px;
+}
+
+.style .album {
+	border: 0;
+}
+
+/* @end */
+
+#rocket {
+	display: block;
+	border: 0;
+	width: 146px;
+	margin: 0 auto;
+	height: 49px;
+}
+
+.vert_spacing {
+	margin: 15px 0;
+}
+
+.hide {
+	display: none;
+}
+
+form {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+table.blog span.article_seperator {
+	display: block;
+	height: 20px;
+}
+
+table.pollstableborder td {
+	text-align: left;
+	padding: 2px 0;
+}
+
+input#mod_search_searchword {
+	width: 120px;
+}
+
+a:link.nounder,
+a:visited.nounder,
+a:hover.nounder {
+	text-decoration: none;
+	border: 0;
+}
+
+/* @end */
+
+/* @end */
+
+/* @group Joomla Core */
+
+/* @group content */
+
+.contentheading {
+	padding: 10px 0;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	line-height:100%;
+}
+
+#showcase .contentheading {
+	padding-top: 0;
+}
+
+td.buttonheading {
+ 	vertical-align: middle;
+}
+
+td.buttonheading img {
+	margin-right: 5px;
+}
+
+table.contentpaneopen, table.contentpane {
+  border-collapse: collapse;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+div.contentpane, div.contentpaneopen {
+	width: 100%;
+}
+
+
+.clr {
+	clear: both;
+}
+
+div.mosimage {
+  margin: 5px;
+}
+
+a.readon {
+	display: block;
+	float: left;
+	padding-left: 25px;
+	padding-top: 2px;
+	margin-top: 10px;
+	line-height: 14px;
+	height: 16px;
+	/* background: see style css */
+}
+
+.modifydate {
+	height: 20px;
+	vertical-align: bottom;
+}
+
+.createdate {
+	height: 20px;
+	vertical-align: top;
+	vertical-align: top;
+	padding-bottom: 5px;
+	padding-top: 0px;
+}
+
+table.contenttoc {
+  margin: 5px;
+  padding: 5px;
+}
+
+table.contenttoc td {
+  padding: 0 5px;
+}
+
+/* @end */
+
+/* @group pathway */
+
+span.pathway {
+	display: block;
+	height: 16px;
+	line-height: 16px;
+	vertical-align: middle;
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+
+span.pathway a {
+}
+
+span.pathway img {
+	border: 0;
+	width: 10px;
+	margin: 0 7px 0 9px;
+	/* background: see style css */
+}
+
+div#pathway {
+	margin-bottom: 10px;
+	padding-left: 8px;
+}
+
+/* @end */
+
+/* @group sections */
+
+
+
+/* @end */
+
+/* @group mainmenu */
+
+a.mainlevel:link,
+a.mainlevel:visited {
+	display: block;
+	padding: 0px 0 0px 0px;
+	margin-bottom: 5px;
+	/* background: see style css */
+}
+
+a.mainlevel:hover {
+	background-position: 100% -40px;
+	text-decoration: none;
+}
+
+a.mainlevel#active,
+a.sublevel#active {
+	background-position: 100% -20px;
+}
+
+a.sublevel:link,
+a.sublevel:visited {
+	text-decoration: none;
+}
+
+a.sublevel:hover {
+	text-decoration: none;
+}
+
+
+/* @end */
+
+/* @group modules */
+
+
+/* @end */
+
+/* @group misc */
+
+table.adminform textarea {
+  width: auto;
+}
+
+.sectiontableheader {
+	font-weight: bold;
+	padding: 4px;
+}
+
+.sectiontableentry1,
+.sectiontableentry2 {
+	padding: 4px;
+}
+
+.pollstableborder .sectiontableentry1,
+.pollstableborder .sectiontableentry2 {
+	border: 0;
+	background: none;
+}
+
+.tool-tip {
+	background: #101010;
+	border: 1px solid #202020;
+	padding: 4px;
+	color: #ccc;
+}
+
+/* @end */
+
+/* @end */
+
+/* My Comment */

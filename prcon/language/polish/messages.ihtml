@@ -1,0 +1,143 @@
+<!--
+
+  No variables in here. These are all the messages of the site.
+
+-->
+
+<!-- start messages.ihtml -->
+
+
+<!-- GENERAL -->
+
+<!-- BEGIN generalnotconnected -->Nie mozna sie polaczyc. Brak serwerow na podanym IP.<!-- END generalnotconnected -->
+<!-- BEGIN generalnotresponding -->Serwer nie odpowiada. Brak serwerow na podanym porcie.<!-- END generalnotresponding -->
+<!-- BEGIN generalbadrcon -->Nieprawidlowe haslo rcon.<!-- END generalbadrcon -->
+<!-- BEGIN generalrefreshserver -->Odswiez informacje<!-- END generalrefreshserver -->
+
+
+
+<!-- TITLE -->
+
+<!-- BEGIN titlehostname -->Hostname<!-- END titlehostname -->
+<!-- BEGIN titleversion -->Wersja<!-- END titleversion -->
+<!-- BEGIN titletcpip -->TCP/IP<!-- END titletcpip -->
+<!-- BEGIN titlemap -->Mapa<!-- END titlemap -->
+<!-- BEGIN titleplayers -->Liczba graczy<!-- END titleplayers -->
+<!-- BEGIN titlename -->Nick<!-- END titlename -->
+<!-- BEGIN titleid -->ID<!-- END titleid -->
+<!-- BEGIN titlewonid -->WonID<!-- END titlewonid -->
+<!-- BEGIN titlefrag -->Zabojstwa<!-- END titlefrag -->
+<!-- BEGIN titletime -->Czas<!-- END titletime -->
+<!-- BEGIN titleping -->Ping<!-- END titleping -->
+<!-- BEGIN titleadress -->Adress<!-- END titleadress -->
+<!-- BEGIN titlerule -->Zmienna<!-- END titlerule -->
+<!-- BEGIN titlevalue -->Wartosc<!-- END titlevalue -->
+<!-- BEGIN titlebanid -->Zbanuj ID<!-- END titlebanid -->
+<!-- BEGIN titletimeframe -->Czas<!-- END titletimeframe -->
+<!-- BEGIN titlekick -->Kick<!-- END titlekick -->
+<!-- BEGIN titleunbanid -->Odbanuj ID<!-- END titleunbanid -->
+<!-- BEGIN titledir -->Katalog:<!-- END titledir -->
+<!-- BEGIN titleconfigfiles -->Pliki konfiguracyjne<!-- END titleconfigfiles -->
+<!-- BEGIN titleport -->Port<!-- END titleport -->
+<!-- BEGIN titlekey -->Klucz<!-- END titlekey -->
+<!-- BEGIN titleconnectingplayer -->Podlaczany gracz<!-- END titleconnectingplayer -->
+<!-- BEGIN titletopic -->Temat<!-- END titletopic -->
+
+
+
+<!-- LOGIN -->
+
+<!-- BEGIN loginusername -->Uzytkownik<!-- END loginusername -->
+<!-- BEGIN loginpwd -->Haslo<!-- END loginpwd -->
+<!-- BEGIN loginerror -->Nieprawidlowy nick lub haslo.<!-- END loginerror -->
+
+
+
+<!-- SERVERINFO -->
+
+<!-- BEGIN serverinfocommanddescr -->Wyslij komende do serwera<!-- END serverinfocommanddescr -->
+
+
+
+<!-- RCONCOMMAND -->
+
+<!-- BEGIN rconcommandnotexecuted -->Mozesz zmieniac parametry. Komenda jeszcze nie zostala wyslana.<br><br><!-- END rconcommandnotexecuted -->
+<!-- BEGIN rconcommanddescr -->Komenda:<!-- END rconcommanddescr -->
+
+
+
+<!-- SERVERRULES -->
+
+<!-- BEGIN serverruleschange -->Zmien<!-- END serverruleschange -->
+
+
+
+<!-- SERVERBANLIST -->
+
+<!-- BEGIN serverbanlistban -->ID pomyslnie zbanowany.<!-- END serverbanlistban -->
+<!-- BEGIN serverbanlistnoban -->ID nie zostal zbanowany.<!-- END serverbanlistnoban -->
+<!-- BEGIN serverbanlistunban -->ID pomyslnie odbanowany.<!-- END serverbanlistunban -->
+<!-- BEGIN serverbanlistnounban -->ID nie zostal odbanowany.<!-- END serverbanlistnounban -->
+<!-- BEGIN serverbanlistpermanent -->stale<!-- END serverbanlistpermanent -->
+
+
+
+<!-- SERVERMAPS -->
+
+<!-- BEGIN servermapschangedescr -->Kliknij aby zmienic mape<!-- END servermapschangedescr -->
+<!-- BEGIN servermapschange -->Zmiana mapy zakonczona pomyslnie.<!-- END servermapschange -->
+<!-- BEGIN servermapsnochange -->Mapa nie moze zostac zmieniona.<!-- END servermapsnochange -->
+
+
+
+<!-- SERVERCONFIG -->
+
+<!-- BEGIN serverconfigstatus -->Status<!-- END serverconfigstatus -->
+<!-- BEGIN serverconfigeditdescr -->Kliknij na pliku, aby poddac go edycji<!-- END serverconfigeditdescr -->
+<!-- BEGIN serverconfigeditdescr2 -->Uwaga: <span style="font-size:12px">Wszystkie znaczniki HTML i PHP zostana usuniete, ze wzgledow bezpieczenstwa.</span><br><!-- END serverconfigeditdescr2 -->
+<!-- BEGIN serverconfignolocalserver -->Funkcja nie dostepna. Funkcja LocalServer nie zostala aktywowana w pliku "config.php".<br>Mozesz uzywac tej funkcji tylko wtedy, gdy PHPRcon i Server sa uruchamiane z tego samego komputera.<!-- END serverconfignolocalserver -->
+<!-- BEGIN serverconfigok -->OK.<!-- END serverconfigok -->
+<!-- BEGIN serverconfignopermission -->Brak praw do zapisu.<!-- END serverconfignopermission -->
+<!-- BEGIN serverconfignofileexist -->Plik nie istnieje.<!-- END serverconfignofileexist -->
+<!-- BEGIN serverconfigfilesaved -->Zapis zakonczony pomyslnie.<!-- END serverconfigfilesaved -->
+
+
+
+<!-- HELP -->
+
+<!-- BEGIN helplink2page -->Link do strony<!-- END helplink2page -->
+<!-- BEGIN helpnoiframe -->Twoja przegladarka nie potrafi wyswietlac plywajacych ramek. Mozesz uzyc linku:<!-- END helpnoiframe -->
+
+
+
+<!-- TOPICS -->
+
+<!-- BEGIN topicserverinfo -->Informace o serwerze<!-- END topicserverinfo -->
+<!-- BEGIN topicrconcommand -->Komenda rcon'a<!-- END topicrconcommand -->
+<!-- BEGIN topicserverrules -->Zasady serwera<!-- END topicserverrules -->
+<!-- BEGIN topicserverbanlist -->Lista zbanowanych na serwerze<!-- END topicserverbanlist -->
+<!-- BEGIN topicservermaps -->Mapy serwera<!-- END topicservermaps -->
+<!-- BEGIN topicserverconfig -->Konfiguracja serwera<!-- END topicserverconfig -->
+<!-- BEGIN topichelp -->Pomoc<!-- END topichelp -->
+<!-- BEGIN topicnews -->Newsy<!-- END topicnews -->
+<!-- BEGIN topicpublicinfo -->Informacje o serwerze - PHPrcon<!-- END topicpublicinfo -->
+<!-- BEGIN topicmultiindex -->Przeglad PHPrcon serwer<!-- END topicmultiindex -->
+
+
+
+<!-- BUTTONS -->
+
+<!-- BEGIN buttonsubmit -->OK<!-- END buttonsubmit -->
+<!-- BEGIN buttonclearoutput -->Wyczysc<!-- END buttonclearoutput -->
+<!-- BEGIN buttonbanid -->Zbanuj ID<!-- END buttonbanid -->
+<!-- BEGIN buttonunbanid -->Odbanuj ID<!-- END buttonunbanid -->
+<!-- BEGIN buttonsave -->Zapisz<!-- END buttonsave -->
+<!-- BEGIN buttonreset -->Reset<!-- END buttonreset -->
+<!-- BEGIN buttonlogin -->Uzytkownik<!-- END buttonlogin -->
+
+
+
+<!-- BEGIN  -->
+<!-- END  -->
+
+<!-- end messages.ihtml -->

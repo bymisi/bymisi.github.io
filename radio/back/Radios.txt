@@ -1,0 +1,4 @@
+http://94.228.220.70:8130 					-web
+http://78.159.104.196:80   					-dr
+http://scfire-mtc-aa06.stream.aol.com:80/stream/1074		-dr2
+http://95.169.188.110:8000					-dr3

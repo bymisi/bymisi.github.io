@@ -1,0 +1,28 @@
+/* CSS Document */
+BODY {background-color:black; font-size:14px; color:black; margin:50px auto 0px auto; padding:0px; text-align:justify;margin:0px; padding:0px; /*background:url(imgs/betonkocka.jpg);*/}
+IMG {border: 0px solid black;}
+P {clear:both;}
+A {border:0px; color:white; font-size:13px; font-weight:bold; font-family:verdana; text-decoration:none;} 
+A:active {border:0px; color:white; font-size:13px; font-weight:bold; font-family:verdana; text-decoration:none;} 
+A:hover {border:0px; color:#ffc602; font-size:13px; font-weight:bold; font-family:verdana; text-decoration:none; } 
+A:visited {border:0px; color:white; font-size:13px; font-weight:bold; font-family:verdana; text-decoration:none; } 
+H2 {text-align:left; font-family:arial; font-size:20px;}
+H3 {font-color:white; font-size:14px; font-family:verdana;}
+#blokk1, #blokk2, #blokk3, #szovegmezo { padding-bottom:32000px !important; margin-bottom:-32000px !important; }
+#keret {width:1024px; position:relative; margin:0px auto 0px auto; border:1px solid white;}
+#header {width:1024px; height:135px; background:url(header00.jpg); position:relative;}
+#menu {position:relative; left:240px; top:80px; width:300px;}
+#kapcs {position:relative; top:0px; width:180px; height:60px; font-size:14px; font-color:white; float:right; text-align:justify; padding:0px; font-weight:bold; color:white; margin:5px;}
+#hazkep {width:1024px; height:125px; background:url(haz_tukr.jpg); position:relative;}
+#tkeret {width:1024px; height:auto; position:relative; clear:both; overflow:hidden;}
+#blokk1 {position:relative; width:234px; background-color:#066581; border-right:1px solid white; float:left; background:url(baloldal.jpg);}
+div.oldalgomb {postion:relative; width:222px; height:15px; border:1px solid white; top:15px; background-color:#9db5bd; text-align:center;padding:5px; opacity:.85;filter: alpha(opacity=85); -moz-opacity: 0.85;}
+#blokk2 {position:relative; width:788px; background-color:#c8d3e0; border-left:1px solid white; float:left;}
+#blokk3 {position:relative; left:30px; border-left:1px solid white; border-right:1px solid white; background-color:#b2c4ce; width:134px; padding:8px; float:left;}
+img.kozepkep {position:relative; top:30px;border:1px solid black; float:left; margin: 0px; 10px 0px 10px;}
+img.szelkep {position:relative; top:30px;border:1px solid black; clear:left; margin: 0px; 10px 0px 10px;}
+#szovegmezo {position:relative; float:left; padding:10px; width:550px;left:30px;}
+#alsoresz {position:relative; clear: both; height:20px; width:984px; border:top:1px solid white; background-color:#034b60; color:white; font-family:verdana; font-size:14px; padding:20px; text-align:left;}
+font.nagy {font-size:14px; font-weight:bold; cler:both;}
+INPUT {background-color:#b2c4ce; color:black;}
+TEXTAREA {background-color:#b2c4ce; color:black;}

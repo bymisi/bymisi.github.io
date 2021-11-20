@@ -1,0 +1,82 @@
+#rbCenter {
+	position: absolute;
+	z-index: 1000;
+	text-align: left;
+}
+
+#rbCenter.rbLoading {
+	background:  url(loading0.gif) no-repeat center center;
+}
+
+#rbImage {
+	padding: 10px;
+	background: #0d0d0d;
+	border:1px solid #333;
+}
+
+#rbBottom {
+	position: absolute;
+	background-color: #0d0d0d;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666;
+	line-height: 1.4em;
+	text-align: left;
+	border: 1px solid #333;
+	padding: 10px;
+	border-top-style: none;
+	z-index: 900;
+	display: none;
+}
+
+#rbCloseLink {
+	cursor: pointer;
+	float: right;
+	width: 75px;
+	height: 33px;
+	background: transparent url(closelab.gif) no-repeat center;
+	margin: 5px 0;
+}
+
+#rbCaption, #rbNumber {
+	margin-right: 71px;
+}
+
+#rbCaption {
+	font-weight: bold;
+}
+
+#rbLinks {
+	position: absolute;
+	z-index: 1100;
+	display: none;
+}
+
+#rbPrevLink, #rbNextLink {
+	cursor: pointer;
+	margin: 0; padding: 0;
+	position: absolute;
+	top: 0;
+	width: 49%;
+}
+
+#rbPrevLink {
+	left: 0;
+}
+
+#rbPrevLink.hover {
+	background: url(prevlabe.gif) no-repeat 0% 15%;
+}
+
+#rbNextLink {
+	right: 0;
+}
+
+#rbNextLink.hover {
+	background: transparent url(nextlabe.gif) no-repeat 100% 15%;
+}
+
+#rbShadow {
+	position: absolute;
+	z-index: 800;
+}

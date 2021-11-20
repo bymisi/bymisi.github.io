@@ -1,0 +1,81 @@
+2021-04-11 09:05:56: (log.c.164) server started 
+2021-04-11 09:17:02: (log.c.164) server started 
+2021-04-11 09:18:37: (log.c.164) server started 
+2021-04-11 09:21:37: (server.c.1596) server stopped by UID = 0 PID = 32245 
+2021-04-11 09:22:17: (log.c.164) server started 
+2021-04-11 09:24:05: (server.c.1596) server stopped by UID = 0 PID = 2639 
+2021-04-11 09:24:08: (log.c.164) server started 
+2021-04-11 09:25:38: (log.c.164) server started 
+2021-04-11 09:26:35: (log.c.164) server started 
+2021-04-11 09:27:45: (server.c.1596) server stopped by UID = 0 PID = 5974 
+2021-04-11 09:27:48: (log.c.164) server started 
+2021-04-11 09:42:52: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Warning:  move_uploaded_file(upload/213828604.pdf): failed to open stream: No such file or directory in /storage/9C33-6BBD/dokumentumok/host/upload.php on line 39
+2021-04-11 09:42:52: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Warning:  move_uploaded_file(): Unable to move '/data/data/ru.kslabs.ksweb/tmp/php4CcDRC' to 'upload/213828604.pdf' in /storage/9C33-6BBD/dokumentumok/host/upload.php on line 39
+2021-04-11 09:42:53: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:42:53: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:42:53: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:42:53: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 09:43:03: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:43:03: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:43:03: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:43:03: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 09:43:04: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:43:04: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:43:04: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:43:04: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 09:46:32: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:46:32: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:46:32: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:46:32: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 09:46:33: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Warning:  move_uploaded_file(upload/02927.pdf): failed to open stream: No such file or directory in /storage/9C33-6BBD/dokumentumok/host/upload.php on line 39
+2021-04-11 09:46:33: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Warning:  move_uploaded_file(): Unable to move '/data/data/ru.kslabs.ksweb/tmp/phpaMj4i4' to 'upload/02927.pdf' in /storage/9C33-6BBD/dokumentumok/host/upload.php on line 39
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:46:34: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 09:46:37: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:46:37: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:46:37: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:46:37: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 09:46:37: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 09:46:37: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 09:46:37: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 09:46:37: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 10:01:54: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 10:01:54: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 10:01:54: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 10:01:54: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 10:01:56: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 10:01:56: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 10:01:56: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 10:01:56: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 10:01:56: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 10:01:56: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 10:01:56: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 10:01:56: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 10:01:57: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function apc_fetch() in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php:7
+2021-04-11 10:01:57: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 10:01:57: (mod_fastcgi.c.2695) FastCGI-stderr: #0 {main}
+2021-04-11 10:01:57: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/upload_frame.php on line 7
+2021-04-11 10:05:13: (server.c.1596) server stopped by UID = 0 PID = 19648 
+2021-04-11 10:05:19: (log.c.164) server started 
+2021-04-11 10:07:56: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Deprecated:  Methods with the same name as their class will not be constructors in a future version of PHP; extMainFrame has a deprecated constructor in /storage/9C33-6BBD/dokumentumok/host/extplorer/libraries/standalone.php on line 60
+2021-04-11 10:07:56: (mod_fastcgi.c.2695) FastCGI-stderr: PHP Fatal error:  Uncaught Error: Call to undefined function set_magic_quotes_runtime() in /storage/9C33-6BBD/dokumentumok/host/extplorer/libraries/standalone.php:32
+2021-04-11 10:07:56: (mod_fastcgi.c.2695) FastCGI-stderr: Stack trace:
+2021-04-11 10:07:56: (mod_fastcgi.c.2695) FastCGI-stderr: #0 /storage/9C33-6BBD/dokumentumok/host/extplorer/index.php(44): require_once()
+2021-04-11 10:07:56: (mod_fastcgi.c.2695) FastCGI-stderr: #1 {main}
+2021-04-11 10:07:56: (mod_fastcgi.c.2695) FastCGI-stderr:   thrown in /storage/9C33-6BBD/dokumentumok/host/extplorer/libraries/standalone.php on line 32
+2021-04-11 10:24:13: (http_auth.c.879) get_password failed, IP: 127.0.0.1 
+2021-04-11 10:24:17: (http_auth.c.887) password doesn't match for / username: admin, IP: 127.0.0.1 

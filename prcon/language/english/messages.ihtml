@@ -1,0 +1,143 @@
+<!--
+
+  No variables in here. These are all the messages of the site.
+
+-->
+
+<!-- start messages.ihtml -->
+
+
+<!-- GENERAL -->
+
+<!-- BEGIN generalnotconnected -->Could not complete connection attempt. No Server available on this IP.<!-- END generalnotconnected -->
+<!-- BEGIN generalnotresponding -->Server is not responding. No Server is listening to this Port on this IP.<!-- END generalnotresponding -->
+<!-- BEGIN generalbadrcon -->Bad rcon password.<!-- END generalbadrcon -->
+<!-- BEGIN generalrefreshserver -->Refresh Server<!-- END generalrefreshserver -->
+
+
+
+<!-- TITLE -->
+
+<!-- BEGIN titlehostname -->Hostname<!-- END titlehostname -->
+<!-- BEGIN titleversion -->Version<!-- END titleversion -->
+<!-- BEGIN titletcpip -->TCP/IP<!-- END titletcpip -->
+<!-- BEGIN titlemap -->Map<!-- END titlemap -->
+<!-- BEGIN titleplayers -->Players<!-- END titleplayers -->
+<!-- BEGIN titlename -->Name<!-- END titlename -->
+<!-- BEGIN titleid -->ID<!-- END titleid -->
+<!-- BEGIN titlewonid -->WonID<!-- END titlewonid -->
+<!-- BEGIN titlefrag -->Frag<!-- END titlefrag -->
+<!-- BEGIN titletime -->Time<!-- END titletime -->
+<!-- BEGIN titleping -->Ping<!-- END titleping -->
+<!-- BEGIN titleadress -->Adress<!-- END titleadress -->
+<!-- BEGIN titlerule -->Rule<!-- END titlerule -->
+<!-- BEGIN titlevalue -->Value<!-- END titlevalue -->
+<!-- BEGIN titlebanid -->Ban ID<!-- END titlebanid -->
+<!-- BEGIN titletimeframe -->Timeframe<!-- END titletimeframe -->
+<!-- BEGIN titlekick -->Kick<!-- END titlekick -->
+<!-- BEGIN titleunbanid -->Unban ID<!-- END titleunbanid -->
+<!-- BEGIN titledir -->Directory:<!-- END titledir -->
+<!-- BEGIN titleconfigfiles -->Config Files<!-- END titleconfigfiles -->
+<!-- BEGIN titleport -->Port<!-- END titleport -->
+<!-- BEGIN titlekey -->Key<!-- END titlekey -->
+<!-- BEGIN titleconnectingplayer -->Connecting Player<!-- END titleconnectingplayer -->
+<!-- BEGIN titletopic -->Topic<!-- END titletopic -->
+
+
+
+<!-- LOGIN -->
+
+<!-- BEGIN loginusername -->Username<!-- END loginusername -->
+<!-- BEGIN loginpwd -->Password<!-- END loginpwd -->
+<!-- BEGIN loginerror -->Invalid username or password.<!-- END loginerror -->
+
+
+
+<!-- SERVERINFO -->
+
+<!-- BEGIN serverinfocommanddescr -->Send a command to the server<!-- END serverinfocommanddescr -->
+
+
+
+<!-- RCONCOMMAND -->
+
+<!-- BEGIN rconcommandnotexecuted -->You can change the parameters now. The command has not been sent yet.<br><br><!-- END rconcommandnotexecuted -->
+<!-- BEGIN rconcommanddescr -->Command:<!-- END rconcommanddescr -->
+
+
+
+<!-- SERVERRULES -->
+
+<!-- BEGIN serverruleschange -->Change<!-- END serverruleschange -->
+
+
+
+<!-- SERVERBANLIST -->
+
+<!-- BEGIN serverbanlistban -->ID successfully banned.<!-- END serverbanlistban -->
+<!-- BEGIN serverbanlistnoban -->ID could not be banned.<!-- END serverbanlistnoban -->
+<!-- BEGIN serverbanlistunban -->ID successfully unbanned.<!-- END serverbanlistunban -->
+<!-- BEGIN serverbanlistnounban -->ID could not be unbanned.<!-- END serverbanlistnounban -->
+<!-- BEGIN serverbanlistpermanent -->permanent<!-- END serverbanlistpermanent -->
+
+
+
+<!-- SERVERMAPS -->
+
+<!-- BEGIN servermapschangedescr -->Click to change map<!-- END servermapschangedescr -->
+<!-- BEGIN servermapschange -->Map changed successfully.<!-- END servermapschange -->
+<!-- BEGIN servermapsnochange -->Map could not be changed.<!-- END servermapsnochange -->
+
+
+
+<!-- SERVERCONFIG -->
+
+<!-- BEGIN serverconfigstatus -->Status<!-- END serverconfigstatus -->
+<!-- BEGIN serverconfigeditdescr -->Click on file to edit<!-- END serverconfigeditdescr -->
+<!-- BEGIN serverconfigeditdescr2 -->Note: <span style="font-size:12px">All HTML and PHP tags will be stripped out of the file, for security reason.</span><br><!-- END serverconfigeditdescr2 -->
+<!-- BEGIN serverconfignolocalserver -->This feature is not available. Localserver option is not enabled in "config.php".<br>You may only use this feature if PHPrcon and the Gameserver are running on the same machine.<!-- END serverconfignolocalserver -->
+<!-- BEGIN serverconfigok -->OK.<!-- END serverconfigok -->
+<!-- BEGIN serverconfignopermission -->No write permissions.<!-- END serverconfignopermission -->
+<!-- BEGIN serverconfignofileexist -->File does not exist.<!-- END serverconfignofileexist -->
+<!-- BEGIN serverconfigfilesaved -->File succesfully saved.<!-- END serverconfigfilesaved -->
+
+
+
+<!-- HELP -->
+
+<!-- BEGIN helplink2page -->Link to page<!-- END helplink2page -->
+<!-- BEGIN helpnoiframe -->Your browser is not able to view iframes. You can call the site directly through the link:<!-- END helpnoiframe -->
+
+
+
+<!-- TOPICS -->
+
+<!-- BEGIN topicserverinfo -->Server Info<!-- END topicserverinfo -->
+<!-- BEGIN topicrconcommand -->rcon Command<!-- END topicrconcommand -->
+<!-- BEGIN topicserverrules -->Server Rules<!-- END topicserverrules -->
+<!-- BEGIN topicserverbanlist -->Server Banlist<!-- END topicserverbanlist -->
+<!-- BEGIN topicservermaps -->Server Maps<!-- END topicservermaps -->
+<!-- BEGIN topicserverconfig -->Server Config<!-- END topicserverconfig -->
+<!-- BEGIN topichelp -->Help<!-- END topichelp -->
+<!-- BEGIN topicnews -->News<!-- END topicnews -->
+<!-- BEGIN topicpublicinfo -->PHPrcon public serverinfo<!-- END topicpublicinfo -->
+<!-- BEGIN topicmultiindex -->PHPrcon server overview<!-- END topicmultiindex -->
+
+
+
+<!-- BUTTONS -->
+
+<!-- BEGIN buttonsubmit -->Submit<!-- END buttonsubmit -->
+<!-- BEGIN buttonclearoutput -->Clear Output<!-- END buttonclearoutput -->
+<!-- BEGIN buttonbanid -->Ban ID<!-- END buttonbanid -->
+<!-- BEGIN buttonunbanid -->Unban ID<!-- END buttonunbanid -->
+<!-- BEGIN buttonsave -->Save<!-- END buttonsave -->
+<!-- BEGIN buttonreset -->Reset<!-- END buttonreset -->
+<!-- BEGIN buttonlogin -->Login<!-- END buttonlogin -->
+
+
+
+<!-- BEGIN  -->
+<!-- END  -->
+
+<!-- end messages.ihtml -->

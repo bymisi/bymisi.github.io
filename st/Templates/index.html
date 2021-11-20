@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<title>Server status LIVE :: {$PAGE_TITLE}</title>
+		<link rel="stylesheet" type="text/css" href="{$PATH_TO_TEMPLATE}/stylesheet.css" />
+	</head>
+	<body>
+		<div class="wrapper1"><div class="wrapper2"><div class="content">
+			<div class="crtl"></div>
+			<div class="crtr"><div class="crtrc"></div></div>
+			<div class="crbl"><div class="crblc"></div></div>
+			<div class="crbr"><div class="crbrc"></div></div>
+			<div class="lntc"></div>
+			<div class="lnbc"><div class="lnbcc"></div></div>
+			<div class="lncl"></div>
+			<div class="lncr"><div class="lncrc"></div></div>
+				<div class="one_two">
+					<div class="form"><form action="{$FORM_ACTION}" method="{$FORM_METHOD}"><input name="{$HOST_NAME}" value="{$HOST_VALUE}" class="host"/>
+					<input name="{$PORT_NAME}" value="{$PORT_VALUE}" class="port"/><input type="submit" value="OK" class="submit"/></form></div>
+					{if $SERVER_DOWN eq false}
+						<h1>Server status LIVE</h1>
+						<div class="property">Nume:</div>
+						<div class="value">{$SERVER_HOSTNAME}</div>
+						<div class="property">Adresa:</div>
+						<div class="value">{$SERVER_IP}</div>
+						<div class="property">Mod:</div>
+						<div class="value">{$SERVER_MOD}</div>
+						<div class="property">Parola:</div>
+						<div class="value">{$SERVER_PAROLA}</div>
+						<div class="property">Jucatori:</div>
+						<div class="value">{$SERVER_PLAYERS}</div>
+						<div class="property">Harta:</div>
+						<div class="value">{$SERVER_MAP}</div>
+					{else}
+						<h1>Server is DOWN</h1>
+						{if $STATS_DEBUG}
+							<pre>{$STATS_ERROR}</pre>
+						{/if}
+					{/if}
+				</div>
+				<div class="two_two">
+					{if $SERVER_DOWN eq false}
+					<div class="cell3hd">{if $GAME_TYPE eq 1}Timp{else}Ping{/if}</div>
+					<div class="cell2hd">Scor</div>
+					<div class="cell1hd">Nume jucator</div>
+					{section name="player" loop="$SERVER_PLAYER_STATS"}
+					<div class="cell3">
+						{if $GAME_TYPE eq 1}
+							{$SERVER_PLAYER_STATS[player]->TimePlayed}
+						{else}
+							{$SERVER_PLAYER_STATS[player]->Ping}
+						{/if}
+					</div>
+					<div class="cell2">{$SERVER_PLAYER_STATS[player]->Score}</div>
+					<div class="cell1">{$SERVER_PLAYER_STATS[player]->Name}</div>
+					{/section}
+					{/if}
+				</div>
+			<div class="footer">
+				Powered by <a href="http://www.freakz.ro/forum">Freakz.Ro</a>.
+			</div>
+		</div></div></div>
+	</body>
+</html>

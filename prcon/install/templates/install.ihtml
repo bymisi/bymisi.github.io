@@ -1,0 +1,81 @@
+<!-- start install.ihtml -->
+
+<script type="text/javascript">
+<!--
+  document.install.action = "./install.php";
+-->
+</script>
+
+
+<table width=760 bgcolor={COLORGLOBALS}>
+
+  <tr>
+    <td style="width:150px"><img src="./pics/1px.gif" alt="" border=0 width=1 height=1></td>
+    <td style="width:240px"><img src="./pics/1px.gif" alt="" border=0 width=1 height=1></td>
+    <td style="width:100px"><img src="./pics/1px.gif" alt="" border=0 width=1 height=1></td>
+    <td style="width:270px"><img src="./pics/1px.gif" alt="" border=0 width=1 height=1></td>
+  </tr>
+
+  <tr>
+    <td colspan="4">
+      <span class=head><br>Login and Appearance</span>
+      <br><br>
+      <span class=note>
+        <li><i>Login Name</i> and <i>Login Password</i> give you access to PHPrcon. It is required
+        for use of the rcon part of PHPrcon</li>
+        <li><i>Theme</i> classifies the outward appearance of PHPrcon</li>
+        <li><i>Language</i> classifies the output language of PHPrcon</li>
+        <li>If <i>Display Help</i> checkbox is checked, a small helptext will appear on top of every
+        page (only in the rcon part)</li>
+      </span>
+      <br><br>
+    </td>
+
+  </tr>
+
+  <tr>
+    <td>Login Name</td>
+    <td><input type="text" name="config_user_name" style="width:200px;" value="{LOGINNAME}"></td>
+  </tr>
+
+  <tr>
+    <td>Login Password</td>
+    <td><input type="password" name="config_user_password" style="width:200px;" value="{LOGINPASSWORD}"></td>
+    <td>Confirm</td>
+    <td><input type="password" name="config_user_password_confirm" style="width:200px;" value="{LOGINPASSWORDCONFIRM}"></td>
+  </tr>
+
+  <tr>
+    <td>Theme</td>
+    <td>
+      <select name="config_theme" size="1">
+        <!-- BEGIN theme -->
+        <option {SELECTED}>{NAME}</option>
+        <!-- END theme -->
+      </select>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Language</td>
+    <td>
+      <select name="config_language" size="1">
+        <!-- BEGIN language -->
+        <option {SELECTED}>{NAME}</option>
+        <!-- END language -->
+      </select>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Display Help</td>
+    <td>
+    <input type="radio" name="config_helptext" value="1" {HELPTEXTYES}> Yes &nbsp;&nbsp;
+    <input type="radio" name="config_helptext" value="0" {HELPTEXTNO}> No
+  </tr>
+
+  <tr><td><img src="./pics/1px.gif" width=1 height=50 alt="" border=0></td></tr>
+
+</table>
+
+<!-- end install.ihtml -->

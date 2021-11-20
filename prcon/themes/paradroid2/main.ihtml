@@ -1,0 +1,43 @@
+<!-- start main.ihtml -->
+
+<html>
+<head>
+  <title>PHPrcon</title>
+</head>
+
+<link rel=StyleSheet type="text/css" media="screen" href="{TEMPLATEDIR}/style.css">
+
+<body>
+
+  <table width=100% cellspacing=0 cellpadding=0 border=0>
+  <tr><td valign=top style="padding:0px;" width=74>
+    <table border=0 cellpadding=0 cellspacing=0>
+      <tr><td style="padding:0px;" align=center width=74><a href="./rcon_index.php"><img src="{TEMPLATEDIR}/serverinfo.gif" border=0></a></td></tr>
+      <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+      <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+      <tr><td style="padding:0px;" align=center><a href="./rcon_command.php"><img src="{TEMPLATEDIR}/rconcommand.gif" border=0></a></td></tr>
+      <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+
+      <tr><td style="padding:0px;" align=center height=20><a href="./rcon_serverrules.php"><img src="{TEMPLATEDIR}/serverrules.gif" border=0></a></td></tr>
+      <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+      <tr><td style="padding:0px;" align=center height=20><a href="./rcon_banlist.php"><img src="{TEMPLATEDIR}/serverbanlist.gif" border=0></a></td></tr>
+      <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+      <tr><td style="padding:0px;" align=center height=20><a href="./rcon_servermaps.php"><img src="{TEMPLATEDIR}/servermaps.gif" border=0></a></td></tr>
+      <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+      <tr><td style="padding:0px;" align=center height=20><a href="./rcon_serverconfig.php"><img src="{TEMPLATEDIR}/serverconfig.gif" border=0></a></td></tr>
+      <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+      <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+      <tr><td style="padding:0px;" align=center height=20><a href="./rcon_help.php"><img src="{TEMPLATEDIR}/help.gif" border=0></a></td></tr>
+      <tr><td style="padding:0px;" align=center><img src="{TEMPLATEDIR}/vertical.gif" border=0></td></tr>
+      <tr><td style="padding:0px;" align=center height=20><a href="./rcon_news.php"><img src="{TEMPLATEDIR}/news.gif" border=0></a></td></tr>
+    </table>
+  </td>
+
+  <td valign=top style="padding:0px;" width=148>
+    {CONTENT}
+  </td></tr></table>
+
+</body>
+</html>
+
+<!-- end main.ihtml -->

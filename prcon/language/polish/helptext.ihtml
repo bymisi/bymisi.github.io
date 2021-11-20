@@ -1,0 +1,51 @@
+<!--
+
+  No variables in here. These are all the helptexts to the sites.
+
+-->
+
+<!-- start helptext.ihtml -->
+
+<!-- BEGIN helpserverinfo -->
+<table width=600><tr><td>
+  Wszystkie podstawowe informacje dotyczace serwera wyswietlone tutaj. Na dole strony mo&iquest;esz bezposrednio wykonac komende rcon na serwerze. Wystarczy, ze wprowadzisz ta komende, i klikniesz na <i>"{BUTTONSUBMIT}"</i>. Dwa linki: <i>"Kick"</i> i <i>"Ban"</i> za kazdym graczem moga zostac zmienione w pliku "serverinfo.ihtml" szablonu ktory wybrales. Kiedy klikniesz <i>"{TOPICRCONCOMMAND}"</i> pojawi sie odpowiednia strona. Komenda zostanie wykonana. Kliknij <i>"{GENERALREFRESHSERVER}"</i> aby odswiezyc informacje o serwerze.
+</td></tr></table>
+<!-- END helpserverinfo -->
+
+<!-- BEGIN helprconcommand -->
+<table width=600><tr><td>
+  To jest serce narzedzia PHPrcon. Wszystkie komendy wyslale do tej strony beda wykonane lub po prostu wyswietlone, dlatego moga byc jeszcze edytowane. Jesli komenda nie zostala wykonana, odpowiedni komunikat powinien sie pojawic. Wprowadz komende rcon'a w polu tekstowym i kliknij na <i>"{BUTTONSUBMIT}"</i> aby wykonac. Rezultat ostatnio wykonanych komend jest wyswietlany w textbox'ie. Aby wyczyscic, kliknij <i>"{BUTTONCLEAROUTPUT}"</i> na dole strony.
+</td></tr></table>
+<!-- END helprconcommand -->
+
+<!-- BEGIN helpserverrules -->
+<table width=600><tr><td>
+  Serwery Half-Life lub Half-Life-Mod maja kilka publicznie dostepnych zmiennych. Zmienne tego servera sa wyswietlone tutaj. Kliknij <i>"{SERVERRULESCHANGE}"</i> aby zmienic wartosc tej zmiennej. Pojawi sie <i>"{TOPICRCONCOMMAND}"</i> . Zmiana zmiennej NIE ZOSTANIE od razu wprowadzona. Kliknij <i>"{GENERALREFRESHSERVER}"</i> aby ustawic wszystkie zmienne.
+</td></tr></table>
+<!-- END helpserverrules -->
+
+<!-- BEGIN helpservermaps -->
+<table width=600><tr><td>
+  Tutaj jest lista wszystkich map dostepnych na serwerze. Zostaly one posortowane przez sciezke i nazwe. Katalog glowny tych map jest glownych katalogiem Half-Life'a lub Half-Life_mod'a (np. Counter-Strike). Kliknij na nazwie mapy, aby rozpoczac na niej gre. Kliknij <i>"{GENERALREFRESHSERVER}"</i> aby odswiezyc wszystkie informacje z serwera.
+</td></tr></table>
+<!-- END helpservermaps -->
+
+<!-- BEGIN helpserverbanlist -->
+<table width=600><tr><td>
+  {TITLEBANID}:<br>Wprowadz WonID, ktory chcesz zbanowac i jak dlugi ma byc ten ban (0 = permanentny / staly). Zaznacz pole wyboru, aby wykopac gracza. Kliknij <i>"{BUTTONBANID}"</i> aby zakonczyc.<br><br>{TITLEUNBANID}:<br>Wprowadz WonID, ktory chcesz odbanowac. Kliknij <i>"{BUTTONUNBANID}"</i> aby zakonczyc.
+</td></tr></table>
+<!-- END helpserverbanlist -->
+
+<!-- BEGIN helpserverconfig -->
+<table width=600><tr><td>
+  Jesli opcja jest aktywowana ($localserver = 1), plik konfiguracyjny mozna edytowac. Status tego pliku jest wyswietlany ponizej. Jesli nazwa pliku jest zwyklym tekstem, mozliwe ze nie masz praw dostepu do niego.<br><br>Wybrany plik mozna poddac edycji. Kliknij <i>"{BUTTONSAVE}"</i> aby zapisac zminay. Kliknij <i>"{BUTTONRESET}"</i> aby przywrocic poprzedni stan.
+</td></tr></table>
+<!-- END helpserverconfig -->
+
+<!-- BEGIN helpnews -->
+<table width=600><tr><td>
+  Tutaj mozesz znalezc najnowsze wiadomosci prosto od <a href="http://www.phprcon.net" target=_new>PHPrcon.net</a>.
+</td></tr></table>
+<!-- END helpnews -->
+
+<!-- end helptext.ihtml -->

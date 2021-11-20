@@ -1,0 +1,3 @@
+&textField=<br>
+<font color%3D"#80FFFF">
+Northline (valutaváltó)<br><br>Pizza-Hut (étterem)<br><br>KFC (gyorsétterem)<br><br>Aranypók (divatáru) </font>
