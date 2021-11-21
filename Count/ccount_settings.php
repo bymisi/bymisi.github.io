@@ -3,10 +3,10 @@ error_reporting(0);
 if (!defined('IN_SCRIPT')) {die('Invalid attempt!');}
 
 // Password hash for admin area
-$ccount_settings['admin_pass']='88888888';
+$ccount_settings['admin_pass']='198535';
 
 // URL of the click.php file
-$ccount_settings['click_url']='http://bymisi.freemyip.com/count/click.php';
+$ccount_settings['click_url']='http://localhost/count/click.php';
 
 // Number of hours a visitor is considered as "unique"
 $ccount_settings['unique_hours']=24;

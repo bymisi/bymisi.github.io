@@ -27,7 +27,7 @@
 // Detailed information found in the readme file
 
 // URL of the folder where script is installed. INCLUDE a trailing "/" !!!
-$base_url = 'http://bymisi.freemyip.com';
+$base_url = 'http://localhost/';
 
 // Default image style (font)
 $default_style = 'blgrv';
