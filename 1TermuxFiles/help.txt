@@ -1,0 +1,111 @@
+apt update && apt upgrade  = fix dependencies
+
+termux-setup-sturage
+termux-change-repo
+
+apt install openssh
+pkg list-installed
+pkg install git
+pkg install wget
+
+
+
+first git init , clone ,add , commit ,pull ,push
+
+backup:
+tar -zcf /sdcard/termux-backup.tar.gz -C /data/data/com.termux/files ./home ./usr
+
+tar -zcf /storage/9C33-6BBD/work/github/termux-backup.tar.gz -C /data/data/com.termux/files ./home ./usr
+
+
+restore:
+
+termux-setup-storage 
+
+tar -zxf /storage/9C33-6BBD/work/github/termux-backup.tar.gz -C /data/data/com.termux/files --recursive-unlink --preserve-permissions
+
+
+pkill -e -n
+
+
+run :
+
+                    eval "$(ssh-agent)"
+
+run : 
+ ssh-add misikey
+
+mv = rename
+cp = copy
+rm = delete file
+rm -rf delete folder
+
+cd ~/.. (termux root dir)
+nano usr/etc/bash.bashrc (edit file for autorun)
+cd storage/work/github
+ssh -T git@github.com
+
+eval "$(ssh-agent -s)"
+ssh-add misikey
+
+
+git clone https://github.com/bymisi/bymisi.github.io.git
+
+generate jks : 
+keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias misi
+
+
+Open Termux and follow the steps below:
+
+openssl # follow the prompts to install 
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 
+# enter a passphrase and follow the instructions: # enter a nickname/identity name in the Organization Name field 
+cat key.pem >> cert.pem 
+openssl pkcs12 -export -in cert.pem -out cert.pfx
+
+ngrok
+
+wget localhost:5555/ngrok
+
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm64.zip
+unzip ngrok-stable-linux-arm64.zip
+chmod -x ngrok 
+
+
+./xmrig --randomx-mode=light --cpu-no-yield --threads=7 --url=cryptonote.social:5555 --user=8BTruSPR8rHT2M4cCJcaEmRMZa7psDafqih7H8odzn13K7XRgqP4oe1cnLCsbcbXzvDExNqEPMqpvgWjFmNn49VWV47K46U.MiSi --donate=1
+
+./xmrig --randomx-mode=light --cpu-no-yield --threads=7 -o http://pool.supportxmr.com:3333 -u 8BTruSPR8rHT2M4cCJcaEmRMZa7psDafqih7H8odzn13K7XRgqP4oe1cnLCsbcbXzvDExNqEPMqpvgWjFmNn49VWV47K46U -k -p Redmi7
+
+
+Metaxploit
+
+pkg install wget
+
+wget https://raw.githubusercontent.com/gushmazuko/metasploit_in_termux/master/metasploit.sh
+
+chmod +x metasploit.sh
+
+./metasploit.sh
+Launch metasploit
+After installation complete execute:
+
+msfconsole
+pkg install wget
+
+wget https://raw.githubusercontent.com/gushmazuko/metasploit_in_termux/master/metasploit.sh
+
+chmod +x metasploit.sh
+
+./metasploit.sh
+Launch metasploit
+After installation complete execute:
+
+msfconsole/master/metasploit.sh
+
+chmod +x metasploit.sh
+
+./metasploit.sh
+Launch metasploit
+After installation complete execute:
+
+msfconsole
