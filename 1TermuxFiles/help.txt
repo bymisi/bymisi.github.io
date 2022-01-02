@@ -43,7 +43,11 @@ rm -rf delete folder
 cd ~/.. (termux root dir)
 nano usr/etc/bash.bashrc (edit file for autorun)
 cd storage/work/github
+
+-------
+connect github
 ssh -T git@github.com
+-------
 
 eval "$(ssh-agent -s)"
 ssh-add misikey
