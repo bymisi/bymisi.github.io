@@ -1,1 +1,1 @@
-pkg list-installed >pkg.txt && sed -i 's/\/.*//' pkg.txt && sed -i 's/^/apt satisfy /' pkg.txt && gawk -i inplace 'NR>1' pkg.txt && cat pkg.txt
+pkg list-installed >pkg.txt && sed -i 's/\/.*//' pkg.txt && sed -i 's/^/;apt satisfy /' pkg.txt && gawk -i inplace 'NR>1' pkg.txt && gawk '{print NR, $0}' pkg.txt >pkgn.txt && rm pkg.txt && sed -i 's/^/✓/' pkgn.txt && cat pkgn.txt
