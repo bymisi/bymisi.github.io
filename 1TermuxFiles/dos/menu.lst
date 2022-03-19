@@ -1,0 +1,63 @@
+default 0
+timeout 10
+color blue/green yellow/red white/magenta white/magenta
+splashimage=/splash.xpm.gz
+
+# menu.lst for X_CONTENT images for NTFS Format USB-stick
+
+title 1 - Start XP from Harddisk
+map (hd1) (hd0)
+map --hook
+rootnoverify (hd0)
+root (hd0,0)
+chainloader (hd0,0)/ntldr
+
+title 2 - Boot First Hard Drive (HDD)
+map (hd0) (hd1)
+map (hd1) (hd0)
+map --hook
+chainloader (hd0)+1
+rootnoverify (hd0)
+
+title 3 - SETUP XPSP3 by_[MiSi] (Autosetup)
+find --set-root /grldr
+chainloader /xpstp
+
+title 4 - SETUP WINDOWS 7 ULTIMATE X86
+root (hd0,0)
+chainloader (hd0,0)/bootmgr
+
+title 5 - Hiren Boot CD
+find --set-root --ignore-floppies /Hiren.iso
+map /Hiren.iso (0xff)
+map --hook
+root (0xff)
+chainloader (0xff)
+
+title 6 - GParted
+ls /gparted || find --set-root /gparted
+kernel /gparted/live/vmlinuz boot=live config union=aufs noswap noprompt vga=788 ip=frommedia live-media-path=/gparted/live toram=filesystem.squashfs
+initrd /gparted/live/initrd.img
+
+title 7 - Find Vista / Win7 / Win8
+fallback 2
+find --set-root --ignore-floppies --ignore-cd /bootmgr
+map () (hd0)
+map (hd0) ()
+map --rehook
+find --set-root --ignore-floppies --ignore-cd /bootmgr
+chainloader /bootmgr
+
+title 8 - Start Vista / Win7 / Win8
+root (hd1,0)
+chainloader (hd1,0)/bootmgr
+
+title 9 - XP RAM Ready
+find --set-root /XPRAM.iso
+map /XPRAM.iso (hd32)
+map --hook
+chainloader (hd32)
+
+title 10 - BOoTMENU
+root (hd0,0)
+chainloader (hd0,0)/NTLDR
