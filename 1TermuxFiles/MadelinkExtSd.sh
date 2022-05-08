@@ -1,5 +1,4 @@
 ls ~/../../../../../storage > storage.txt;
-##sed -n '/-/p' storage.txt > sd.txt;
 sed -i -n '/-/p' storage.txt;
 file="storage.txt"
 xsd=$(cat "$file")
