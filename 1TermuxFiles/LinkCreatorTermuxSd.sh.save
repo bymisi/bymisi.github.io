@@ -1,0 +1,6 @@
+ls ~/../../../../../storage > storage;
+sed -n '/-/p' storage > sd.txt;
+file="sd.txt" 
+xsd=$(cat "$file")
+echo $xsd
+ls ~/../../../../../storage/$xsd

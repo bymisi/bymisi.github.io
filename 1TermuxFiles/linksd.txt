@@ -25,28 +25,13 @@ else
    mkdir ~/$RD/storage/$xsd/termuxsd
 fi
 
-FLINK=~/$RD/$WD/$TD
-if [ -h "$FLINK" ]; then
-   echo "Folder LINK exists."
+LINK=~/$RD/$WD/$TD
+if [ -h "$LINK" ]; then
+   echo "LINK exists."
 else
-   echo "Creating Folder Link"
-  ln -s ~/$RD/storage/$xsd/termuxsd ~/$RD/$WD/$TD
-
+   echo "Creating Link"
+   ln -s ~/$RD/storage/$xsd/termuxsd ~/$RD/$WD/$TD
 fi
-
-
-DLINK=~/$RD/$WD/$xsd
-if [ -h "$DLINK" ]; then
-   echo "DISK LINK exists."
-else
-   echo "Creating DISK Link"
-
-  ln -s ~/$RD/storage/$xsd ~/$RD/$WD/$xsd
-
-
-fi
-
-
 FILE=~/$TD/$TX
 if [ -f "$FILE" ]; then
    echo "1.st FILE exists."
@@ -58,8 +43,7 @@ rm storage.txt ;
 cd ~/$TD && ls 
 
 echo "🇪‌🇽‌🇹‌🇪‌🇷‌🇳‌🇦‌🇱‌ 🇸‌🇩‌"
-ls -a ~/$xsd
 echo "🇱‌🇮‌🇳‌🇰‌🇪‌🇩‌ 🇹‌🇴‌ 🇹‌🇪‌🇷‌🇲‌🇺‌🇽‌"
-echo "For External Sd  :"
+echo "For External Sd Folder :"
 echo "type in : "
-echo "cd ~/$xsd"
+echo "cd ~/$TD"
