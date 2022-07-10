@@ -1,0 +1,161 @@
+Commands
+
+mv = rename
+cp = copy
+rm = delete file
+rm -rf delete folder
+ls -hal = list folder content
+cd = go to folder
+chmod +x = executable
+pkill -e -n = kill newest process
+comm -23 file1 file2 > file3 = remove 2 from 1
+comm -12 file1 file2 = check 2 in 1
+uniq file > new file = remove duplicates
+sort file > new file = sorted order
+
+----------
+edit from console:
+
+cat ~/help = display My Help Note
+
+echo "MyText" >1.txt
+ = create 1.txt containing MyText
+
+echo "MyText" >>1.txt
+ = add new line (MyText)  to end of 1.txt
+
+echo "SomeHelp" >> ~/help
+ = add note to my root help file
+
+echo $'First line.\nSecond line.\nThird line.' >foo.txt
+
+echo ' \n-----------------------\n List installed Packages  \n
+-----------------------\n' ;
+=create multiple lines
+
+printf '%s\n' 'First line.' 'Second line.' 'Third line.' >foo.txt
+
+----------
+GitHub
+
+git config --global user.email "misi@dr.com"
+git config --global user.name "misi-c"
+
+ssh -T git@github.com
+eval "$(ssh-agent -s)"
+ssh-add misikey
+(git klone repo:use @git not ssh!)
+----------
+Nano
+
+Alt +a -> mark characters
+Alt +6 copy multiple lines
+Alt +u undo
+Alt +e redo
+Alt +s wrap lines
+Alt +z hide bar
+Alt +x hide help
+Alt +n Line Numbers
+Alt +o typed Tabs to spaces
+Alt +m Mouse
+Alt +6 copy line
+Ctrl +k kut line
+Ctrl +u paste
+Ctrl +w Search Forward
+Ctrl +Q Search backward
+Alt +Q Search next occurrence backward
+Alt +W Search next occurrence forward
+----------
+Regex Nano
+
+Alt + r , Alt + r = Search Replace Regex
+
+Esc + $ = Wrap Lines
+
+\/.*    = delete everything from all lines after /
+.+(\/)  = delete everything from all lines before
+
+^        =add to start of line
+
+$       =add to end of line
+
+----------
+Backup Termux
+
+tar -zcf /storage/9C33-6BBD/work/github/termux-backup.tar.gz -C /data/data/com.termux/files ./home ./usr
+----------
+Restore Termux
+
+termux-setup-storage &&
+sleep 10
+## apt update &&
+tar -zxf /storage/9C33-6BBD/work/github/termux-backup.tar.gz -C /data/data/com.termux/files --recursive-unlink --preserve-permissions
+exit
+----------
+REGEX LINUX
+
+gawk -i inplace 'NR>1' pkglist.sh ;
+=Remove first line from file (Listing ...)";
+
+gawk '{print NR, $0}' pkg.txt >numbered.txt
+gawk -i inplace '{print NR, $0}' pkglist.sh ;
+=add numbering to all lines front "
+
+sed '/Ads/,$!d' d3host.txt >myfile.txt ;
+to new file =>
+=Deleted everything before (Ads)"
+
+sed -i 's/0.0.0.0 //g' myfile.txt ;
+to same file =>
+=cleared start of all lines (0.0.0.0.)";
+
+sed -i '/#/d' myfile.txt ;
+=deleted all lines containing #
+
+sed ':a; N; s/[[:space:]]//g; ta' raw_file.txt
+=remove all whitespaces
+
+sed -i '/^[[:space:]]*$/d' myfile.txt ;
+removed empty lines"
+
+pkg list-installed >pkglist.sh ;
+=create file with istalled app list
+
+sed -i 's/\/.*//' pkglist.sh ;
+=Remove content from all lines after /  " ;
+
+sed -i 's/^/;apt satisfy -y /' pkglist.sh ;
+=add to begining of all lines (;apt satisfy -y) "
+
+sed -i 's/^/# ✓ /' pkglist.sh ;
+=add content to begining of all lines (# ✓ )";
+
+sed -i 's/apt sat/\n&/g' pkglist.sh ;
+=add split to all lines before match (apt sat)
+
+sed -i '1s;^;apt update\n;' pkglist.sh ;
+=add 1.st line to file to exclude error (apt update)
+----------
+CREATE FOLDER SHORTCUT ON extSD
+rm ~/../../../../../data/data/com.termux/files/home/storage
+   /work && ln -s ~/../../../../../storage/9C33-6BBD/work ~/..
+   /../../../../data/data/com.termux/files/home/storage/work &
+   & cd ~/../../../../../data/data/com.termux/files/home/stora
+   ge/work && ls -hal
+----------
+Check file exist :
+-f =file
+-d =dir
+-h =link
+-L =link
+
+FILE=1.txt
+if [ -f "$FILE" ]; then
+    echo "$FILE exists."
+else 
+    echo "$FILE does not exist."
+fi
+----------
+
+
+
