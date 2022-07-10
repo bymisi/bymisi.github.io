@@ -27,17 +27,17 @@ fi
 
 LINK=~/$RD/$WD/$TD
 if [ -h "$LINK" ]; then
-   echo "LINK exists."
+   echo "FolderLINK exists."
 else
-   echo "Creating Link"
+   echo "Creating FolderLink"
    ln -s ~/$RD/storage/$xsd/termuxsd ~/$RD/$WD/$TD
 fi
 
-LINKSD=~/$RD/$WD/$xsd
+LINKSD=~/$RD/$WD/extsd
 if [ -h "$LINKSD" ]; then
    echo "LINKSD exists."
 else
-   echo "Creating Link"
+   echo "Creating SdLink"
    ln -s ~/$RD/storage/$xsd ~/$RD/$WD/extsd
 fi
 
