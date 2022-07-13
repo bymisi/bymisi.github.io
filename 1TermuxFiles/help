@@ -8,6 +8,10 @@ ls -hal = list folder content
 cd = go to folder
 chmod +x = executable
 pkill -e -n = kill newest process
+comm -23 file1 file2 > file3 = remove 2 from 1
+comm -12 file1 file2 = check 2 in 1
+uniq file > new file = remove duplicates
+sort file > new file = sorted order
 
 ----------
 edit from console:
@@ -54,6 +58,7 @@ Alt +x hide help
 Alt +n Line Numbers
 Alt +o typed Tabs to spaces
 Alt +m Mouse
+Alt +6 copy line
 Ctrl +k kut line
 Ctrl +u paste
 Ctrl +w Search Forward
@@ -96,7 +101,7 @@ gawk '{print NR, $0}' pkg.txt >numbered.txt
 gawk -i inplace '{print NR, $0}' pkglist.sh ;
 =add numbering to all lines front "
 
-sed '/Ads/,$!d' d3host.txt >myfile.txt ;
+sed '/Ads/,$!d' d3host.txt > myfile.txt ;
 to new file =>
 =Deleted everything before (Ads)"
 
@@ -104,14 +109,29 @@ sed -i 's/0.0.0.0 //g' myfile.txt ;
 to same file =>
 =cleared start of all lines (0.0.0.0.)";
 
+sed -i /0.0.0.0\ /\!s/^/0.0.0.0\ / file.txt
+=add 0.0.0.0 to lines without 
+
 sed -i '/#/d' myfile.txt ;
 =deleted all lines containing #
+
+sed 's/^.//' myfile > newfile 
+=remove leading dots from lines matching
+
+sed 's/^#//' myfile > newfile
+=remove hash from begining of matching lines
+
+sed -i s/[@#%]//g file.txt
+=remove multiple characters from file: #,@,%
 
 sed ':a; N; s/[[:space:]]//g; ta' raw_file.txt
 =remove all whitespaces
 
 sed -i '/^[[:space:]]*$/d' myfile.txt ;
-removed empty lines"
+=removed empty lines"
+
+sed -i '1,14d' file.txt
+=delete first 14 lines
 
 pkg list-installed >pkglist.sh ;
 =create file with istalled app list
@@ -121,6 +141,11 @@ sed -i 's/\/.*//' pkglist.sh ;
 
 sed -i 's/^/;apt satisfy -y /' pkglist.sh ;
 =add to begining of all lines (;apt satisfy -y) "
+sed -i 's/oexpr/nexpr/g' file.txt
+=replace oexpr to nexpr
+
+sed -n '/[102]$/p' 20table.txt
+=search lines ending with 1 or 2 or 0
 
 sed -i 's/^/# ✓ /' pkglist.sh ;
 =add content to begining of all lines (# ✓ )";
