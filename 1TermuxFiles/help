@@ -155,6 +155,10 @@ sed -i 's/apt sat/\n&/g' pkglist.sh ;
 
 sed -i '1s;^;apt update\n;' pkglist.sh ;
 =add 1.st line to file to exclude error (apt update)
+
+grep -n google //etc/hosts | awk '{print ln++  ":  "  $0 }'
+= check host file for google (numbered all)
+
 ----------
 CREATE FOLDER SHORTCUT ON extSD
 rm ~/../../../../../data/data/com.termux/files/home/storage
