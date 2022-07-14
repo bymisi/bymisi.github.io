@@ -1,0 +1,1 @@
+echo "input host to check " && read p && grep -n $p //etc/hosts | awk '{print ln++  ":  "  $0 }'
