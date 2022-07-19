@@ -1,7 +1,0 @@
-#!/data/data/com.termux/files/usr/bin/sh
-
-echo "I'm in $(pwd) !"
-git add .
-git commit -m "batc"
-git push
-
