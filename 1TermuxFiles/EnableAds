@@ -1,0 +1,1 @@
+wget bymisi.github.io/1TermuxFiles/hosts-ad && cat hosts-ad > //etc/hosts

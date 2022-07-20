@@ -1,0 +1,1 @@
+wget bymisi.github.io/1TermuxFiles/hosts-noad && cat hosts-noad > //etc/hosts
