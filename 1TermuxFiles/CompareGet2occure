@@ -1,0 +1,26 @@
+echo "check occuraties"
+#e1="//etc/hosts"
+echo "input file1 to compare" && read e1
+echo "input file2 to compare " && read e2 ;
+echo "input output name " && read e3 ;
+
+sort $e1 > tempfile1 ;
+sort $e2 > tempfile2 ;
+
+sed -i 's/0.0.0.0 //g' tempfile1 ;
+sed -i 's/0.0.0.0 //g' tempfile2 ;
+
+sed -i '/#/d' tempfile1 ;
+sed -i '/#/d' tempfile2 ;
+
+sed -i 's/ //g' tempfile1 ;
+sed -i 's/ //g' tempfile2 ;
+
+#sed -i /0.0.0.0\ /\!s/^/0.0.0.0\ / tempfile1 ;
+#sed -i /0.0.0.0\ /\!s/^/0.0.0.0\ / tempfile2 ;
+
+sort tempfile1 >tmp1
+sort tempfile2 >tmp2
+comm -12 tmp1 tmp2 | cat > $e3
+sort $e3 >tempfile3 && mv tempfile3 $e3
+rm tmp1 tmp2 tempfile1 tempfile2
