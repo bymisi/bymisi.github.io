@@ -11,6 +11,7 @@ cp file`date +%d%b%Y`-file = add date to filename
 rm = delete file
 rm -rf delete folder
 ls -hal = list folder content
+ls|head -n -1 = list all no last
 pwd -L = Logical address 
 pwd -P = Fizical adress
 cd = go to folder
@@ -224,5 +225,17 @@ comm -23 e1 e2
 
 comm -13 e1 e2
 =only in file2
+
+-----------
+Hard rename
+
+ls -h  >../filenamelist && cat ../filenamelist
+=create filenamelist with original names
+
+ls | cat -n | while read n f; do mv "$f" `printf "%04d.xtx" $n`; done
+=rename all files to numbered .xtx files
+
+for file in *.xtx; do read line;  mv -v "${file}" "${line}";  done < ../filenamelist
+=rename all xtx files to content lines of filenamelist
 
 
