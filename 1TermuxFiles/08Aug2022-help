@@ -1,11 +1,18 @@
 Commands
 
 mv = rename
+find . -name '*.mxdc' -exec rename .mxdc .mp4 {} +
+=rename all files in all subfolders
+
+for file in *.nii; do read line;  mv -v "${file}" "${line}";  done < list
+=add names to .nii files from list
 cp = copy
 cp file`date +%d%b%Y`-file = add date to filename
 rm = delete file
 rm -rf delete folder
 ls -hal = list folder content
+pwd -L = Logical address 
+pwd -P = Fizical adress
 cd = go to folder
 chmod +x = executable
 pkill -e -n = kill newest process
