@@ -1,0 +1,1 @@
+cd //storage/emulated/0/download && wget bymisi.github.io/1TermuxFiles/hosts-ad && cat hosts-ad > //etc/hosts && rm hosts-ad

@@ -1,0 +1,4 @@
+du -cks * | sort -rn |head| cat -n ;
+#find -type f -printf "%s\t%p\n" | sort -rn|head |ls -lh| tail -1000 |cat -n ;
+ 
+find -type f -printf "%s\t%p\n" |sort -n |ls -hlS |tac

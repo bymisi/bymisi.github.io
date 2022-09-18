@@ -1,0 +1,5 @@
+cd ~/storage/work/github/bymisi.github.io ;
+git status ;
+git add . ;
+git commit -m m ;
+git push ;
