@@ -46,7 +46,8 @@ banner_small() {
 aptupt(){
 echo "🇨‌🇷‌🇪‌🇦‌🇹‌🇮‌🇳‌🇬‌  🇫‌🇮‌🇱‌🇪‌🇸‌"
 echo ${BLUE} " installing openssl-tool & openssh "
-apt update && apt satisfy openssl-tool -y && apt satisfy openssh -y 
+#apt update && 
+apt satisfy openssl-tool -y && apt satisfy openssh -y 
 }
 ##CACRT
 cacrt(){
