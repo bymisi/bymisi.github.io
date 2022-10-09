@@ -1,0 +1,17 @@
+rm -rf ~/storage/work/github/bymisi.github.io/1TermuxFiles/bin/`date +%d%b%Y` ;
+
+mkdir ~/storage/work/github/bymisi.github.io/1TermuxFiles/bin/`date +%d%b%Y` ;
+
+cp ~/help ~/storage/work/github/bymisi.github.io/1TermuxFiles/bin/`date +%d%b%Y`/`date +%d%b%Y`-HelpFile;
+echo "Help File Backed up" ;
+
+cp ~/../usr/bin/[A-Z]* ~/storage/work/github/bymisi.github.io/1TermuxFiles/bin/`date +%d%b%Y`
+echo "Command files backed up" ;
+
+tar -zcvf `date +%d%b%Y`.tar.gz `date +%d%b%Y`
+echo "Archive creeated"
+sleep 2 && rm -rf ~/storage/work/github/bymisi.g
+   ithub.io/1TermuxFiles/bin/`date +%d%b%Y`
+echo "temp dir cleared"
+GiTbyMiSipushGit ;
+echo "update to git:

@@ -1,0 +1,95 @@
+
+echo "Remove spaces from name --0"
+echo "Remove all special characters from name  --1"
+echo "Replace accentuated letters to eng --2"
+echo "Replace )( snd space to _  --3"
+echo "Replace spaces to _  --4"
+echo "Replace __ to _ . again for ____  --5"
+echo "Make your Choose"
+#read -p "Chose Mxdc format : " usk
+#cd //data/data/com.termux/files/home/9C33-6BBD/other/213/.nomedia
+read usk
+
+if [ $usk -eq 1 ]
+then
+
+for file in *; do mv "$file" $(echo "$file" | sed -e 's/[^A-Za-z0-9._-]/_/g'); done
+
+elif [ $usk -eq 0 ]
+then
+
+for f in *; do mv "$f" `echo $f | tr ' ' '_'`; done
+
+
+elif [ $usk -eq 2 ]
+then
+
+#rm ../nameslist.txt;
+
+ls -h  >../nameslist.txt && cat ../nameslist.txt && sleep 1;
+
+recode -f utf8..flat ../nameslist.txt && cat ../nameslist.txt && sleep 1;
+
+ls | cat -n | while read n f; do mv "$f" `printf "%04d" $n`; done;sleep 1;
+
+for file in *; do read line;  mv -v "${file}" "${line}";  done < ../nameslist.txt
+
+#rm ../nameslist.txt
+
+elif [ $usk -eq 3 ]
+then
+
+for f in *
+do
+  new="${f//[() ]/_}"
+  if [ "$new" != "$f" ]
+  then
+    if [ -e "$new" ]
+    then
+      echo not renaming \""$f"\" because \""$new"\" already exists
+    else
+      echo moving "$f" to "$new"
+    mv "$f" "$new"
+  fi
+fi
+done
+
+elif [ $usk -eq 4 ]
+then 
+for f in *
+do
+  new="${f// /_}"
+  if [ "$new" != "$f" ]
+  then
+    if [ -e "$new" ]
+    then
+      echo not renaming \""$f"\" because \""$new"\" already exists
+    else
+      echo moving "$f" to "$new"
+    mv "$f" "$new"
+  fi
+fi
+done
+
+elif [ $usk -eq 5 ]
+then
+
+for f in *
+do
+  new="${f//__/_}"
+  if [ "$new" != "$f" ]
+  then
+    if [ -e "$new" ]
+    then
+      echo not renaming \""$f"\" because \""$new"\" already exists
+    else
+      echo moving "$f" to "$new"
+    mv "$f" "$new"
+  fi
+fi
+done
+
+else
+    echo "none"
+
+fi
