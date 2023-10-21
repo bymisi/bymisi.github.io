@@ -1,49 +1,43 @@
-# Title: d3Host List by d3ward
-# Expires: 1 days
-# Description: Simple and small list with the most popular advertising, tracking, analytics and social advertising services
-# Homepage: https://github.com/d3ward/toolz
-# License: CC BY-NC-SA
-# Source: https://github.com/d3ward/toolz/blob/master/src/d3host.txt
-# This list cover all the tests on https://d3ward.github.io/toolz/adblock
-# Type : Stable
-# Entries : 137
-# Updated On: 12/3/2023
-# Created by: d3ward
-#============ Ads =============
-# --- Amazon
+127.0.0.1 local
+127.0.0.1 localhost
+127.0.0.1 localhost.localdomain
+255.255.255.255 broadcasthost
+::1 ip6-localhost
+::1 ip6-loopback
+::1 localhost
+fe80::1%lo0 localhost
+ff00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+0.0.0.0 0.0.0.0
 0.0.0.0 adtago.s3.amazonaws.com
 0.0.0.0 analyticsengine.s3.amazonaws.com
 0.0.0.0 analytics.s3.amazonaws.com
 0.0.0.0 advice-ads.s3.amazonaws.com
 0.0.0.0 advertising-api-eu.amazon.com
-# --- Google Ads
 0.0.0.0 pagead2.googlesyndication.com
 0.0.0.0 adservice.google.com
 0.0.0.0 pagead2.googleadservices.com
 0.0.0.0 afs.googlesyndication.com
-# --- Doubleclick.net
 0.0.0.0 stats.g.doubleclick.net
 0.0.0.0 ad.doubleclick.net
 0.0.0.0 static.doubleclick.net
 0.0.0.0 m.doubleclick.net
 0.0.0.0 mediavisor.doubleclick.net
-# --- Adcolony
 0.0.0.0 ads30.adcolony.com
 0.0.0.0 adc3-launch.adcolony.com
 0.0.0.0 events3alt.adcolony.com
 0.0.0.0 wd.adcolony.com
-# --- Media.net
 0.0.0.0 static.media.net
 0.0.0.0 media.net
 0.0.0.0 adservetx.media.net
-#========= Analytics ==========
-# --- Google Analytics
 0.0.0.0 app-measurement.com
 0.0.0.0 analytics.google.com
 0.0.0.0 click.googleanalytics.com
 0.0.0.0 google-analytics.com
 0.0.0.0 ssl.google-analytics.com
-# --- Hotjar
 0.0.0.0 adm.hotjar.com
 0.0.0.0 identify.hotjar.com
 0.0.0.0 insights.hotjar.com
@@ -51,16 +45,13 @@
 0.0.0.0 surveys.hotjar.com
 0.0.0.0 careers.hotjar.com
 0.0.0.0 events.hotjar.io
-# --- MouseFlow
 0.0.0.0 mouseflow.com
 0.0.0.0 api.mouseflow.com
 0.0.0.0 tools.mouseflow.com
 0.0.0.0 cdn-test.mouseflow.com
-# --- FreshWorks
 0.0.0.0 freshmarketer.com
 0.0.0.0 claritybt.freshmarketer.com
 0.0.0.0 fwtracks.freshmarketer.com
-# --- Luckyorange
 0.0.0.0 luckyorange.com
 0.0.0.0 api.luckyorange.com
 0.0.0.0 realtime.luckyorange.com
@@ -69,39 +60,27 @@
 0.0.0.0 upload.luckyorange.net
 0.0.0.0 cs.luckyorange.net
 0.0.0.0 settings.luckyorange.net
-# --- Stats WP Plugin
 0.0.0.0 stats.wp.com
-#======= Error Trackers =======
-# --- Bugsnag
 0.0.0.0 notify.bugsnag.com
 0.0.0.0 sessions.bugsnag.com
 0.0.0.0 api.bugsnag.com
 0.0.0.0 app.bugsnag.com
-# --- Sentry
 0.0.0.0 browser.sentry-cdn.com
 0.0.0.0 app.getsentry.com
-#====== Social Trackers =======
-# --- Facebook
 0.0.0.0 pixel.facebook.com
 0.0.0.0 an.facebook.com
-# --- Twitter
 0.0.0.0 static.ads-twitter.com
 0.0.0.0 ads-api.twitter.com
-# --- LinkedIn
 0.0.0.0 ads.linkedin.com
 0.0.0.0 analytics.pointdrive.linkedin.com
-# --- Pinterest
 0.0.0.0 ads.pinterest.com
 0.0.0.0 log.pinterest.com
 0.0.0.0 analytics.pinterest.com
 0.0.0.0 trk.pinterest.com
 0.0.0.0 widgets.pinterest.com
-# --- Reddit
 0.0.0.0 events.reddit.com
 0.0.0.0 events.redditmedia.com
-# --- YouTube
 0.0.0.0 ads.youtube.com
-# --- TikTok
 0.0.0.0 ads-api.tiktok.com
 0.0.0.0 analytics.tiktok.com
 0.0.0.0 ads-sg.tiktok.com
@@ -109,8 +88,6 @@
 0.0.0.0 business-api.tiktok.com
 0.0.0.0 ads.tiktok.com
 0.0.0.0 log.byteoversea.com
-#============ Mix =============
-# --- Yahoo
 0.0.0.0 ads.yahoo.com
 0.0.0.0 analytics.yahoo.com
 0.0.0.0 geo.yahoo.com
@@ -122,7 +99,6 @@
 0.0.0.0 log.fc.yahoo.com
 0.0.0.0 gemini.yahoo.com
 0.0.0.0 adtech.yahooinc.com
-# --- Yandex
 0.0.0.0 extmaps-api.yandex.net
 0.0.0.0 appmetrica.yandex.ru
 0.0.0.0 adfstat.yandex.ru
@@ -130,18 +106,14 @@
 0.0.0.0 advertising.yandex.ru
 0.0.0.0 offerwall.yandex.net
 0.0.0.0 adfox.yandex.ru
-# --- Unity
 0.0.0.0 auction.unityads.unity3d.com
 0.0.0.0 webview.unityads.unity3d.com
 0.0.0.0 config.unityads.unity3d.com
 0.0.0.0 adserver.unityads.unity3d.com
-#============ OEMs ============
-# --- Realme
 0.0.0.0 iot-eu-logser.realme.com
 0.0.0.0 iot-logser.realme.com
 0.0.0.0 bdapi-ads.realmemobile.com
 0.0.0.0 bdapi-in-ads.realmemobile.com
-# --- Xiaomi
 0.0.0.0 api.ad.xiaomi.com
 0.0.0.0 data.mistat.xiaomi.com
 0.0.0.0 data.mistat.india.xiaomi.com
@@ -150,28 +122,23 @@
 0.0.0.0 sdkconfig.ad.intl.xiaomi.com
 0.0.0.0 globalapi.ad.xiaomi.com
 0.0.0.0 tracking.rus.miui.com
-# --- Oppo
 0.0.0.0 adsfs.oppomobile.com
 0.0.0.0 adx.ads.oppomobile.com
 0.0.0.0 ck.ads.oppomobile.com
 0.0.0.0 data.ads.oppomobile.com
-# --- Huawei
 0.0.0.0 metrics.data.hicloud.com
 0.0.0.0 metrics2.data.hicloud.com
 0.0.0.0 grs.hicloud.com
 0.0.0.0 logservice.hicloud.com
 0.0.0.0 logservice1.hicloud.com
 0.0.0.0 logbak.hicloud.com
-# --- OnePlus
 0.0.0.0 click.oneplus.cn
 0.0.0.0 open.oneplus.net
-# --- Samsung
 0.0.0.0 samsungads.com
 0.0.0.0 smetrics.samsung.com
 0.0.0.0 nmetrics.samsung.com
 0.0.0.0 samsung-com.112.2o7.net
 0.0.0.0 analytics-api.samsunghealthcn.com
-# --- Apple
 0.0.0.0 advertising.apple.com
 0.0.0.0 tr.iadsdk.apple.com
 0.0.0.0 iadsdk.apple.com
@@ -182,9 +149,6 @@
 0.0.0.0 books-analytics-events.apple.com
 0.0.0.0 weather-analytics-events.apple.com
 0.0.0.0 notes-analytics-events.apple.com
-#=====================================
-# Title: Hosts contributed by Steven Black
-# http://stevenblack.com
 0.0.0.0 ck.getcookiestxt.com
 0.0.0.0 eu1.clevertap-prod.com
 0.0.0.0 wizhumpgyros.com
@@ -1785,7 +1749,6 @@
 0.0.0.0 zvatrswtsrw.ml
 0.0.0.0 alibaba.zzux.com
 0.0.0.0 browserservice.zzux.com
-# Added January 23, 2021
 0.0.0.0 www.skinstrip.net
 0.0.0.0 creative.skinstrip.net
 0.0.0.0 go.alxbgo.com
@@ -1868,7 +1831,6 @@
 0.0.0.0 www.livejasmine.us
 0.0.0.0 www.mylivejasmin.org
 0.0.0.0 www.new.livejasmin.com
-# Added January 27, 2021
 0.0.0.0 ads.adviad.com
 0.0.0.0 ads2.adviad.com
 0.0.0.0 ads3.adviad.com
@@ -1882,14 +1844,11 @@
 0.0.0.0 ssp.adviad.com
 0.0.0.0 report.adviad.com
 0.0.0.0 cdnuz.adviad.com
-# Added February 5, 2021
 0.0.0.0 viglink.com
 0.0.0.0 live.rezync.com
 0.0.0.0 netc.sfr.fr
 0.0.0.0 tag.clrstm.com
-# Added February 9, 2021
 0.0.0.0 vkcache.com
-# Added February 26, 2021
 0.0.0.0 b174.s240.meetrics.net
 0.0.0.0 b95.s79.research.de.com
 0.0.0.0 bid.sxp.smartclip.net
@@ -1906,14 +1865,11 @@
 0.0.0.0 s79.mxcdn.net
 0.0.0.0 www.lacmp.net
 0.0.0.0 zipservice.adalliance.io
-# Added February 28, 2021
 0.0.0.0 github.com.cnpmjs.org
-# Added March 15, 2021
 0.0.0.0 facilitategovernor.com
 0.0.0.0 mvideo.facilitategovernor.com
 0.0.0.0 ns1.facilitategovernor.com
 0.0.0.0 www.facilitategovernor.com
-# Added April 2, 2021
 0.0.0.0 p.vtracy.de
 0.0.0.0 www.asadcdn.com
 0.0.0.0 adstax-cdn.adrtx.net
@@ -1945,14 +1901,10 @@
 0.0.0.0 traffic.emsservice.de
 0.0.0.0 static.emsservice.de
 0.0.0.0 te.technical-service.net
-# Added April 29, 2021
 0.0.0.0 news.thaprior.net
 0.0.0.0 blog.eduelects.com
 0.0.0.0 cdn.mirror-codes.net
 0.0.0.0 status.sublineover.net
-# Added May 4, 2021
-0.0.0.0 docs.pipenv.org # https://github.com/StevenBlack/hosts/issues/1635
-# Added May 10, 2021  See discussion in Issue https://github.com/StevenBlack/hosts/pull/1643
 0.0.0.0 a9v8.cn
 0.0.0.0 config.unityads.unitychina.cn
 0.0.0.0 cu-cn-north00001.gala.convection.cn
@@ -1968,19 +1920,10 @@
 0.0.0.0 rp.hpplay.cn
 0.0.0.0 safeurl.maxthon.cn
 0.0.0.0 ssdkauth.hpplay.cn
-# Added May 12, 2021
 0.0.0.0 urgente.eu
-# Added May 22, 2021
 0.0.0.0 localbestdating1.com
 0.0.0.0 sylviagreen.club
-0.0.0.0 xvtelink.com # ads with redirects
-0.0.0.0 invol.co # tracking
-0.0.0.0 36c4.net # redirect to go.trafficrouter.io
 0.0.0.0 go.trafficrouter.io
-0.0.0.0 track.venatusmedia.com # tracking
-0.0.0.0 amptrack.dailymail.co.uk # tracking
-0.0.0.0 mailmetromedia.amp.permutive.com #ad
-# Added May 31, 2021
 0.0.0.0 mc.speakol.com
 0.0.0.0 rd.speakol.com
 0.0.0.0 inline.speakol.com
@@ -1992,7 +1935,6 @@
 0.0.0.0 plugins.speakol.com
 0.0.0.0 publishers.speakol.com
 0.0.0.0 dev.publishers.speakol.com
-# Added June 16, 2021
 0.0.0.0 www.gmial.com
 0.0.0.0 gmial.com
 0.0.0.0 assets.vlitag.com
@@ -2001,7 +1943,6 @@
 0.0.0.0 static.vliplatform.com
 0.0.0.0 c.hrzn-nxt.com
 0.0.0.0 s.clcktrax.com
-# Added June 17, 2021
 0.0.0.0 ssl.googleanalytics.com
 0.0.0.0 click.googleanalytics.com
 0.0.0.0 alt2.googleanalytics.com
@@ -2010,15 +1951,10 @@
 0.0.0.0 admobclick.com
 0.0.0.0 www.admobclick.com
 0.0.0.0 pixel.admobclick.com
-# Added June 22, 2021
 0.0.0.0 coinjoin.io
-# Added June 27, 2021
 0.0.0.0 dealabs.digidip.net
-# Added June 28, 2021
 0.0.0.0 whynotwin11.com
 0.0.0.0 www.whynotwin11.com
-# Added June 30, 2021
-# Chase Bank Scam. See #1699
 0.0.0.0 www.secure-verify-info.ddns.info
 0.0.0.0 secure-verify-info.ddns.info
 0.0.0.0 www.secure-verify-account.ddns.info
@@ -2045,13 +1981,11 @@
 0.0.0.0 security-update.qhigh.com
 0.0.0.0 www.seure-update.fartit.com
 0.0.0.0 seure-update.fartit.com
-# Added July 29, 2021 See https://github.com/StevenBlack/hosts/issues/1721
 0.0.0.0 www.updatecatalogs.com
 0.0.0.0 microsoft.updatecatalogs.com
 0.0.0.0 webmail.mmtimes.net
 0.0.0.0 myanmar.flymna.net
 0.0.0.0 new.mmtimes.org
-# Added August 2, 2021 See https://github.com/StevenBlack/hosts/issues/1722
 0.0.0.0 ackng.com
 0.0.0.0 bb3u9.com
 0.0.0.0 ttr3p.com
@@ -2068,29 +2002,19 @@
 0.0.0.0 zer9g.com
 0.0.0.0 b69kq.com
 0.0.0.0 down.sqlnetcat.com
-# Added August 8, 2021 see https://github.com/StevenBlack/hosts/issues/1725
 0.0.0.0 gjapplog.ucweb.com
 0.0.0.0 logssug.ucweb.com
 0.0.0.0 attr.union.ucweb.com
-# Added August 11, 2021
 0.0.0.0 www.luckycrush.live
-# Added September 17, 2021
 0.0.0.0 mmsotk.com
-# Added September 24, 2021 see https://github.com/StevenBlack/hosts/issues/1764
 0.0.0.0 discord-app.net
-# Added October 2, 2021 see https://github.com/StevenBlack/hosts/issues/1770
 0.0.0.0 sk.mplmnt.io
-# Added October 17, 2021 see https://github.com/StevenBlack/hosts/issues/1752
 0.0.0.0 org-upgrade.com
 0.0.0.0 www.org-upgrade.com
-# Added October 19, 2021
 0.0.0.0 www.abc.co.bz
-# Added October 24, 2021 See https://github.com/StevenBlack/hosts/issues/1789
 0.0.0.0 xfnl-spspostit-online.preview-domain.com
 0.0.0.0 ibancalculator-com.preview-domain.com
-# added November 29, 2021
 0.0.0.0 hiperdex.com
-# added December 13, 2021 See https://github.com/StevenBlack/hosts/issues/1832
 0.0.0.0 cloudshare.nocoshop.ru
 0.0.0.0 easyfiles.nocoshop.ru
 0.0.0.0 filedrive.nocoshop.ru
@@ -2139,10 +2063,8 @@
 0.0.0.0 samuel-beckett.site
 0.0.0.0 tahmil-kutib-pdf.info
 0.0.0.0 uberupload.online
-# Added December 25, 2021 see https://github.com/StevenBlack/hosts/issues/1840
 0.0.0.0 pokemoney.biz
 0.0.0.0 pokemoney.shop
-# added December 30, 2021 see https://github.com/StevenBlack/hosts/issues/1849
 0.0.0.0 1.220.c752sa3k9oeb2eg2ehpgc8fnhkeyyyyyn.domsearch.net
 0.0.0.0 1.c752sa3k9oeb2eg2ehpgc8fnhkeyyyyyn.domsearch.net
 0.0.0.0 10.c752sa3k9oeb2eg2ehpgc8fnhkeyyyyyn.domsearch.net
@@ -2324,63 +2246,43 @@
 0.0.0.0 vor.ngo
 0.0.0.0 vor.ong
 0.0.0.0 www.domsearch.net
-# Added December 31, 2021
 0.0.0.0 xxsweety.com
 0.0.0.0 manualdrain.com
-# Added January 2, 2022
 0.0.0.0 mypornsnap.top
-# Added January 11, 2022
 0.0.0.0 asecv.xyz
-# Added January 12, 2022
 0.0.0.0 loopybatl.site
 0.0.0.0 technoob.info
 0.0.0.0 thefappeningpics.com
 0.0.0.0 hotzxgirl.com
-# Added January 13, 2022
 0.0.0.0 roksa.sx
-# Added January 30, 2022
 0.0.0.0 waaw.to
-# Added February 5, 2022
 0.0.0.0 zmyslowyklub.com
 0.0.0.0 flndmyiove.com
-# Added February 17, 2022
 0.0.0.0 yourbestwoman.life
-# Added February 28, 2022
 0.0.0.0 sweetchicks.net
 0.0.0.0 rbgbq.sweetchicks.net
 0.0.0.0 fuckmebook.com
-# Added May 20, 2022
 0.0.0.0 tracking.overwolf.com
 0.0.0.0 analyticsnew.overwolf.com
 0.0.0.0 raf.overwolf.com
-# Added June 21, 2022
 0.0.0.0 speeddials.opera.com
 0.0.0.0 merchandise.opera-api.com
-# added June 25, 2022
 0.0.0.0 analytics.binaryfortress.com
-# added July 10, 2022
 0.0.0.0 seductivegirls.cyou
 0.0.0.0 amusingdates.net
 0.0.0.0 honey-date4u.life
-# Added August 9, 2022
 0.0.0.0 shopsplumbing.com
-# Added August 12, 2022
 0.0.0.0 nl-crypto.com
 0.0.0.0 evri-package-gb.web.app
-# Added August 13, 2022
 0.0.0.0 telemetry.acronis.com
-# Added August 17, 2022
 0.0.0.0 mlbcash.com
 0.0.0.0 easy-extra-income-ways-makes-you-rich.store
 0.0.0.0 www.easy-extra-income-ways-makes-you-rich.store
-# Added August 20, 2022
 0.0.0.0 arizona-golf-vacations.com
-# Added August 25, 2022
 0.0.0.0 prd-lender.cdp.internal.unity3d.com
 0.0.0.0 config.uca.cloud.unity3d.com
 0.0.0.0 didna-d.openx.net
 0.0.0.0 c2shb.ssp.yahoo.com
-# Added August 26, 2022
 0.0.0.0 anmooq.deiicatedate.net
 0.0.0.0 www.pornsite123.com
 0.0.0.0 pornsite123.com
@@ -2388,50 +2290,36 @@
 0.0.0.0 xxxbullet.com
 0.0.0.0 www.packsdechicas.online
 0.0.0.0 packsdechicas.online
-# Added August 27, 2022
 0.0.0.0 ip-info.ff.avast.com
 0.0.0.0 ipm-provider.ff.avast.com
 0.0.0.0 ipmcdn.avast.com
 0.0.0.0 ncc.avast.com
 0.0.0.0 shepherd.ff.avast.com
 0.0.0.0 clicktut.site
-# Added Auguest 30, 2022
 0.0.0.0 secureaddisplay.com
 0.0.0.0 wiztube.xyz
-# Added September 2, 2022
 0.0.0.0 yourgodess.com
 0.0.0.0 www.quinni.cyou
 0.0.0.0 quinni.cyou
 0.0.0.0 www.alenai.cyou
 0.0.0.0 alenai.cyou
-# Added September 5, 2022
 0.0.0.0 telewizja-online.net
 0.0.0.0 bramka.org
 0.0.0.0 ustreamix.su
 0.0.0.0 inatv.pl
-# Added September 7, 2022
 0.0.0.0 tracking.minitool.com
-# Added September 9, 2022
 0.0.0.0 pasiekazlotoklos.pl
-# Added September 12, 2022
 0.0.0.0 eu-commercialb.com
-# Added September 29, 2022
 0.0.0.0 gratlfyingdates.net
 0.0.0.0 www.gratlfyingdates.net
-# Added October 15, 2022
 0.0.0.0 filmsexeporno.com
-# Added October 24, 2022
 0.0.0.0 supdqwepu.com
 0.0.0.0 vawardquac.com
 0.0.0.0 lemmingro.com
-# Added October 27, 2022
 0.0.0.0 flashrewards.co
-# Added November 13, 2022
 0.0.0.0 info-eastflirts.com
 0.0.0.0 www.info-eastflirts.com
-# Added November 20, 2022
 0.0.0.0 reporting-api.gannettinnovation.com
-# Added November 26, 2022
 0.0.0.0 1041598d1a.da1a0e7bb3.com
 0.0.0.0 12112336.pix-cdn.org
 0.0.0.0 1d3c8a1eaa.faeaeeaafa.com
@@ -2472,9 +2360,7 @@
 0.0.0.0 www.gaming-adult.com
 0.0.0.0 mediasama.com
 0.0.0.0 danbo.org
-# Added November 27, 2022
 0.0.0.0 crmt.livejasmin.com
-# Added December 4, 2022. Malware domains using TXT record to transfer powershell scripts.
 0.0.0.0 wmail-endpoint.com
 0.0.0.0 wmail-blog.com
 0.0.0.0 wmail-chat.com
@@ -2525,7 +2411,6 @@
 0.0.0.0 ahoravideo-chat.xyz
 0.0.0.0 ahoravideo-cdn.xyz
 0.0.0.0 ahoravideo-schnellvpn.xyz
-# Added December 4, 2022
 0.0.0.0 cesareurope.com
 0.0.0.0 cws-hotstar.conviva.com
 0.0.0.0 events-analytics.hotstar.com
@@ -2534,10 +2419,8 @@
 0.0.0.0 settings-analytics.hotstar.com
 0.0.0.0 videoads.hotstar.com
 0.0.0.0 vs.hotstar.com
-# Added December 11, 2022
 0.0.0.0 analytics.shein.com
 0.0.0.0 analytics.shein.co.uk
-# Added December 29, 2022
 0.0.0.0 8a97175fd63e1d3a69f36979b9b34470.safeframe.googlesyndication.com
 0.0.0.0 c2shb.pubgw.yahoo.com
 0.0.0.0 cdn.confiant-integrations.net
@@ -2550,22 +2433,18 @@
 0.0.0.0 freestar-io.videoplayerhub.com
 0.0.0.0 oa.openxcdn.net
 0.0.0.0 s2s.t13.io
-# Added January 11, 2023
 0.0.0.0 btc8886.com
 0.0.0.0 en.xachinaproject.fun
-# Added January 12, 2023
 0.0.0.0 antihohol.cloud
 0.0.0.0 hosteagle.club
 0.0.0.0 anz-shield-secure.com
 0.0.0.0 alert-bendigobank.com
 0.0.0.0 linkt-transport.top
 0.0.0.0 linkt-help.top
-# Added January 13, 2023
 0.0.0.0 reviewmygov.tuquy.com
 0.0.0.0 auspost-record.com
 0.0.0.0 alert-auspost.com
 0.0.0.0 auspost-input.com
-# Added January 22, 2023
 0.0.0.0 vep.hautnah-kosmetik-grafenau.de
 0.0.0.0 ttri.kanzlei-ecklmaier.de
 0.0.0.0 d-stuff.cfd
@@ -2581,11 +2460,9 @@
 0.0.0.0 tyty.lolokira.lol
 0.0.0.0 yord.serawent-pole.lol
 0.0.0.0 redivosrl.it
-# Added January 23, 2023
 0.0.0.0 products.gobankingrates.com
 0.0.0.0 cdn.rates.consumertrack.com
 0.0.0.0 ads-api.twitter.com
-# Added February 7, 2023
 0.0.0.0 aax-dtb-cf.amazon-adsystem.com
 0.0.0.0 assets-jpcust.jwpsrv.com
 0.0.0.0 fundingchoicesmessages.google.com
@@ -2594,46 +2471,33 @@
 0.0.0.0 secure.cdn.fastclick.ne
 0.0.0.0 twngcpbidder.lb.engagecore.com
 0.0.0.0 assets-jpcust.jwpsrv.com
-# Added March 7, 2023
 0.0.0.0 a125375509.cdn.optimizely.com
 0.0.0.0 cdn.cookielaw.org
 0.0.0.0 cdn.indexww.com
-# Added March 25, 2023
 0.0.0.0 wpad.www.tendawifi.com
 0.0.0.0 crprt.livejasmin.com
-# Added March 28, 2023
 0.0.0.0 grow.gab.com
-# Added April 3, 2023
 0.0.0.0 transive.top
 0.0.0.0 warehousesale.shop
-# Added April 4, 2023
 0.0.0.0 fpjscdn.net
 0.0.0.0 api.fpjs.io
 0.0.0.0 use1.fptls.com
 0.0.0.0 use1.fptls3.com
-# Added April 7, 2023
 0.0.0.0 d2uap9jskdzp2.cloudfront.net
 0.0.0.0 steadfastseat.com
 0.0.0.0 eq97f.publishers.tremorhub.com
-# Added April 13, 2023
 0.0.0.0 wota-tournament.com
-# Added April 19, 2023
 0.0.0.0 rukalebi.ru
 0.0.0.0 bueromoebelservice.com
-# Added April 21, 2023
 0.0.0.0 beautydates.cn
 0.0.0.0 www.beautydates.cn
 0.0.0.0 hhoneyann96.beautydates.cn
 0.0.0.0 nilaima.com
 0.0.0.0 www.nilaima.com
-# Added April 27, 2023
 0.0.0.0 www.gameitlive.com
 0.0.0.0 gameitlive.com
-# Added April 28, 2023
 0.0.0.0 stripchat.com
-# Added April 29, 2023
 0.0.0.0 crmpt.livejasmin.com
-# Added May 2, 2023
 0.0.0.0 claudfront.net
 0.0.0.0 allowlisted.net
 0.0.0.0 atlas-upd.com
@@ -2641,16 +2505,12 @@
 0.0.0.0 cbox4.ignorelist.com
 0.0.0.0 hsdps.cc
 0.0.0.0 api.sprig.com
-# Added May 15, 2023
 0.0.0.0 telemetry-cii.api.playstation.com
-# Added May 19, 2023
 0.0.0.0 clorec4.net
 0.0.0.0 wu.idismfonts.com
 0.0.0.0 xml-eu.flairadscpc.com
-# Added May 30, 2023
 0.0.0.0 serasearchtop.com
 0.0.0.0 track.atom-ds.com
-# Added June 3, 2023
 0.0.0.0 addatamarket.net
 0.0.0.0 backuprabbit.com
 0.0.0.0 businessvideonews.com
@@ -2668,32 +2528,25 @@
 0.0.0.0 ans7tv.net
 0.0.0.0 123-vendasvoos25.lovestoblog.com
 0.0.0.0 c-123milhas.shop
-# Added June 13, 2023
 0.0.0.0 assistant-chronopost.com
 0.0.0.0 zhihu-web-analytics.zhihu.com
-# Added July 4, 2023
 0.0.0.0 stmicroelectronics.d3.sc.omtrdc.net
 0.0.0.0 giyhub.com
 0.0.0.0 d2wzkjnj9pfptq.cloudfront.net
 0.0.0.0 storiesnexus.com
 0.0.0.0 rumadel.com
-# Added August 8, 2023
 0.0.0.0 ms4.applvn.com
 0.0.0.0 adsninjacdn.b-cdn.net
 0.0.0.0 cdn.adsninja.ca
 0.0.0.0 nom.telemetrydeck.com
 0.0.0.0 api.ibeat-analytics.com
 0.0.0.0 mads.amazon.com
-# Add August 9, 2023
 0.0.0.0 s2.bl-1.com
-# Added August 10, 2023
 0.0.0.0 w61.1piecemanga.com
 0.0.0.0 fbet.com
 0.0.0.0 stemboastfulrattle.com
 0.0.0.0 onwardrespirationcommandment.com
-# Added October 13, 2023
 0.0.0.0 s.dmmew.com
-# --- byMiSi
 0.0.0.0 cdn.mouseflow.com
 0.0.0.0 o2.mouseflow.com
 0.0.0.0 hu.adocean.pl
