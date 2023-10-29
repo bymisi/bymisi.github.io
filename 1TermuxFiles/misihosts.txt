@@ -8,3 +8,7 @@
 0.0.0.0 gtm.mouseflow.com
 0.0.0.0 adclick.g.doubleclick.net
 0.0.0.0 gemius.pl
+0.0.0.0 go.eu.bbelements.com
+0.0.0.0 googleads.g.doubleclick.net
+0.0.0.0 gemadhu.hit.gemius.pl
+0.0.0.0 indexadhu.hit.gemius.pl
