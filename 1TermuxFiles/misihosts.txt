@@ -12,3 +12,4 @@
 0.0.0.0 googleads.g.doubleclick.net
 0.0.0.0 gemadhu.hit.gemius.pl
 0.0.0.0 indexadhu.hit.gemius.pl
+0.0.0.0 hugde.adocean.pl
