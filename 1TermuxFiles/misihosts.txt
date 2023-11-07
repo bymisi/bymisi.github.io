@@ -13,3 +13,4 @@
 0.0.0.0 gemadhu.hit.gemius.pl
 0.0.0.0 indexadhu.hit.gemius.pl
 0.0.0.0 hugde.adocean.pl
+0.0.0.0 cat.fr3.eu.criteo.com
