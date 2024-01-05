@@ -17,3 +17,4 @@
 0.0.0.0 s8t.teads.tv
 0.0.0.0 dantumadeal.frl
 0.0.0.0 gtm.mouseflow.com
+0.0.0.0 gtm.mouseflow.com
