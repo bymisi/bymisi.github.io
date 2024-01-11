@@ -202,10 +202,8 @@ ff02::3 ip6-allhosts
 0.0.0.0 go.ad1data.com
 0.0.0.0 metrics.adage.com
 0.0.0.0 adaptivecss.org
-0.0.0.0 ads30.adcolony.com
 0.0.0.0 androidads23.adcolony.com
 0.0.0.0 events3.adcolony.com
-0.0.0.0 events3alt.adcolony.com
 0.0.0.0 sdk.adincube.com
 0.0.0.0 app.adjust.com
 0.0.0.0 cdn.admitad-connect.com
@@ -1402,7 +1400,6 @@ ff02::3 ip6-allhosts
 0.0.0.0 asq.r77vh0.pw
 0.0.0.0 rc-room.com
 0.0.0.0 pixel.realclever.com
-0.0.0.0 events.redditmedia.com
 0.0.0.0 www.redshell.io
 0.0.0.0 remove-ads.xyz
 0.0.0.0 renovatesystem.com
@@ -1678,24 +1675,19 @@ ff02::3 ip6-allhosts
 0.0.0.0 wzrkt.com
 0.0.0.0 eu1-spiky.wzrkt.com
 0.0.0.0 cl-ad.x-flow.app
-0.0.0.0 api.ad.xiaomi.com
 0.0.0.0 cdn.ad.xiaomi.com
 0.0.0.0 e.ad.xiaomi.com
 0.0.0.0 test.e.ad.xiaomi.com
-0.0.0.0 globalapi.ad.xiaomi.com
-0.0.0.0 sdkconfig.ad.xiaomi.com
 0.0.0.0 test.ad.xiaomi.com
 0.0.0.0 zeus.ad.xiaomi.com
 0.0.0.0 sgp.o2o.api.xiaomi.com
 0.0.0.0 api.d.xiaomi.com
 0.0.0.0 api.ad.intl.xiaomi.com
-0.0.0.0 sdkconfig.ad.intl.xiaomi.com
 0.0.0.0 data.mistat.intl.xiaomi.com
 0.0.0.0 storeconfig.mistat.intl.xiaomi.com
 0.0.0.0 cc.sys.intl.xiaomi.com
 0.0.0.0 ccc.sys.intl.xiaomi.com
 0.0.0.0 abtest.mistat.xiaomi.com
-0.0.0.0 data.mistat.xiaomi.com
 0.0.0.0 a.stat.xiaomi.com
 0.0.0.0 analytics.xl.pt
 0.0.0.0 xm0siulufost.com
@@ -1944,7 +1936,6 @@ ff02::3 ip6-allhosts
 0.0.0.0 c.hrzn-nxt.com
 0.0.0.0 s.clcktrax.com
 0.0.0.0 ssl.googleanalytics.com
-0.0.0.0 click.googleanalytics.com
 0.0.0.0 alt2.googleanalytics.com
 0.0.0.0 alt4.googleanalytics.com
 0.0.0.0 sandbox.googleanalytics.com
@@ -2462,7 +2453,6 @@ ff02::3 ip6-allhosts
 0.0.0.0 redivosrl.it
 0.0.0.0 products.gobankingrates.com
 0.0.0.0 cdn.rates.consumertrack.com
-0.0.0.0 ads-api.twitter.com
 0.0.0.0 aax-dtb-cf.amazon-adsystem.com
 0.0.0.0 assets-jpcust.jwpsrv.com
 0.0.0.0 fundingchoicesmessages.google.com
@@ -2470,7 +2460,6 @@ ff02::3 ip6-allhosts
 0.0.0.0 prod.us-east-1.cxm-bcn.publisher-services.amazon.dev
 0.0.0.0 secure.cdn.fastclick.ne
 0.0.0.0 twngcpbidder.lb.engagecore.com
-0.0.0.0 assets-jpcust.jwpsrv.com
 0.0.0.0 a125375509.cdn.optimizely.com
 0.0.0.0 cdn.cookielaw.org
 0.0.0.0 cdn.indexww.com
