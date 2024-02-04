@@ -18,3 +18,4 @@
 0.0.0.0 dantumadeal.frl
 0.0.0.0 gtm.mouseflow.com
 0.0.0.0 gtm.mouseflow.com
+0.0.0.0 hu.search.etargetnet.com
