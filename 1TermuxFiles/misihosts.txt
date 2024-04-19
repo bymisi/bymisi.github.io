@@ -19,3 +19,7 @@
 0.0.0.0 gtm.mouseflow.com
 0.0.0.0 gtm.mouseflow.com
 0.0.0.0 hu.search.etargetnet.com
+0.0.0.0 gahu.hit.gemius.pl
+0.0.0.0 ls.hit.gemius.pl
+0.0.0.0 rolhit.com
+0.0.0.0 ex-euw-ice.360yield-basic.com
