@@ -1,16 +1,20 @@
-function showError(error) {
-  switch(error.code) {
-    case error.PERMISSION_DENIED:
-      x.innerHTML = "User denied the request for Geolocation."
-      break;
-    case error.POSITION_UNAVAILABLE:
-      x.innerHTML = "Location information is unavailable."
-      break;
-    case error.TIMEOUT:
-      x.innerHTML = "The request to get user location timed out."
-      break;
-    case error.UNKNOWN_ERROR:
-      x.innerHTML = "An unknown error occurred."
-      break;
+<div id="GeoAPI"></div>
+<script language="Javascript">
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+  doStuff(position.coords.latitude, position.coords.longitude);
+  });
+}
+else {
+  if (document.getElementById("GeoAPI")) {
+    document.getElementById("GeoAPI").innerHTML = "I'm sorry but geolocation services are not supported by your browser";
+    document.getElementById("GeoAPI").style.color = "#FF0000";
   }
 }
+ 
+function doStuff(mylat, mylong) {
+  if (document.getElementById("GeoAPI")) {
+    document.getElementById("GeoAPI").innerHTML = "<iframe style=\"width: 400px; height: 400px\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\" src=\"//maps.google.com/?ll=" + mylat + "," + mylong + "&z=16&output=embed\"></iframe>";
+  }
+}
+</script>
