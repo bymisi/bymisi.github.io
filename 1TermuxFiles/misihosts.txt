@@ -28,3 +28,7 @@
 0.0.0.0 indexhu.adocean.pl
 0.0.0.0 gahu.hit.gemius.pl
 0.0.0.0 ls.hit.gemius.pl
+0.0.0.0 pro.hit.gemius.pl
+0.0.0.0 cfusion-internet.com
+0.0.0.0 huiwiw.hit.gemius.pl
+0.0.0.0 s.orbsrv.com
