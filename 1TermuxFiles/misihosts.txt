@@ -121,3 +121,6 @@
 0.0.0.0 uie.data.cbc.ca
 0.0.0.0 w3-reporting.reddit.com
 0.0.0.0 ak.sail-horizon.com
+0.0.0.0 9999999999hrhrhrhrhheheheheheh.hdhhdhheh.dhh
+0.0.0.0 1234.1234
+0.0.0.0 ururehheheeh.ndjdjdjd
