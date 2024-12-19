@@ -122,3 +122,11 @@
 0.0.0.0 ak.sail-horizon.com
 0.0.0.0 update.apkmody.com
 0.0.0.0 productserver.api.sygic.com
+0.0.0.0 clk.tradedoubler.com
+0.0.0.0 mc.webvisor.org
+0.0.0.0 tnc16-useast1a.isnssdk.com
+0.0.0.0 tnc16-alisg.isnssdk.com
+0.0.0.0 api16-access-sg.pangle.io
+0.0.0.0 lg.provenpixel.com
+0.0.0.0 marazma.com
+0.0.0.0 allvideometrika.com
