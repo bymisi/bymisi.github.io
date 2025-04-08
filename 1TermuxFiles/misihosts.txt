@@ -131,7 +131,6 @@
 0.0.0.0 marazma.com
 0.0.0.0 allvideometrika.com
 0.0.0.0 yummyadvertiseexploded.com
-0.0.0.0 www.tns-counter.ru
 0.0.0.0 top-fwz1.mail.ru
 0.0.0.0 i.mycdn.me
 0.0.0.0 a.labadena.com
@@ -157,3 +156,9 @@
 0.0.0.0 bytogeticr.com
 0.0.0.0 waisheph.com
 0.0.0.0 d1f05vr3sjsuy7.cloudfront.net
+0.0.0.0 adligature.com
+0.0.0.0 cdn.adligature.com
+0.0.0.0 srvtrck.com
+0.0.0.0 acscdn.com
+0.0.0.0 finisheddaysflamboyant.com
+0.0.0.0 tns-counter.ru
