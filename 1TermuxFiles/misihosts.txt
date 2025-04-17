@@ -162,3 +162,9 @@
 0.0.0.0 acscdn.com
 0.0.0.0 finisheddaysflamboyant.com
 0.0.0.0 tns-counter.ru
+0.0.0.0 openfpcdn.io
+0.0.0.0 fleraprt.com
+0.0.0.0 autchoog.net
+0.0.0.0 oomaugnaps.net
+0.0.0.0 roharoagloh.net
+0.0.0.0 tzegilo.com
