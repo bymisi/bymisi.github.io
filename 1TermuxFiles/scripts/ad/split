@@ -1,0 +1,6 @@
+sed -e '1,9d;5001q' hosts > 5000
+sed -e '1,5000d;10001q' hosts > 10000
+sed -e '1,10000d;150001q' hosts > 15000
+sed -e '1,15000d;20001q' hosts > 20000
+sed -e '1,20000d;25001q' hosts > 25000
+sed -e '1,40000d;45001q' hosts > 45000

@@ -1,0 +1,16 @@
+rm result ;
+git diff --no-index --word-diff hosts OFFLINEHOSTS.txt > result ;
+sed -i '1,5d;/^0/d;s/^.\{2\}//g;s/.\{2\}$//' result ;
+
+#sed -i '/^0/d' result ; 
+
+#sed -i -r 's/^.{2}//' result ;
+
+#sed 's/^.\{5\}//g' 5
+
+#=Remove first 7 characters from lines
+
+#sed -i 's/.\{2\}$//' result ;
+#=Remove Last 8 characters from line
+
+

@@ -168,3 +168,4 @@
 0.0.0.0 oomaugnaps.net
 0.0.0.0 roharoagloh.net
 0.0.0.0 tzegilo.com
+0.0.0.0 samsung-com.112.2o7.net

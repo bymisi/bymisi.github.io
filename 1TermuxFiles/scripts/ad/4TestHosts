@@ -1,0 +1,16 @@
+#rm OFFLINEHOSTS.txt
+BLUE='\033[1;34m'
+RED='\033[1;31m'
+
+
+sed -n 7000,8000p hosts | cut -c 8-|  while read output ;
+#cat hosts | cut -c 8-|  while read output ;
+ do
+ping -c 1 "$output" > /dev/null ;
+  if [ $? -eq 0 ];
+  then
+echo "${BLUE}${output} ONLINE " ;
+  else
+echo "${RED}${output} OFFLINE " 2>&1 | tee -a OFFLINEHOSTS.txt ;
+  fi;
+ done

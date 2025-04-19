@@ -1,0 +1,15 @@
+sed -i '1,13d;s/^.\{7\}//g;s/.\{9\}$//;s/^/ /g;s/^/0.0.0.0/' OFFLINEHOSTS.txt ;
+#rRemove first 13 lines
+#sed -i -r 's/^.{7}//' OFFLINEHOSTS.txt ;
+
+#sed 's/^.\{5\}//g' 5
+
+#=Remove first 7 characters from lines
+
+#sed -i 's/.\{9\}$//' OFFLINEHOSTS.txt ;
+#=Remove Last 9 characters from line
+
+#sed -i /0.0.0.0\ /\!s/^/0.0.0.0\ / OFFLINEHOSTS.txt
+
+#sed 's/^/#/' file.txt
+#=Add leading 0.0.0.0 to all lines

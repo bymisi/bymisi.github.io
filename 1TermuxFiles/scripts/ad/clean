@@ -1,0 +1,18 @@
+sed -i '1,13d' OFFLINEHOSTS.txt ;
+#rRemove first 13 lines
+sed -i -r 's/^.{7}//' OFFLINEHOSTS.txt ;
+#=Remove first 7 characters from lines
+
+sed -i 's/.\{8\}$//' OFFLINEHOSTS.txt ;
+#=Remove Last 8 characters from line
+
+sed -i /0.0.0.0\ /\!s/^/0.0.0.0\ / OFFLINEHOSTS.txt
+
+git diff --no-index OFFLINEHOSTS.txt hosts > result
+sed -i '1,5d' result ;
+#sed '/^ /d' result > good
+#grep -v '^0' filename
+
+#grep -vf OFFLINEHOSTS.txt hosts > temp
+#= delete occurancies
+#grep -vFf OFFLINEHOSTS.txt hosts > temp
