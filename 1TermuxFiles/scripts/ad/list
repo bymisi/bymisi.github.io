@@ -1,0 +1,2 @@
+git diff --no-index file1.txt file2.txt > result
+sed '/^ /d' result > good
