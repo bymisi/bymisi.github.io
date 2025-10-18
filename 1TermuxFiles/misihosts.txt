@@ -288,3 +288,14 @@
 0.0.0.0 ikilrategroahe.com
 0.0.0.0 diankunyet.com
 0.0.0.0 62ad.com
+0.0.0.0 cdn-main.plus500.com
+0.0.0.0 www.plus500.com
+0.0.0.0 rum-static.pingdom.net
+0.0.0.0 datatechonert.com
+0.0.0.0 amt3.com
+0.0.0.0 holahupa.com
+0.0.0.0 www.europarcs.nl
+0.0.0.0 clk.tradedoubler.com
+0.0.0.0 www.vakantiemetkinderen.net
+0.0.0.0 www.centerparcs.nl
+0.0.0.0 chaturbate.com
