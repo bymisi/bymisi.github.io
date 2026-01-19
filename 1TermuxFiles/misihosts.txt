@@ -299,3 +299,7 @@
 0.0.0.0 www.vakantiemetkinderen.net
 0.0.0.0 www.centerparcs.nl
 0.0.0.0 chaturbate.com
+0.0.0.0 h.seznam.cz
+0.0.0.0 ingestion.contentinsights.com
+0.0.0.0 metrics.beyondwords.io
+0.0.0.0 proxy.beyondwords.io
