@@ -296,7 +296,6 @@
 0.0.0.0 api.gallery.intl.miui.com
 0.0.0.0 www.googletagmanager.com
 0.0.0.0 iap.cdn.indexvas.hu
-0.0.0.0 management.ident.indapass.hu
 0.0.0.0 region1.analytics.google.com
 0.0.0.0 partnerads.ysm.yahoo.com
 0.0.0.0 gum.criteo.com
@@ -304,3 +303,15 @@
 0.0.0.0 cmhu.adocean.pl
 0.0.0.0 videos-cloudfront-usp.jwpsrv.com
 0.0.0.0 videos-cloudfront.jwpsrv.com
+0.0.0.0 shu.hit.gemius.pl
+0.0.0.0 dale.performax.cz
+0.0.0.0 stat.kununu.cz
+0.0.0.0 experience-eu.piano.io
+0.0.0.0 www.googleadservices.com
+0.0.0.0 applets.ebxcdn.com
+0.0.0.0 beacons5.gvt2.com
+0.0.0.0 beacons4.gvt2.com
+0.0.0.0 beacons3.gvt2.com
+0.0.0.0 beacons2.gvt2.com
+0.0.0.0 beacons.gvt2.com
+0.0.0.0 beacons.gcp.gvt2.com
