@@ -315,3 +315,15 @@
 0.0.0.0 beacons2.gvt2.com
 0.0.0.0 beacons.gvt2.com
 0.0.0.0 beacons.gcp.gvt2.com
+0.0.0.0 eu-west-1-cs-rtb.openwebmp.com
+0.0.0.0 ittpx.eskimi.com
+0.0.0.0 b1sync.outbrain.com
+0.0.0.0 zz44069adi.pub.tappx.com
+0.0.0.0 terelo.mediaworks.hu
+0.0.0.0 fd.mediaworks.hu
+0.0.0.0 stg.html-load.com
+0.0.0.0 2c-1138a2e087744ef69e662051fe044c44.ecs.us-west-1.on.aws
+0.0.0.0 api.mouseflow.com
+0.0.0.0 1.stg.lox.legalendowmad.com
+0.0.0.0 stg.html-load.com
+0.0.0.0 v.stg.html-load.com
