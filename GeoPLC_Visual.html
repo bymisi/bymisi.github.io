@@ -15,7 +15,7 @@ button,input,select,output{font:inherit}
 output{display:block}
 .app{height:100dvh;max-height:100dvh;overflow-x:hidden;overflow-y:auto;
   padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
-  display:grid;grid-template-rows:auto auto auto minmax(0,1fr) auto auto auto auto;gap:5px;
+  display:grid;grid-template-rows:auto auto auto minmax(0,1fr) auto auto auto auto auto;gap:5px;
   background:radial-gradient(ellipse at 8% 0%,#17446a55,transparent 36%),radial-gradient(ellipse at 100% 80%,#a84f1d22,transparent 35%),var(--bg)}
 
 /* Fallback for screens that are too short (e.g. phone in landscape): normal scrolling page */
@@ -68,9 +68,11 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .season.summer{background:#102d4b;border-color:#285c89}
 .season b{font-size:calc(9px*var(--k))}
 .season button{border:1px solid #52718e;border-radius:20px;background:#172b40;color:#eaf6ff;padding:calc(4px*var(--k)) calc(8px*var(--k));font-size:calc(8px*var(--k));font-weight:800;white-space:nowrap}
-.room{flex:1 1 auto;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 5px;align-items:center;align-content:center;padding:4px 6px;border:1px solid #263b52;border-radius:8px;background:#0b1624;min-height:0}
+.room{flex:1 1 auto;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:1px 5px;align-items:center;align-content:center;padding:4px 6px;border:1px solid #263b52;border-radius:8px;background:#0b1624;min-height:0}
 .room label{font-size:calc(8px*var(--k));color:#c6d8e9;font-weight:800}
-.room output{font-size:calc(12px*var(--k));font-weight:900;color:#f6fbff}
+.room output{font-size:calc(12px*var(--k));font-weight:900;color:#f6fbff;justify-self:end}
+.room-mode-tag{font-size:calc(6px*var(--k));padding:calc(1px*var(--k)) calc(4px*var(--k));border-radius:4px;background:#203348;color:#9db4cc;font-weight:700}
+.room-mode-tag.active{background:#15805a;color:#f2fffa}
 .room input{grid-column:1/-1;margin-top:calc(2px*var(--k));margin-bottom:0}
 
 /* 03 Timer */
@@ -86,6 +88,11 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .tcell input{grid-column:1/-1;margin:calc(2px*var(--k)) 0 0}
 .timer .blockhead{display:grid;grid-template-columns:minmax(0,1fr);gap:3px;min-width:0}
 .timer .tag{text-align:center;line-height:1.15;min-width:0}
+
+/* Alert Banner */
+.alert-banner{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:8px;background:#172333;border:1px solid #33475c;font-size:7.5px;color:#8ca4bd;font-weight:700}
+.alert-banner.warn{background:linear-gradient(145deg,#48232b,#251820);border-color:#914151;color:#ff9aa9}
+.alert-banner.ok{background:linear-gradient(145deg,#12382f,#10251f);border-color:#28785a;color:#8effd7}
 
 /* 04 Status */
 .statuses{--k:var(--k-stat);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;min-height:0}
@@ -147,7 +154,12 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 <section class="sensors">
  <div class="panel sensor"><span class="kicker">Outdoor</span><strong><span id="outVal">20</span><em> °C</em></strong><input id="outdoor" type="range" min="-60" max="60" value="20"><span class="sub">Outdoor sensor</span></div>
  <div class="panel sensor"><span class="kicker">Hall</span><strong><span id="hallVal">19</span><em> °C</em></strong><input id="hall" type="range" min="10" max="32" value="19"><span class="sub">Measured temperature</span></div>
- <div class="panel sensor"><span class="kicker">Pipe thermostat</span><strong id="pipeVal">40 °C</strong><select id="pipe"><option value="0">Optimal</option><option value="1">High</option><option value="2">Dangerous</option></select><span class="sub" id="pipeHint">Below 40 °C</span></div>
+ <div class="panel sensor">
+   <span class="kicker">Pipe thermostat</span>
+   <strong><span id="pipeVal">40</span><em> °C</em></strong>
+   <input id="pipe" type="range" min="20" max="60" value="40">
+   <span class="sub" id="pipeHint">Below 40 °C · Optimal</span>
+ </div>
  <div class="panel sensor"><span class="kicker">Humidity</span><strong id="humVal">OPT.</strong><select id="humidity"><option value="0">Optimal</option><option value="1">High</option></select><span class="sub" id="humHint">Below 65%</span></div>
 </section>
 
@@ -156,9 +168,24 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
   <div class="blockhead"><b>02 / Mode and rooms</b><span class="tag">SETPOINT</span></div>
   <div class="clockrow"><div><small>SYSTEM TIME · TAP TO CHANGE</small><strong id="clock">--:--:--</strong></div><input class="clockedit" id="clockInput" type="time" aria-label="Set simulated time"></div>
   <div class="season" id="seasonBox"><b id="seasonLabel">WINTER MODE</b><button id="seasonToggle">SWITCH ↔</button></div>
-  <div class="room"><label for="spChild">CHILDREN'S ROOM</label><output id="vChild">25 °C</output><input id="spChild" type="range" min="15" max="30" value="25"></div>
-  <div class="room"><label for="spWork">OFFICE</label><output id="vWork">23 °C</output><input id="spWork" type="range" min="15" max="30" value="23"></div>
-  <div class="room"><label for="spBed">BEDROOM</label><output id="vBed">22 °C</output><input id="spBed" type="range" min="15" max="30" value="22"></div>
+  <div class="room" id="roomChildBox">
+    <label for="spChild">CHILDREN'S ROOM</label>
+    <span class="room-mode-tag" id="modeChild">MANUAL</span>
+    <output id="vChild">25 °C</output>
+    <input id="spChild" type="range" min="15" max="30" value="25">
+  </div>
+  <div class="room" id="roomWorkBox">
+    <label for="spWork">OFFICE</label>
+    <span class="room-mode-tag" id="modeWork">MANUAL</span>
+    <output id="vWork">23 °C</output>
+    <input id="spWork" type="range" min="15" max="30" value="23">
+  </div>
+  <div class="room" id="roomBedBox">
+    <label for="spBed">BEDROOM</label>
+    <span class="room-mode-tag" id="modeBed">MANUAL</span>
+    <output id="vBed">22 °C</output>
+    <input id="spBed" type="range" min="15" max="30" value="22">
+  </div>
  </section>
 
  <section class="panel timer">
@@ -173,6 +200,10 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
   <div class="blockhead"><span class="tag" id="timerStatus">TIMER OFF</span><span class="tag" id="activePeriod">21:00 → 07:00</span></div>
  </section>
 </main>
+
+<div class="alert-banner ok" id="alertBanner">
+  <span>● SYSTEM STATUS: NORMAL OPERATION · ALL CIRCUITS OPERATING WITHIN SAFE PARAMETERS</span>
+</div>
 
 <div class="sectionline"><span>04 / Equipment status</span><small>DYNAMIC CONTROL</small></div>
 <section class="statuses">
@@ -199,7 +230,6 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 <script>
 'use strict';
 const $=id=>document.getElementById(id);
-const pipeValues=[40,45,50];
 const manual={child:25,work:23,bed:22};
 let season=0, offsetMs=0;
 const pad=n=>String(n).padStart(2,'0');
@@ -227,41 +257,84 @@ function paintValve(id,open){
  el.querySelector('b').textContent=open?'OPEN':'CLOSED';
 }
 function update(){
- const out=+$('outdoor').value,hall=+$('hall').value,pipe=pipeValues[+$('pipe').value],highHumidity=+$('humidity').value===1;
- $('outVal').textContent=out;$('hallVal').textContent=hall;
- $('pipeVal').textContent=pipe+' °C';$('pipeHint').textContent=['Below 40 °C · OPTIMAL','45 °C · HIGH','50 °C · DANGEROUS'][$('pipe').value];
- $('humVal').textContent=highHumidity?'HIGH':'OPT.';$('humHint').textContent=highHumidity?'ABOVE 65% · PROTECTION':'BELOW 65% · OPTIMAL';
+ const out=+$('outdoor').value, hall=+$('hall').value, pipe=+$('pipe').value, highHumidity=+$('humidity').value===1;
+ $('outVal').textContent=out; $('hallVal').textContent=hall;
+ $('pipeVal').textContent=pipe;
+ 
+ // Pipe status rules
+ let pipeStateText='Optimal', bannerMsg='NORMAL OPERATION · ALL CIRCUITS OPERATING WITHIN SAFE PARAMETERS', bannerKind='ok';
+ if(pipe>49){
+   pipeStateText='Dangerous · Overheat';
+   bannerMsg='WARNING: HIGH PIPE TEMPERATURE (>49°C) · PROTECTION ACTIVE';
+   bannerKind='warn';
+ } else if(pipe>44){
+   pipeStateText='High · Caution';
+   bannerMsg='CAUTION: ELEVATED PIPE TEMPERATURE (>44°C)';
+   bannerKind='warn';
+ } else {
+   pipeStateText='Below 40 °C · Optimal';
+ }
+ if(highHumidity && bannerKind==='ok'){
+   bannerMsg='WARNING: HIGH HUMIDITY (>65%) · CEILING COOLING LOCKED OUT';
+   bannerKind='warn';
+ }
+ 
+ $('pipeHint').textContent=pipeStateText;
  $('pipe').style.borderColor=pipe>49?'#ff647d':pipe>44?'#ffcf62':'#42e6a4';
- $('humidity').style.borderColor=highHumidity?'#ff647d':'#42e6a4';
- const pipeBox=$('pipe').closest('.sensor'),humBox=$('humidity').closest('.sensor');
- pipeBox.classList.toggle('ok',pipe<=44);pipeBox.classList.toggle('caution',pipe>44&&pipe<=49);pipeBox.classList.toggle('danger',pipe>49);
- humBox.classList.toggle('ok',!highHumidity);humBox.classList.toggle('danger',highHumidity);
+ 
+ const pipeBox=$('pipe').closest('.sensor'), humBox=$('humidity').closest('.sensor');
+ pipeBox.classList.toggle('ok',pipe<=44); pipeBox.classList.toggle('caution',pipe>44&&pipe<=49); pipeBox.classList.toggle('danger',pipe>49);
+ humBox.classList.toggle('ok',!highHumidity); humBox.classList.toggle('danger',highHumidity);
+ 
+ const alertEl=$('alert_banner') || $('alertBanner');
+ if(alertEl){
+   alertEl.className='alert-banner '+bannerKind;
+   alertEl.querySelector('span').textContent='● ' + bannerMsg;
+ }
+
  $('seasonBox').classList.toggle('summer',season===1);
  $('seasonLabel').textContent=season===0?'WINTER MODE':'SUMMER MODE';
+ 
  const active=activeTimer();
  const values={child:active?+$('tChild').value:manual.child,work:active?+$('tWork').value:manual.work,bed:active?+$('tBed').value:manual.bed};
- [['child','spChild','vChild'],['work','spWork','vWork'],['bed','spBed','vBed']].forEach(([k,input,outId])=>{
-   $(input).value=values[k];$(input).disabled=active;$('v'+k[0].toUpperCase()+k.slice(1)).textContent=values[k]+' °C';
+ 
+ [['child','spChild','vChild','roomChildBox','modeChild'],
+  ['work','spWork','vWork','roomWorkBox','modeWork'],
+  ['bed','spBed','vBed','roomBedBox','modeBed']].forEach(([k,input,outId,boxId,modeId])=>{
+   $(input).value=values[k];
+   $(input).disabled=active;
+   $(outId).textContent=values[k]+' °C';
+   const modeTag=$(modeId);
+   modeTag.textContent=active?'TIMER':'MANUAL';
+   modeTag.classList.toggle('active',active);
+   $(boxId).classList.toggle('profile',active);
  });
+
  $('timerStatus').textContent=active?'TIMER ACTIVE · PROFILE APPLIED':$('timerEnabled').checked?'WAITING FOR TIME WINDOW':'TIMER OFF';
  $('timerStatus').classList.toggle('is-active',active);
  $('timerStatus').classList.toggle('is-armed',!active&&$('timerEnabled').checked);
  document.querySelector('.timer').classList.toggle('active',active);
- document.querySelectorAll('.block .room').forEach(r=>r.classList.toggle('profile',active));
+
  $('fromVal').textContent=formatMins($('from').value);$('toVal').textContent=formatMins($('to').value);
  $('tChildVal').textContent=$('tChild').value+' °C';$('tWorkVal').textContent=$('tWork').value+' °C';$('tBedVal').textContent=$('tBed').value+' °C';
  $('activePeriod').textContent=formatMins($('from').value)+' → '+formatMins($('to').value);
+ 
  const heating=season===0,all=[values.child,values.work,values.bed];
  const anyBelow=all.some(s=>s<hall),anyAbove=all.some(s=>s>hall);
  const demand=(heating||anyBelow)&&(!heating||anyAbove);
+ 
  paintStatus('heatPump','HEAT PUMP',demand?'RUNNING':'OFF',demand?'on':'off');
+ 
  let fp;if(pipe>44)fp='PROTECTION · OFF';else if(!heating)fp='OFF';else if((heating||anyBelow)&&anyAbove)fp='CIRCULATION ACTIVE';else fp='OFF';
  const floorOn=fp==='CIRCULATION ACTIVE';
  paintStatus('floorPump','FLOOR HEATING',fp,floorOn?'on':pipe>44?'warn':'off');
+ 
  let rp;if(pipe>49)rp='CIRCULATION ACTIVE';else if(!heating)rp='OFF';else rp=demand?'CIRCULATION ACTIVE':'OFF';
  const radOn=rp==='CIRCULATION ACTIVE';paintStatus('radPump','RADIATORS',rp,pipe>49?'warn':radOn?'on':'off');
+ 
  let cp;if(pipe>49||highHumidity)cp='PROTECTION · OFF';else cp=demand?'CIRCULATION ACTIVE':'OFF';
  const ceilOn=cp==='CIRCULATION ACTIVE';paintStatus('ceilPump','CEILING',cp,(pipe>49||highHumidity)?'warn':ceilOn?'on':'off');
+ 
  const rooms=[['Corr',values.bed],['Child',values.child],['Work',values.work],['Bed',values.bed]];
  rooms.forEach(([key,s])=>{
    const floorOpen=pipe<=44&&heating&&s>hall;
@@ -284,12 +357,9 @@ $('clockInput').addEventListener('change',e=>{const m=toMins(e.target.value);if(
 tick();setInterval(tick,1000);
 
 // ---------- Automatic font fitting ----------
-// Each group of the dashboard has its own scale factor (--k-<group>). The script grows the groups
-// one small step at a time, as long as everything still fits on one screen without scrolling
-// or clipping. It is measured with the longest possible texts, so later value changes never overflow.
 const FIT_GROUPS = ['top', 'sec', 'sens', 'block', 'timer', 'stat', 'valve', 'foot'];
 const FIT_STEP = 0.03, FIT_MIN = 0.8, FIT_MAX = 2.4;
-const FIT_CAP = { top: 1.3, sec: 1.5, foot: 1.5 }; // groups that should not grow too much
+const FIT_CAP = { top: 1.3, sec: 1.5, foot: 1.5 };
 const fitScale = {};
 const appEl = document.querySelector('.app');
 
@@ -318,10 +388,9 @@ function contentFits() {
   return true;
 }
 
-// Longest texts that can ever appear in each element (used only while measuring)
 const WORST_CASE_TEXT = [
-  ['outVal', '-60'], ['hallVal', '32'], ['pipeVal', '50 °C'], ['humVal', 'HIGH'],
-  ['pipeHint', 'Below 40 °C · OPTIMAL'], ['humHint', 'ABOVE 65% · PROTECTION'],
+  ['outVal', '-60'], ['hallVal', '32'], ['pipeVal', '50'], ['humVal', 'HIGH'],
+  ['pipeHint', 'WARNING: HIGH PIPE TEMPERATURE (>49°C)'], ['humHint', 'ABOVE 65% · PROTECTION'],
   ['clock', '88:88:88'], ['clockMini', '88:88:88'], ['seasonLabel', 'SUMMER MODE'],
   ['vChild', '30 °C'], ['vWork', '30 °C'], ['vBed', '30 °C'],
   ['fromVal', '88:88'], ['toVal', '88:88'],
@@ -338,20 +407,17 @@ function fitToScreen() {
   document.querySelectorAll('.valve b').forEach(el => swap(el, 'CLOSED'));
 
   FIT_GROUPS.forEach(g => setScale(g, 1));
-  // If even the base size does not fit (very small screens), shrink everything first
   let base = 1;
   while (!contentFits() && base > FIT_MIN) {
     base -= FIT_STEP;
     FIT_GROUPS.forEach(g => setScale(g, base));
   }
   if (!contentFits()) {
-    // Even the smallest allowed size does not fit: use the scrolling fallback instead of shrinking further
     appEl.classList.add('scroll');
-    FIT_GROUPS.forEach(g => setScale(g, 1.1)); // comfortable size, the page simply scrolls
+    FIT_GROUPS.forEach(g => setScale(g, 1.1));
     saved.forEach(([el, text]) => { el.textContent = text; });
     return;
   }
-  // Then always grow the currently smallest group that can still grow, so sizes stay balanced
   const frozen = new Set();
   for (;;) {
     const open = FIT_GROUPS.filter(g => !frozen.has(g) && fitScale[g] + FIT_STEP <= (FIT_CAP[g] || FIT_MAX));
@@ -371,7 +437,6 @@ window.addEventListener('orientationchange', scheduleFit);
 if (window.visualViewport) window.visualViewport.addEventListener('resize', scheduleFit);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitToScreen);
 fitToScreen();
-
 </script>
 </body>
 </html>

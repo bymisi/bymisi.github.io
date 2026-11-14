@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#080d16">
+<title>GeoPLC — Full Control Dashboard</title>
+<style>
+:root{color-scheme:dark;--bg:#080d16;--line:#263b52;--muted:#8ca4bd;--text:#edf6ff;--cyan:#42dcff;--green:#42e6a4;--red:#ff647d;
+  /* Per-group font scale factors, set automatically by fitToScreen() in the script */
+  --k-top:1;--k-sec:1;--k-sens:1;--k-block:1;--k-timer:1;--k-stat:1;--k-valve:1;--k-foot:1}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select,output{font:inherit}
+output{display:block}
+.app{height:100dvh;max-height:100dvh;overflow-x:hidden;overflow-y:auto;
+  padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+  display:grid;grid-template-rows:auto auto auto minmax(0,1fr) auto auto auto auto;gap:5px;
+  background:radial-gradient(ellipse at 8% 0%,#17446a55,transparent 36%),radial-gradient(ellipse at 100% 80%,#a84f1d22,transparent 35%),var(--bg)}
+
+/* Fallback for screens that are too short (e.g. phone in landscape): normal scrolling page */
+.app.scroll{display:flex;flex-direction:column}
+.app.scroll>*{flex:none}
+
+/* Header */
+.top{--k:var(--k-top);display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
+.brand{display:flex;align-items:center;gap:calc(7px*var(--k));min-width:0}
+.logo{width:calc(29px*var(--k));height:calc(29px*var(--k));flex:none;border-radius:calc(9px*var(--k));display:grid;place-items:center;font-size:calc(14px*var(--k));background:linear-gradient(140deg,#3be3ff,#4277ff);color:#06121f;font-weight:950;box-shadow:0 0 18px #37cfff55}
+.brand b{font-size:calc(13px*var(--k));letter-spacing:.15em}
+.brand small{display:block;font-size:calc(7px*var(--k));letter-spacing:.08em;color:var(--muted);white-space:nowrap}
+.topright{display:flex;align-items:center;gap:4px;flex:none}
+.chip{border:1px solid var(--line);background:#101c2b;border-radius:20px;padding:calc(5px*var(--k)) calc(8px*var(--k));font-size:calc(8px*var(--k));font-weight:800;white-space:nowrap;color:#c4d7e9}
+.live{color:var(--green);border-color:#28654f}
+.dot{display:inline-block;width:calc(5px*var(--k));height:calc(5px*var(--k));border-radius:50%;background:var(--green);margin-right:4px;box-shadow:0 0 7px var(--green)}
+
+/* Section titles */
+.sectionline,.valve-title{--k:var(--k-sec);display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:calc(9px*var(--k));letter-spacing:.08em;text-transform:uppercase;color:#a9c1d9;font-weight:850;min-width:0;white-space:nowrap}
+.sectionline small,.valve-title small{font-size:calc(7px*var(--k));color:#738ba5;letter-spacing:.06em;text-align:right}
+
+/* Shared */
+.panel{min-width:0;min-height:0;border:1px solid var(--line);border-radius:12px;background:linear-gradient(150deg,#17283c,#0d1725);box-shadow:0 4px 14px #0005,inset 0 1px #ffffff08}
+input[type=range]{appearance:none;-webkit-appearance:none;width:100%;height:calc(4px + (var(--k,1) - 1)*2px);border-radius:8px;background:#344a61;outline:none;margin:calc(4px*var(--k,1)) 0;touch-action:pan-y}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:calc(13px + (var(--k,1) - 1)*5px);height:calc(13px + (var(--k,1) - 1)*5px);border-radius:50%;background:#f2fbff;border:3px solid var(--cyan);box-shadow:0 0 9px #42dcff77}
+input[type=range]::-moz-range-thumb{width:calc(7px + (var(--k,1) - 1)*5px);height:calc(7px + (var(--k,1) - 1)*5px);border-radius:50%;background:#f2fbff;border:3px solid var(--cyan)}
+input:disabled{opacity:.35}
+select{appearance:none;-webkit-appearance:none;background-color:#102237;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23cfe3f5' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-size:8px 5px;color:var(--text);border:1px solid #38516b;border-radius:7px;padding:calc(3px*var(--k,1)) 14px calc(3px*var(--k,1)) 5px;font-size:calc(8px*var(--k,1));max-width:100%;width:100%;text-overflow:clip}
+
+/* 01 Sensors */
+.sensors{--k:var(--k-sens);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;min-height:0}
+.sensor{padding:6px 6px 5px;display:flex;flex-direction:column;justify-content:space-between;gap:2px}
+.kicker{font-size:calc(7px*var(--k));line-height:1.15;color:#9db4cc;text-transform:uppercase;letter-spacing:.02em;font-weight:800}
+.sensor strong{font-size:calc(14px*var(--k));line-height:1.05;white-space:nowrap}
+.sensor strong em{font-size:calc(8px*var(--k));color:#9db4cc;font-style:normal}
+.sensor .sub{font-size:calc(7px*var(--k));line-height:1.15;color:#93a9c0}
+
+/* 02 Mode and rooms */
+.workarea{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5px}
+.block{--k:var(--k-block);padding:7px;display:flex;flex-direction:column;gap:5px;min-height:0}
+.blockhead{display:flex;justify-content:space-between;align-items:center;gap:4px}
+.blockhead b{font-size:calc(9px*var(--k));letter-spacing:.05em;text-transform:uppercase}
+.tag{font-size:calc(7px*var(--k));border-radius:20px;padding:calc(3px*var(--k)) calc(5px*var(--k));background:#17334a;color:var(--cyan)}
+.clockrow{display:flex;align-items:center;justify-content:space-between;gap:4px;background:#0b1624;border:1px solid #263b52;border-radius:8px;padding:5px}
+.clockrow strong{display:block;font-size:calc(17px*var(--k));letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.clockrow small{display:block;font-size:calc(6px*var(--k));line-height:1.15;color:var(--muted)}
+.clockedit::-webkit-datetime-edit{display:none}
+.clockedit{cursor:pointer;width:calc(36px*var(--k));min-width:0;background:#14263a;color:#eaf6ff;border:1px solid #37516b;border-radius:6px;padding:calc(3px*var(--k));font-size:calc(9px*var(--k))}
+.season{display:flex;align-items:center;justify-content:space-between;gap:5px;border-radius:8px;padding:5px 7px;background:#3a1d27;border:1px solid #713344}
+.season.summer{background:#102d4b;border-color:#285c89}
+.season b{font-size:calc(9px*var(--k))}
+.season button{border:1px solid #52718e;border-radius:20px;background:#172b40;color:#eaf6ff;padding:calc(4px*var(--k)) calc(8px*var(--k));font-size:calc(8px*var(--k));font-weight:800;white-space:nowrap}
+.room{flex:1 1 auto;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 5px;align-items:center;align-content:center;padding:4px 6px;border:1px solid #263b52;border-radius:8px;background:#0b1624;min-height:0}
+.room label{font-size:calc(8px*var(--k));color:#c6d8e9;font-weight:800}
+.room output{font-size:calc(12px*var(--k));font-weight:900;color:#f6fbff}
+.room input{grid-column:1/-1;margin-top:calc(2px*var(--k));margin-bottom:0}
+
+/* 03 Timer */
+.timer{--k:var(--k-timer);padding:7px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;gap:4px;min-height:0;min-width:0}
+.timerhead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2px 4px;min-width:0}
+.timerhead b{font-size:calc(9px*var(--k));letter-spacing:.05em;text-transform:uppercase;flex:1 1 auto;min-width:0}
+.timerenable{display:flex;align-items:center;gap:4px;font-size:calc(8px*var(--k));color:#d5e5f4}
+.timerenable input{accent-color:#40e0a1;width:calc(14px*var(--k));height:calc(14px*var(--k));margin:0}
+.timergrid{min-width:0;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-auto-rows:minmax(0,1fr);gap:3px}
+.tcell{min-width:0;min-height:0;background:#0b1624;border:1px solid #263b52;border-radius:7px;padding:3px 6px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;align-content:center;gap:1px 4px}
+.tcell label{font-size:calc(8px*var(--k));color:#9cb3ca;white-space:nowrap;line-height:1.1}
+.tcell output{font-size:calc(11px*var(--k));font-weight:850;white-space:nowrap}
+.tcell input{grid-column:1/-1;margin:calc(2px*var(--k)) 0 0}
+.timer .blockhead{display:grid;grid-template-columns:minmax(0,1fr);gap:3px;min-width:0}
+.timer .tag{text-align:center;line-height:1.15;min-width:0}
+
+/* 04 Status */
+.statuses{--k:var(--k-stat);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;min-height:0}
+.status{padding:6px 2px;display:flex;flex-direction:column;justify-content:center;gap:3px;text-align:center;border-radius:10px;background:#172333;border:1px solid #33475c;min-width:0}
+.status .ico{font-size:calc(14px*var(--k));line-height:1.3}
+.status b{font-size:calc(7.5px*var(--k));line-height:1.1}
+.status small{font-size:calc(7.5px*var(--k));line-height:1.1;color:#d0dfed}
+.status.on{background:linear-gradient(145deg,#12382f,#10251f);border-color:#28785a}
+.status.off{background:linear-gradient(145deg,#202a38,#141d29);border-color:#39495c}
+.status.warn{background:linear-gradient(145deg,#48232b,#251820);border-color:#914151}
+
+/* 05 Valves: two columns (floor left, ceiling right), one row per room */
+.valves{--k:var(--k-valve);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto repeat(4,auto);gap:4px;min-height:0}
+.valve-title{grid-area:1/1/2/3}
+.valve:nth-child(2){grid-area:2/1}.valve:nth-child(3){grid-area:3/1}.valve:nth-child(4){grid-area:4/1}.valve:nth-child(5){grid-area:5/1}
+.valve:nth-child(6){grid-area:2/2}.valve:nth-child(7){grid-area:3/2}.valve:nth-child(8){grid-area:4/2}.valve:nth-child(9){grid-area:5/2}
+.valve{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:calc(4px*var(--k)) 6px;border:1px solid #30465b;border-radius:8px;background:#101d2c;min-width:0}
+.valve span{font-size:calc(7px*var(--k));line-height:1.15;color:#b8cce0}
+.valve b{font-size:calc(7px*var(--k));border-radius:5px;padding:calc(3px*var(--k)) calc(5px*var(--k));white-space:nowrap}
+.valve.open b{background:#0d594b;color:#8effd7}
+.valve.closed b{background:#3a2931;color:#ffb4c0}
+
+/* Footer */
+.footer{--k:var(--k-foot);display:flex;justify-content:space-between;align-items:center;gap:6px;color:#6f879f;font-size:calc(7px*var(--k));padding:0 2px}
+.footer b{color:#a8bfd6}
+
+/* ---- State colours: the whole box turns green or red, with a short flash on change ---- */
+.status.on,.valve.open{--glow:#42e6a4}
+.status.off,.status.warn,.valve.closed{--glow:#ff647d}
+.status.on{background:linear-gradient(145deg,#15805a,#0d4f38);border-color:#42e6a4}
+.status.off{background:linear-gradient(145deg,#6b2130,#431520);border-color:#ff647d}
+.status.warn{background:linear-gradient(145deg,#b02a45,#6e1829);border-color:#ff9aa9}
+.status.on b,.status.on small{color:#f2fffa}
+.status.off b,.status.off small,.status.warn b,.status.warn small{color:#ffe9ed}
+.valve.open{background:linear-gradient(145deg,#15805a,#0d4f38);border-color:#42e6a4}
+.valve.closed{background:linear-gradient(145deg,#6b2130,#431520);border-color:#ff647d}
+.valve.open span{color:#f2fffa}
+.valve.closed span{color:#ffe9ed}
+.valve.open b{background:#0a3b2b;color:#9dffd9}
+.valve.closed b{background:#2a0f17;color:#ffb4c0}
+.sensor.ok{background:linear-gradient(150deg,#14654a,#0d3f2f);border-color:#42e6a4}
+.sensor.caution{background:linear-gradient(150deg,#6b5114,#3d2e0d);border-color:#ffcf62}
+.sensor.danger{background:linear-gradient(150deg,#8a2338,#4a1521);border-color:#ff647d}
+.timer.active{border-color:#42e6a4;box-shadow:0 0 0 1px #42e6a4,0 4px 14px #0005}
+.tag.is-active{background:#15805a;color:#f2fffa}
+.tag.is-armed{background:#6b4f12;color:#ffe29a}
+.room.profile{border-color:#42e6a4;background:#0f3327}
+.flash{animation:flash .8s ease-out}
+@keyframes flash{0%{box-shadow:0 0 0 0 var(--glow,#fff)}30%{box-shadow:0 0 0 4px var(--glow,#fff),0 0 22px 6px var(--glow,#fff)}100%{box-shadow:0 0 0 0 transparent}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="brand"><div class="logo">G</div><div><b>GeoPLC</b><small>FULL HVAC CONTROL · Misi edition</small></div></div>
+ <div class="topright"><span class="chip live"><i class="dot"></i>SIMULATION</span><span class="chip" id="clockMini">--:--:--</span></div>
+</header>
+<div class="sectionline"><span>01 / Sensors and inputs</span><small>TOUCH TO ADJUST</small></div>
+<section class="sensors">
+ <div class="panel sensor"><span class="kicker">Outdoor</span><strong><span id="outVal">20</span><em> °C</em></strong><input id="outdoor" type="range" min="-60" max="60" value="20"><span class="sub">Outdoor sensor</span></div>
+ <div class="panel sensor"><span class="kicker">Hall</span><strong><span id="hallVal">19</span><em> °C</em></strong><input id="hall" type="range" min="10" max="32" value="19"><span class="sub">Measured temperature</span></div>
+ <div class="panel sensor"><span class="kicker">Pipe thermostat</span><strong id="pipeVal">40 °C</strong><select id="pipe"><option value="0">Optimal</option><option value="1">High</option><option value="2">Dangerous</option></select><span class="sub" id="pipeHint">Below 40 °C</span></div>
+ <div class="panel sensor"><span class="kicker">Humidity</span><strong id="humVal">OPT.</strong><select id="humidity"><option value="0">Optimal</option><option value="1">High</option></select><span class="sub" id="humHint">Below 65%</span></div>
+</section>
+
+<main class="workarea">
+ <section class="panel block">
+  <div class="blockhead"><b>02 / Mode and rooms</b><span class="tag">SETPOINT</span></div>
+  <div class="clockrow"><div><small>SYSTEM TIME · TAP TO CHANGE</small><strong id="clock">--:--:--</strong></div><input class="clockedit" id="clockInput" type="time" aria-label="Set simulated time"></div>
+  <div class="season" id="seasonBox"><b id="seasonLabel">WINTER MODE</b><button id="seasonToggle">SWITCH ↔</button></div>
+  <div class="room"><label for="spChild">CHILDREN'S ROOM</label><output id="vChild">25 °C</output><input id="spChild" type="range" min="15" max="30" value="25"></div>
+  <div class="room"><label for="spWork">OFFICE</label><output id="vWork">23 °C</output><input id="spWork" type="range" min="15" max="30" value="23"></div>
+  <div class="room"><label for="spBed">BEDROOM</label><output id="vBed">22 °C</output><input id="spBed" type="range" min="15" max="30" value="22"></div>
+ </section>
+
+ <section class="panel timer">
+  <div class="timerhead"><b>03 / Scheduled timer A</b><label class="timerenable"><input id="timerEnabled" type="checkbox"> ACTIVE</label></div>
+  <div class="timergrid">
+   <div class="tcell"><label for="from">START</label><output id="fromVal">21:00</output><input id="from" type="range" min="0" max="1435" step="5" value="1260"></div>
+   <div class="tcell"><label for="to">END</label><output id="toVal">07:00</output><input id="to" type="range" min="0" max="1435" step="5" value="420"></div>
+   <div class="tcell"><label for="tChild">CHILD</label><output id="tChildVal">23 °C</output><input id="tChild" type="range" min="15" max="30" value="23"></div>
+   <div class="tcell"><label for="tWork">OFFICE</label><output id="tWorkVal">18 °C</output><input id="tWork" type="range" min="15" max="30" value="18"></div>
+   <div class="tcell"><label for="tBed">BEDROOM</label><output id="tBedVal">21 °C</output><input id="tBed" type="range" min="15" max="30" value="21"></div>
+  </div>
+  <div class="blockhead"><span class="tag" id="timerStatus">TIMER OFF</span><span class="tag" id="activePeriod">21:00 → 07:00</span></div>
+ </section>
+</main>
+
+<div class="sectionline"><span>04 / Equipment status</span><small>DYNAMIC CONTROL</small></div>
+<section class="statuses">
+ <div class="panel status off" id="heatPump"><span class="ico">◈</span><b>HEAT PUMP</b><small>OFF</small></div>
+ <div class="panel status off" id="floorPump"><span class="ico">▤</span><b>FLOOR HEATING</b><small>OFF</small></div>
+ <div class="panel status off" id="radPump"><span class="ico">▥</span><b>RADIATORS</b><small>OFF</small></div>
+ <div class="panel status off" id="ceilPump"><span class="ico">⌁</span><b>CEILING</b><small>OFF</small></div>
+</section>
+
+<section class="valves">
+ <div class="valve-title"><span>05 / Valves by room</span><small>FLOOR + CEILING</small></div>
+ <div class="valve closed" id="fvCorr"><span>Corridor · floor</span><b>CLOSED</b></div>
+ <div class="valve closed" id="fvChild"><span>Children's room · floor</span><b>CLOSED</b></div>
+ <div class="valve closed" id="fvWork"><span>Office · floor</span><b>CLOSED</b></div>
+ <div class="valve closed" id="fvBed"><span>Bedroom · floor</span><b>CLOSED</b></div>
+ <div class="valve closed" id="cvCorr"><span>Corridor · ceiling</span><b>CLOSED</b></div>
+ <div class="valve closed" id="cvChild"><span>Children's room · ceiling</span><b>CLOSED</b></div>
+ <div class="valve closed" id="cvWork"><span>Office · ceiling</span><b>CLOSED</b></div>
+ <div class="valve closed" id="cvBed"><span>Bedroom · ceiling</span><b>CLOSED</b></div>
+</section>
+<footer class="footer"><span><b>GeoPLC</b> · BASED ON THE ORIGINAL CONTROL LOGIC</span><span>GRAPHIC CONCEPT · BY MiSi</span></footer>
+</div>
+
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const pipeValues=[40,45,50];
+const manual={child:25,work:23,bed:22};
+let season=0, offsetMs=0;
+const pad=n=>String(n).padStart(2,'0');
+const simNow=()=>new Date(Date.now()+offsetMs);
+const toMins=s=>{if(!s)return null;const [h,m]=s.split(':').map(Number);return h*60+m;};
+const formatMins=n=>pad(Math.floor(+n/60))+':'+pad(+n%60);
+function activeTimer(){
+ if(!$('timerEnabled').checked)return false;
+ const now=simNow(),m=now.getHours()*60+now.getMinutes();
+ const a=+$('from').value,b=+$('to').value;
+ if(a===b)return false;
+ return a<b?(m>=a&&m<b):(m>=a||m<b);
+}
+function markChange(el,key){
+ if(el.dataset.state&&el.dataset.state!==key){el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');}
+ el.dataset.state=key;
+}
+document.addEventListener('animationend',e=>e.target.classList&&e.target.classList.remove('flash'));
+function paintStatus(id,title,state,kind){
+ const el=$(id);el.classList.remove('on','off','warn');el.classList.add(kind);
+ el.querySelector('small').textContent=state;markChange(el,kind);
+}
+function paintValve(id,open){
+ const el=$(id);el.classList.remove('open','closed');el.classList.add(open?'open':'closed');markChange(el,open?'open':'closed');
+ el.querySelector('b').textContent=open?'OPEN':'CLOSED';
+}
+function update(){
+ const out=+$('outdoor').value,hall=+$('hall').value,pipe=pipeValues[+$('pipe').value],highHumidity=+$('humidity').value===1;
+ $('outVal').textContent=out;$('hallVal').textContent=hall;
+ $('pipeVal').textContent=pipe+' °C';$('pipeHint').textContent=['Below 40 °C · OPTIMAL','45 °C · HIGH','50 °C · DANGEROUS'][$('pipe').value];
+ $('humVal').textContent=highHumidity?'HIGH':'OPT.';$('humHint').textContent=highHumidity?'ABOVE 65% · PROTECTION':'BELOW 65% · OPTIMAL';
+ $('pipe').style.borderColor=pipe>49?'#ff647d':pipe>44?'#ffcf62':'#42e6a4';
+ $('humidity').style.borderColor=highHumidity?'#ff647d':'#42e6a4';
+ const pipeBox=$('pipe').closest('.sensor'),humBox=$('humidity').closest('.sensor');
+ pipeBox.classList.toggle('ok',pipe<=44);pipeBox.classList.toggle('caution',pipe>44&&pipe<=49);pipeBox.classList.toggle('danger',pipe>49);
+ humBox.classList.toggle('ok',!highHumidity);humBox.classList.toggle('danger',highHumidity);
+ $('seasonBox').classList.toggle('summer',season===1);
+ $('seasonLabel').textContent=season===0?'WINTER MODE':'SUMMER MODE';
+ const active=activeTimer();
+ const values={child:active?+$('tChild').value:manual.child,work:active?+$('tWork').value:manual.work,bed:active?+$('tBed').value:manual.bed};
+ [['child','spChild','vChild'],['work','spWork','vWork'],['bed','spBed','vBed']].forEach(([k,input,outId])=>{
+   $(input).value=values[k];$(input).disabled=active;$('v'+k[0].toUpperCase()+k.slice(1)).textContent=values[k]+' °C';
+ });
+ $('timerStatus').textContent=active?'TIMER ACTIVE · PROFILE APPLIED':$('timerEnabled').checked?'WAITING FOR TIME WINDOW':'TIMER OFF';
+ $('timerStatus').classList.toggle('is-active',active);
+ $('timerStatus').classList.toggle('is-armed',!active&&$('timerEnabled').checked);
+ document.querySelector('.timer').classList.toggle('active',active);
+ document.querySelectorAll('.block .room').forEach(r=>r.classList.toggle('profile',active));
+ $('fromVal').textContent=formatMins($('from').value);$('toVal').textContent=formatMins($('to').value);
+ $('tChildVal').textContent=$('tChild').value+' °C';$('tWorkVal').textContent=$('tWork').value+' °C';$('tBedVal').textContent=$('tBed').value+' °C';
+ $('activePeriod').textContent=formatMins($('from').value)+' → '+formatMins($('to').value);
+ const heating=season===0,all=[values.child,values.work,values.bed];
+ const anyBelow=all.some(s=>s<hall),anyAbove=all.some(s=>s>hall);
+ const demand=(heating||anyBelow)&&(!heating||anyAbove);
+ paintStatus('heatPump','HEAT PUMP',demand?'RUNNING':'OFF',demand?'on':'off');
+ let fp;if(pipe>44)fp='PROTECTION · OFF';else if(!heating)fp='OFF';else if((heating||anyBelow)&&anyAbove)fp='CIRCULATION ACTIVE';else fp='OFF';
+ const floorOn=fp==='CIRCULATION ACTIVE';
+ paintStatus('floorPump','FLOOR HEATING',fp,floorOn?'on':pipe>44?'warn':'off');
+ let rp;if(pipe>49)rp='CIRCULATION ACTIVE';else if(!heating)rp='OFF';else rp=demand?'CIRCULATION ACTIVE':'OFF';
+ const radOn=rp==='CIRCULATION ACTIVE';paintStatus('radPump','RADIATORS',rp,pipe>49?'warn':radOn?'on':'off');
+ let cp;if(pipe>49||highHumidity)cp='PROTECTION · OFF';else cp=demand?'CIRCULATION ACTIVE':'OFF';
+ const ceilOn=cp==='CIRCULATION ACTIVE';paintStatus('ceilPump','CEILING',cp,(pipe>49||highHumidity)?'warn':ceilOn?'on':'off');
+ const rooms=[['Corr',values.bed],['Child',values.child],['Work',values.work],['Bed',values.bed]];
+ rooms.forEach(([key,s])=>{
+   const floorOpen=pipe<=44&&heating&&s>hall;
+   paintValve('fv'+key,floorOpen);
+   const ceilClosed=pipe>49||highHumidity||((heating||s>=hall)&&(!heating||s<=hall));
+   paintValve('cv'+key,!ceilClosed);
+ });
+}
+function tick(){
+ const d=simNow(),time=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+ $('clock').textContent=time;$('clockMini').textContent=time;if(document.activeElement!==$('clockInput'))$('clockInput').value=pad(d.getHours())+':'+pad(d.getMinutes());update();
+}
+$('seasonToggle').addEventListener('click',()=>{season=1-season;update();});
+$('outdoor').addEventListener('input',()=>{const t=+$('outdoor').value;if(t<20)season=0;else if(t>20)season=1;update();});
+$('hall').addEventListener('input',update);
+['pipe','humidity','timerEnabled','from','to','tChild','tWork','tBed'].forEach(id=>$(id).addEventListener('input',update));
+['spChild','spWork','spBed'].forEach((id,i)=>$(id).addEventListener('input',()=>{manual[['child','work','bed'][i]]=+$(id).value;update();}));
+$('clock').addEventListener('click',()=>{const d=simNow();$('clockInput').value=pad(d.getHours())+':'+pad(d.getMinutes());$('clockInput').showPicker?.();});
+$('clockInput').addEventListener('change',e=>{const m=toMins(e.target.value);if(m===null)return;const d=new Date();d.setHours(Math.floor(m/60),m%60,0,0);offsetMs=d.getTime()-Date.now();tick();});
+tick();setInterval(tick,1000);
+
+// ---------- Automatic font fitting ----------
+// Each group of the dashboard has its own scale factor (--k-<group>). The script grows the groups
+// one small step at a time, as long as everything still fits on one screen without scrolling
+// or clipping. It is measured with the longest possible texts, so later value changes never overflow.
+const FIT_GROUPS = ['top', 'sec', 'sens', 'block', 'timer', 'stat', 'valve', 'foot'];
+const FIT_STEP = 0.03, FIT_MIN = 0.8, FIT_MAX = 2.4;
+const FIT_CAP = { top: 1.3, sec: 1.5, foot: 1.5 }; // groups that should not grow too much
+const fitScale = {};
+const appEl = document.querySelector('.app');
+
+function setScale(group, value) {
+  fitScale[group] = value;
+  document.documentElement.style.setProperty('--k-' + group, value.toFixed(3));
+}
+
+const measureCtx = document.createElement('canvas').getContext('2d');
+function selectFits(sel) {
+  const cs = getComputedStyle(sel);
+  measureCtx.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+  let widest = 0;
+  for (const o of sel.options) widest = Math.max(widest, measureCtx.measureText(o.textContent).width);
+  return widest + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + 3 <= sel.clientWidth;
+}
+
+function contentFits() {
+  if (appEl.scrollHeight > appEl.clientHeight + 1 || appEl.scrollWidth > appEl.clientWidth + 1) return false;
+  for (const el of appEl.querySelectorAll('*')) {
+    if (el.matches('select')) { if (!selectFits(el)) return false; continue; }
+    if (el.matches('input, button, option')) continue;
+    if (el.clientWidth > 0 && el.scrollWidth > el.clientWidth + 1) return false;
+    if (el.clientHeight > 0 && el.scrollHeight > el.clientHeight + 1) return false;
+  }
+  return true;
+}
+
+// Longest texts that can ever appear in each element (used only while measuring)
+const WORST_CASE_TEXT = [
+  ['outVal', '-60'], ['hallVal', '32'], ['pipeVal', '50 °C'], ['humVal', 'HIGH'],
+  ['pipeHint', 'Below 40 °C · OPTIMAL'], ['humHint', 'ABOVE 65% · PROTECTION'],
+  ['clock', '88:88:88'], ['clockMini', '88:88:88'], ['seasonLabel', 'SUMMER MODE'],
+  ['vChild', '30 °C'], ['vWork', '30 °C'], ['vBed', '30 °C'],
+  ['fromVal', '88:88'], ['toVal', '88:88'],
+  ['tChildVal', '30 °C'], ['tWorkVal', '30 °C'], ['tBedVal', '30 °C'],
+  ['timerStatus', 'TIMER ACTIVE · PROFILE APPLIED'], ['activePeriod', '88:88 → 88:88']
+];
+
+function fitToScreen() {
+  appEl.classList.remove('scroll');
+  const saved = [];
+  const swap = (el, text) => { saved.push([el, el.textContent]); el.textContent = text; };
+  WORST_CASE_TEXT.forEach(([id, text]) => swap($(id), text));
+  ['heatPump', 'floorPump', 'radPump', 'ceilPump'].forEach(id => swap($(id).querySelector('small'), 'PROTECTION · OFF'));
+  document.querySelectorAll('.valve b').forEach(el => swap(el, 'CLOSED'));
+
+  FIT_GROUPS.forEach(g => setScale(g, 1));
+  // If even the base size does not fit (very small screens), shrink everything first
+  let base = 1;
+  while (!contentFits() && base > FIT_MIN) {
+    base -= FIT_STEP;
+    FIT_GROUPS.forEach(g => setScale(g, base));
+  }
+  if (!contentFits()) {
+    // Even the smallest allowed size does not fit: use the scrolling fallback instead of shrinking further
+    appEl.classList.add('scroll');
+    FIT_GROUPS.forEach(g => setScale(g, 1.1)); // comfortable size, the page simply scrolls
+    saved.forEach(([el, text]) => { el.textContent = text; });
+    return;
+  }
+  // Then always grow the currently smallest group that can still grow, so sizes stay balanced
+  const frozen = new Set();
+  for (;;) {
+    const open = FIT_GROUPS.filter(g => !frozen.has(g) && fitScale[g] + FIT_STEP <= (FIT_CAP[g] || FIT_MAX));
+    if (!open.length) break;
+    const g = open.reduce((a, c) => (fitScale[c] < fitScale[a] ? c : a));
+    const current = fitScale[g];
+    setScale(g, current + FIT_STEP);
+    if (!contentFits()) { setScale(g, current); frozen.add(g); }
+  }
+  saved.forEach(([el, text]) => { el.textContent = text; });
+}
+
+let fitTimer = null;
+function scheduleFit() { clearTimeout(fitTimer); fitTimer = setTimeout(fitToScreen, 120); }
+window.addEventListener('resize', scheduleFit);
+window.addEventListener('orientationchange', scheduleFit);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', scheduleFit);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitToScreen);
+fitToScreen();
+
+</script>
+</body>
+</html>
