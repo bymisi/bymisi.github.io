@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fűtés / Hűtés Vezérlés szimulátor</title>
+<style>
+  body { margin:0; padding:10px; font-family:Calibri,Arial,sans-serif; background:#fff; color:#000; }
+  h1 { font-size:1.2rem; margin:4px 0; }
+  .hint { font-size:.85rem; margin:0 0 10px; }
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; max-width:900px; }
+  .cell { padding:6px 4px; display:flex; align-items:center; justify-content:center;
+          text-align:center; font-size:clamp(10px,2.8vw,14px); min-height:44px;
+          border:1px solid #888; box-sizing:border-box; overflow-wrap:anywhere; }
+  select { width:100%; font:inherit; font-weight:bold; background:transparent; border:0; text-align:center; }
+  .sign { font-size:clamp(22px,7vw,30px); font-weight:bold; }
+  .mode { font-size:clamp(14px,4vw,16px); font-weight:bold; color:#fff; }
+  .strong { font-weight:bold; }
+  .span2 { grid-column: span 2; }
+  .span3 { grid-column: span 3; }
+  .col { flex-direction:column; gap:2px; }
+  .sub { font-size:.75rem; }
+  .clock { background:#2a6f77; color:#fff; position:relative; cursor:pointer; }
+  .clock-time { font-size:clamp(13px,4.4vw,26px); font-weight:bold; letter-spacing:0; }
+  .clock-hint { font-size:.62rem; opacity:.85; }
+  .clock input { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+  input[type=time] { width:100%; font:inherit; font-weight:bold; background:transparent; border:0; text-align:center; box-sizing:border-box; }
+  .pick { position:relative; }
+  .pick select { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+  .pick::after { content:"▾"; position:absolute; right:5px; top:50%; transform:translateY(-50%); pointer-events:none; }
+  #seasonText { padding-right:10px; }
+  select:disabled { opacity:.75; color:#000; }
+  button.reset { font:inherit; width:100%; height:100%; border:0; background:#e0e0e0; cursor:pointer; }
+  footer { margin-top:12px; font-size:.8rem; }
+</style>
+</head>
+<body>
+<h1>Fűtés / Hűtés Vezérlés szimulátor</h1>
+<p class="hint">A Narancssárga mezőket lehet kapcsolgatni</p>
+
+<div class="grid" id="app">
+  <!-- Row 4: temperatures -->
+  <div class="cell" style="background:#ff0">Aktuális Hőmérséklet C° :</div>
+  <div class="cell" style="background:#ffc000"><select id="temp"></select></div>
+  <div class="cell" style="background:#00b0f0">Cső termosztát értéke:</div>
+  <div class="cell" style="background:#ffc000"><select id="pipe"></select></div>
+
+  <!-- Row 5: thermostat labels -->
+  <div class="cell col clock" id="clockCell"><div class="clock-time" id="clockText">--:--:--</div><div class="clock-hint">Érintsd meg az idő átírásához</div><input type="time" id="clockInput"></div>
+  <div class="cell" style="background:#70ffff">Gyerek szoba Termosztát igénye</div>
+  <div class="cell" style="background:#70ffff">Dolgozó szoba Termosztát igénye</div>
+  <div class="cell" style="background:#70ffff">Háló Szoba Termosztát igénye</div>
+
+  <!-- Row 6: inputs -->
+  <div class="cell pick" style="background:#ffc000"><div class="strong" id="seasonText"></div><select id="season"></select></div>
+  <div class="cell" style="background:#ffc000"><select id="spChild"></select></div>
+  <div class="cell" style="background:#ffc000"><select id="spWork"></select></div>
+  <div class="cell" style="background:#ffc000"><select id="spBed"></select></div>
+
+  <!-- Row 7: mode and demand signs -->
+  <div class="cell mode" id="modeCell"></div>
+  <div class="cell sign" id="signChild"></div>
+  <div class="cell sign" id="signWork"></div>
+  <div class="cell sign" id="signBed"></div>
+
+  <!-- Row 8: pumps -->
+  <div class="cell strong" id="heatPump"></div>
+  <div class="cell strong" id="floorPump"></div>
+  <div class="cell strong" id="radPump"></div>
+  <div class="cell strong" id="ceilPump"></div>
+
+  <!-- Row 9: floor valves -->
+  <div class="cell" id="fvCorr"></div>
+  <div class="cell" id="fvChild"></div>
+  <div class="cell" id="fvWork"></div>
+  <div class="cell" id="fvBed"></div>
+
+  <!-- Row 10: ceiling valves -->
+  <div class="cell" id="cvCorr"></div>
+  <div class="cell" id="cvChild"></div>
+  <div class="cell" id="cvWork"></div>
+  <div class="cell" id="cvBed"></div>
+</div>
+
+<footer>Készítette : MiSi .</footer>
+
+<script>
+// Dropdown values taken from the original Excel sheet
+const TEMPS = [-5, 0, 5, 10, 18, 19, 20, 21, 22, 23, 25, 30, 35, 40, 45, 60];
+const SEASONS = ["Téli üzemmód", "Nyári üzemmód"];
+
+const $ = id => document.getElementById(id);
+
+function fillSelect(id, values, selected, onChange) {
+  const el = $(id);
+  values.forEach(v => {
+    const opt = document.createElement("option");
+    opt.value = v;
+    opt.textContent = v;
+    if (v === selected) opt.selected = true;
+    el.appendChild(opt);
+  });
+  el.addEventListener("change", onChange || update);
+}
+
+// Set text and background; pick a readable text color automatically
+function paint(id, text, bg) {
+  const el = $(id);
+  el.textContent = text;
+  el.style.background = bg;
+  const r = parseInt(bg.slice(1, 3), 16), g = parseInt(bg.slice(3, 5), 16), b = parseInt(bg.slice(5, 7), 16);
+  el.style.color = (r * 0.299 + g * 0.587 + b * 0.114) < 140 ? "#fff" : "#000";
+}
+
+// Status text ending with "Be" means ON (green), anything else is OFF/protection (gray)
+const isOn = text => /\sBe$/i.test(text);
+
+function update() {
+  applyTimers();
+  // Show the selected mode on two lines (the last word goes on the second line)
+  const modeText = $("season").value;
+  const cut = modeText.lastIndexOf(" ");
+  $("seasonText").innerHTML = modeText.slice(0, cut) + "<br>" + modeText.slice(cut + 1);
+  const temp = +$("temp").value;
+  const pipe = +$("pipe").value;
+  const heating = $("season").value !== "Nyári üzemmód";
+  const sp = { child: +$("spChild").value, work: +$("spWork").value, bed: +$("spBed").value };
+  const all = [sp.child, sp.work, sp.bed];
+  const anyBelow = all.some(s => s < temp);
+  const anyAbove = all.some(s => s > temp);
+
+  // Row 7
+  paint("modeCell", heating ? "Fűtés" : "Hűtés", heating ? "#c00000" : "#0000ff");
+  [["signChild", sp.child], ["signWork", sp.work], ["signBed", sp.bed]].forEach(([id, s]) => {
+    const low = s <= temp;
+    paint(id, low ? "-" : "+", low ? "#0000ff" : "#ff0000");
+  });
+
+  // Row 8: pumps (same logic as the Excel formulas)
+  const demand = (heating || anyBelow) && (!heating || anyAbove);
+
+  const hp = demand ? "Hőszivattyú Be" : "Hőszivattyú Ki";
+  paint("heatPump", hp, isOn(hp) ? "#00ff00" : "#c0c0c0");
+
+  let fp;
+  if (pipe > 44) fp = "Padló ki . Védelem";
+  else if (!heating) fp = "Padló Keringető Szivattyú Ki";
+  else if ((heating || anyBelow) && anyAbove) fp = "Padló Keringető szivattyú Be";
+  else fp = "Padló szivattyú Ki";
+  paint("floorPump", fp, isOn(fp) ? "#00b000" : "#808080");
+
+  let rp;
+  if (!heating) rp = "Radiátorok Keringető szivattyú Ki";
+  else rp = demand ? "Radiátorok Keringető szivattyú Be" : "Radiátorok Keringető szivattyú Ki";
+  paint("radPump", rp, isOn(rp) ? "#00ff00" : "#808080");
+
+  let cp;
+  if (pipe > 49) cp = "Mennyezet ki . Védelem";
+  else cp = demand ? "Mennyezet Keringető szivattyú Be" : "Mennyezet Keringető szivattyú Ki";
+  paint("ceilPump", cp, isOn(cp) ? "#00b000" : "#606060");
+
+  // Rows 9 and 10: valves (corridor follows the bedroom setpoint)
+  const rooms = [
+    ["Corr", "Közlekedő", sp.bed],
+    ["Child", "Gyerek szoba", sp.child],
+    ["Work", "Dolgozó szoba", sp.work],
+    ["Bed", "Háló szoba", sp.bed]
+  ];
+  rooms.forEach(([key, name, s]) => {
+    // Floor valve
+    const floorOpen = pipe <= 44 && heating && s > temp;
+    paint("fv" + key, `${name} Padló szelep ${floorOpen ? "Nyit" : "Zár"}`, floorOpen ? "#70ffff" : "#606060");
+    // Ceiling valve
+    const ceilClosed = pipe > 49 || ((heating || s >= temp) && (!heating || s <= temp));
+    paint("cv" + key, `${name} Mennyezet szelep ${ceilClosed ? "Zár" : "Nyit"}`, ceilClosed ? "#606060" : "#70ffff");
+  });
+}
+
+
+// ---------- Clock and timers ----------
+const TIMER_IDS = ["A"];
+const TIMER_DEFAULTS = {
+  A: { from: "21:00", to: "07:00", child: 23, work: 18, bed: 21 }
+};
+const manual = { child: 25, work: 23, bed: 22 }; // values chosen by hand in row 6
+let offsetMs = 0; // difference between the simulated time and the real time
+
+function pad(n) { return String(n).padStart(2, "0"); }
+function simNow() { return new Date(Date.now() + offsetMs); }
+function toMinutes(str) {
+  if (!str) return null;
+  const [h, m] = str.split(":").map(Number);
+  return h * 60 + m;
+}
+
+// A timer is active if enabled and the simulated time is inside its interval (may cross midnight)
+function findActiveTimer() {
+  const d = simNow();
+  const now = d.getHours() * 60 + d.getMinutes();
+  return TIMER_IDS.find(id => {
+    if ($("tEn" + id).value !== "Be") return false;
+    const from = toMinutes($("tFrom" + id).value);
+    const to = toMinutes($("tTo" + id).value);
+    if (from === null || to === null || from === to) return false;
+    return from < to ? (now >= from && now < to) : (now >= from || now < to);
+  }) || null;
+}
+
+// The active timer overrides the three room thermostat values; otherwise the manual values apply
+function applyTimers() {
+  const active = findActiveTimer();
+  [["child", "Child"], ["work", "Work"], ["bed", "Bed"]].forEach(([key, name]) => {
+    const sel = $("sp" + name);
+    const value = active ? $("t" + name + active).value : String(manual[key]);
+    if (sel.value !== value) sel.value = value;
+    sel.disabled = !!active;
+  });
+  TIMER_IDS.forEach(id => {
+    $("tLabel" + id).style.background = id === active ? "#00ff00" : "#cfe8ff";
+  });
+}
+
+function addCell(html, style, cls) {
+  const div = document.createElement("div");
+  div.className = "cell " + (cls || "");
+  div.style.cssText = style || "";
+  div.innerHTML = html;
+  // Insert the timer cells right above the heating/cooling status row (below the thermostat inputs)
+  $("app").insertBefore(div, $("modeCell"));
+  return div;
+}
+
+function buildTimerSection() {
+
+  $("clockInput").addEventListener("focus", () => {
+    const d = simNow();
+    $("clockInput").value = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  });
+  $("clockInput").addEventListener("change", e => {
+    const m = toMinutes(e.target.value);
+    if (m === null) return;
+    const target = new Date();
+    target.setHours(Math.floor(m / 60), m % 60, 0, 0);
+    offsetMs = target.getTime() - Date.now();
+    tick();
+  });
+
+  // Two rows per timer: enable + interval, then the requested temperatures
+  TIMER_IDS.forEach(id => {
+    const d = TIMER_DEFAULTS[id];
+    const label = addCell(`${id} időzítő`, "background:#cfe8ff", "strong");
+    label.id = "tLabel" + id;
+    addCell(`<select id="tEn${id}"></select>`, "background:#ffc000");
+    addCell(`<span class="sub">Tól</span><input type="time" id="tFrom${id}" value="${d.from}">`, "background:#ffc000", "col");
+    addCell(`<span class="sub">Ig</span><input type="time" id="tTo${id}" value="${d.to}">`, "background:#ffc000", "col");
+
+    addCell("Kért hőmérséklet", "background:#cfe8ff");
+    addCell(`<select id="tChild${id}"></select>`, "background:#ffc000");
+    addCell(`<select id="tWork${id}"></select>`, "background:#ffc000");
+    addCell(`<select id="tBed${id}"></select>`, "background:#ffc000");
+
+    fillSelect("tEn" + id, ["Ki", "Be"], "Ki");
+    fillSelect("tChild" + id, TEMPS, d.child);
+    fillSelect("tWork" + id, TEMPS, d.work);
+    fillSelect("tBed" + id, TEMPS, d.bed);
+    ["tFrom", "tTo"].forEach(p => $(p + id).addEventListener("change", update));
+  });
+}
+
+function tick() {
+  const d = simNow();
+  $("clockText").textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  update();
+}
+
+// Initial values match the original sheet
+fillSelect("temp", TEMPS, 19);
+fillSelect("pipe", TEMPS, 35);
+fillSelect("season", SEASONS, "Téli üzemmód");
+fillSelect("spChild", TEMPS, 25, e => { manual.child = +e.target.value; update(); });
+fillSelect("spWork", TEMPS, 23, e => { manual.work = +e.target.value; update(); });
+fillSelect("spBed", TEMPS, 22, e => { manual.bed = +e.target.value; update(); });
+buildTimerSection();
+tick();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
