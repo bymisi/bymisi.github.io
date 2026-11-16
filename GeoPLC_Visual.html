@@ -104,6 +104,11 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .status.off{background:linear-gradient(145deg,#202a38,#141d29);border-color:#39495c}
 .status.warn{background:linear-gradient(145deg,#48232b,#251820);border-color:#914151}
 
+/* Ventilation alert directly inside the Heat Pump box */
+.status.vent-alert{background:linear-gradient(145deg,#5c480e,#382a08)!important;border-color:#ffcf62!important;}
+.status.vent-alert b, .status.vent-alert small{color:#ffe9a8!important;}
+.vent-msg{font-size:calc(5.5px*var(--k,1));line-height:1.15;color:#ffcf62;font-weight:800;margin-top:2px;word-break:break-word;}
+
 /* 05 Valves: two columns (floor left, ceiling right), one row per room */
 .valves{--k:var(--k-valve);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto repeat(4,auto);gap:4px;min-height:0}
 .valve-title{grid-area:1/1/2/3}
@@ -124,7 +129,7 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .status.off,.status.warn,.valve.closed{--glow:#ff647d}
 .status.on{background:linear-gradient(145deg,#15805a,#0d4f38);border-color:#42e6a4}
 .status.off{background:linear-gradient(145deg,#6b2130,#431520);border-color:#ff647d}
-.status.warn{background:linear-gradient(145deg,#b02a45,#6e1829);border-color:#ff9aa9}
+.status.warn{background:linear-gradient(145deg,#b02a45,#6e1829);border-color:#914151}
 .status.on b,.status.on small{color:#f2fffa}
 .status.off b,.status.off small,.status.warn b,.status.warn small{color:#ffe9ed}
 .valve.open{background:linear-gradient(145deg,#15805a,#0d4f38);border-color:#42e6a4}
@@ -142,13 +147,6 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .room.profile{border-color:#42e6a4;background:#0f3327}
 .flash{animation:flash .8s ease-out}
 @keyframes flash{0%{box-shadow:0 0 0 0 var(--glow,#fff)}30%{box-shadow:0 0 0 4px var(--glow,#fff),0 0 22px 6px var(--glow,#fff)}100%{box-shadow:0 0 0 0 transparent}}
-
-/* Ventilation alert (overlay only, does not affect layout) */
-#ventAlert{position:fixed;z-index:50;display:none;pointer-events:none;align-items:center;gap:6px;max-width:calc(100vw - 16px);
-  padding:5px 8px;border-radius:9px;background:#3d3208;border:1px solid #ffcf62;color:#ffe9a8;font-size:10px;font-weight:700;line-height:1.2;
-  box-shadow:0 4px 14px #000a}
-#ventAlert .tri{font-size:20px;line-height:1;color:#ffcf62}
-#ventAlert.show{display:flex}
 </style>
 </head>
 <body>
@@ -214,7 +212,7 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 
 <div class="sectionline"><span>04 / Equipment status</span><small>DYNAMIC CONTROL</small></div>
 <section class="statuses">
- <div class="panel status off" id="heatPump"><span class="ico">◈</span><b>HEAT PUMP</b><small>OFF</small></div>
+ <div class="panel status off" id="heatPump"><span class="ico" id="hpIco">◈</span><b>HEAT PUMP</b><small id="hpState">OFF</small></div>
  <div class="panel status off" id="floorPump"><span class="ico">▤</span><b>FLOOR HEATING</b><small>OFF</small></div>
  <div class="panel status off" id="radPump"><span class="ico">▥</span><b>RADIATORS</b><small>OFF</small></div>
  <div class="panel status off" id="ceilPump"><span class="ico">⌁</span><b>CEILING</b><small>OFF</small></div>
@@ -234,10 +232,10 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 <footer class="footer"><span><b>GeoPLC</b> · BASED ON THE ORIGINAL CONTROL LOGIC</span><span>GRAPHIC CONCEPT · BY MiSi</span></footer>
 </div>
 
-<div id="ventAlert" role="alert"><span class="tri">&#9888;</span><span>Ventilation needed,<br>open the windows</span></div>
 <script>
 'use strict';
 const $=id=>document.getElementById(id);
+const pipeValues=[40,45,50];
 const manual={child:25,work:23,bed:22};
 let season=0, offsetMs=0;
 const pad=n=>String(n).padStart(2,'0');
@@ -257,8 +255,14 @@ function markChange(el,key){
 }
 document.addEventListener('animationend',e=>e.target.classList&&e.target.classList.remove('flash'));
 function paintStatus(id,title,state,kind){
- const el=$(id);el.classList.remove('on','off','warn');el.classList.add(kind);
- el.querySelector('small').textContent=state;markChange(el,kind);
+ const el=$(id);
+ // Ha a hőszivattyún nincsen vent-alert, akkor kezeljük normálisan
+ if(id !== 'heatPump' || !el.classList.contains('vent-alert')){
+   el.classList.remove('on','off','warn');
+   el.classList.add(kind);
+   el.querySelector('small').textContent=state;
+ }
+ markChange(el,kind);
 }
 function paintValve(id,open){
  const el=$(id);el.classList.remove('open','closed');el.classList.add(open?'open':'closed');markChange(el,open?'open':'closed');
@@ -267,9 +271,8 @@ function paintValve(id,open){
 function update(){
  const out=+$('outdoor').value, hall=+$('hall').value, pipe=+$('pipe').value, highHumidity=+$('humidity').value===1;
  $('outVal').textContent=out; $('hallVal').textContent=hall;
- $('pipeVal').textContent=pipe;
+ $('pipeVal').textContent=pipe + ' °C';
  
- // Pipe status rules
  let pipeStateText='Optimal', bannerMsg='NORMAL OPERATION · ALL CIRCUITS OPERATING WITHIN SAFE PARAMETERS', bannerKind='ok';
  if(pipe>49){
    pipeStateText='Dangerous · Overheat';
@@ -279,8 +282,6 @@ function update(){
    pipeStateText='High · Caution';
    bannerMsg='CAUTION: ELEVATED PIPE TEMPERATURE (>44°C)';
    bannerKind='warn';
- } else {
-   pipeStateText='Below 40 °C · Optimal';
  }
  if(highHumidity && bannerKind==='ok'){
    bannerMsg='WARNING: HIGH HUMIDITY (>65%) · CEILING COOLING LOCKED OUT';
@@ -294,7 +295,7 @@ function update(){
  pipeBox.classList.toggle('ok',pipe<=44); pipeBox.classList.toggle('caution',pipe>44&&pipe<=49); pipeBox.classList.toggle('danger',pipe>49);
  humBox.classList.toggle('ok',!highHumidity); humBox.classList.toggle('danger',highHumidity);
  
- const alertEl=$('alert_banner') || $('alertBanner');
+ const alertEl=$('alertBanner');
  if(alertEl){
    alertEl.className='alert-banner '+bannerKind;
    alertEl.querySelector('span').textContent='● ' + bannerMsg;
@@ -306,23 +307,16 @@ function update(){
  const active=activeTimer();
  const values={child:active?+$('tChild').value:manual.child,work:active?+$('tWork').value:manual.work,bed:active?+$('tBed').value:manual.bed};
  
- [['child','spChild','vChild','roomChildBox','modeChild'],
-  ['work','spWork','vWork','roomWorkBox','modeWork'],
-  ['bed','spBed','vBed','roomBedBox','modeBed']].forEach(([k,input,outId,boxId,modeId])=>{
-   $(input).value=values[k];
-   $(input).disabled=active;
-   $(outId).textContent=values[k]+' °C';
-   const modeTag=$(modeId);
-   modeTag.textContent=active?'TIMER':'MANUAL';
-   modeTag.classList.toggle('active',active);
-   $(boxId).classList.toggle('profile',active);
+ [['child','spChild','vChild'],['work','spWork','vWork'],['bed','spBed','vBed']].forEach(([k,input,outId])=>{
+   $(input).value=values[k];$(input).disabled=active;$('v'+k[0].toUpperCase()+k.slice(1)).textContent=values[k]+' °C';
  });
 
  $('timerStatus').textContent=active?'TIMER ACTIVE · PROFILE APPLIED':$('timerEnabled').checked?'WAITING FOR TIME WINDOW':'TIMER OFF';
  $('timerStatus').classList.toggle('is-active',active);
  $('timerStatus').classList.toggle('is-armed',!active&&$('timerEnabled').checked);
  document.querySelector('.timer').classList.toggle('active',active);
-
+ document.querySelectorAll('.block .room').forEach(r=>r.classList.toggle('profile',active));
+ 
  $('fromVal').textContent=formatMins($('from').value);$('toVal').textContent=formatMins($('to').value);
  $('tChildVal').textContent=$('tChild').value+' °C';$('tWorkVal').textContent=$('tWork').value+' °C';$('tBedVal').textContent=$('tBed').value+' °C';
  $('activePeriod').textContent=formatMins($('from').value)+' → '+formatMins($('to').value);
@@ -350,20 +344,35 @@ function update(){
    const ceilClosed=pipe>49||highHumidity||((heating||s>=hall)&&(!heating||s<=hall));
    paintValve('cv'+key,!ceilClosed);
  });
- updateVentAlert(pipe,highHumidity);
+
+ // Ventilation alert check: Pipe max (>49) AND humidity high
+ const ventNeeded = (pipe > 49) && highHumidity;
+ const hpBox = $('heatPump');
+ const hpIco = $('hpIco');
+ const hpState = $('hpState');
+ 
+ let existingMsg = hpBox.querySelector('.vent-msg');
+ if(existingMsg) existingMsg.remove();
+
+ if(ventNeeded){
+   hpBox.classList.remove('on','off','warn');
+   hpBox.classList.add('vent-alert');
+   hpIco.textContent = '⚠️';
+   hpState.textContent = 'LOCKED';
+   
+   const msgDiv = document.createElement('div');
+   msgDiv.className = 'vent-msg';
+   msgDiv.textContent = 'Ventilation needed, open the windows';
+   hpBox.appendChild(msgDiv);
+ } else {
+   hpIco.textContent = '◈';
+   if(hpBox.classList.contains('vent-alert')){
+     hpBox.classList.remove('vent-alert');
+     hpState.textContent = demand ? 'RUNNING' : 'OFF';
+   }
+ }
 }
 
-// Ventilation alert: pipe thermostat in danger range AND humidity high -> yellow triangle at the heat pump
-function updateVentAlert(pipe,highHumidity){
- const box=$('ventAlert'),hp=$('heatPump');
- const needed=pipe>49&&highHumidity;
- box.classList.toggle('show',needed);
- if(!needed)return;
- const r=hp.getBoundingClientRect(),w=box.offsetWidth,h=box.offsetHeight;
- let left=Math.max(8,Math.min(r.left+r.width/2-w/2,window.innerWidth-w-8));
- let top=r.top-h-4; if(top<4)top=r.bottom+4;
- box.style.left=left+'px';box.style.top=top+'px';
-}
 function tick(){
  const d=simNow(),time=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
  $('clock').textContent=time;$('clockMini').textContent=time;if(document.activeElement!==$('clockInput'))$('clockInput').value=pad(d.getHours())+':'+pad(d.getMinutes());update();
@@ -410,7 +419,7 @@ function contentFits() {
 }
 
 const WORST_CASE_TEXT = [
-  ['outVal', '-60'], ['hallVal', '32'], ['pipeVal', '50'], ['humVal', 'HIGH'],
+  ['outVal', '-60'], ['hallVal', '32'], ['pipeVal', '50 °C'], ['humVal', 'HIGH'],
   ['pipeHint', 'WARNING: HIGH PIPE TEMPERATURE (>49°C)'], ['humHint', 'ABOVE 65% · PROTECTION'],
   ['clock', '88:88:88'], ['clockMini', '88:88:88'], ['seasonLabel', 'SUMMER MODE'],
   ['vChild', '30 °C'], ['vWork', '30 °C'], ['vBed', '30 °C'],
