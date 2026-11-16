@@ -142,6 +142,13 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .room.profile{border-color:#42e6a4;background:#0f3327}
 .flash{animation:flash .8s ease-out}
 @keyframes flash{0%{box-shadow:0 0 0 0 var(--glow,#fff)}30%{box-shadow:0 0 0 4px var(--glow,#fff),0 0 22px 6px var(--glow,#fff)}100%{box-shadow:0 0 0 0 transparent}}
+
+/* Ventilation alert (overlay only, does not affect layout) */
+#ventAlert{position:fixed;z-index:50;display:none;pointer-events:none;align-items:center;gap:6px;max-width:calc(100vw - 16px);
+  padding:5px 8px;border-radius:9px;background:#3d3208;border:1px solid #ffcf62;color:#ffe9a8;font-size:10px;font-weight:700;line-height:1.2;
+  box-shadow:0 4px 14px #000a}
+#ventAlert .tri{font-size:20px;line-height:1;color:#ffcf62}
+#ventAlert.show{display:flex}
 </style>
 </head>
 <body>
@@ -227,6 +234,7 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 <footer class="footer"><span><b>GeoPLC</b> · BASED ON THE ORIGINAL CONTROL LOGIC</span><span>GRAPHIC CONCEPT · BY MiSi</span></footer>
 </div>
 
+<div id="ventAlert" role="alert"><span class="tri">&#9888;</span><span>Ventilation needed,<br>open the windows</span></div>
 <script>
 'use strict';
 const $=id=>document.getElementById(id);
@@ -342,6 +350,19 @@ function update(){
    const ceilClosed=pipe>49||highHumidity||((heating||s>=hall)&&(!heating||s<=hall));
    paintValve('cv'+key,!ceilClosed);
  });
+ updateVentAlert(pipe,highHumidity);
+}
+
+// Ventilation alert: pipe thermostat in danger range AND humidity high -> yellow triangle at the heat pump
+function updateVentAlert(pipe,highHumidity){
+ const box=$('ventAlert'),hp=$('heatPump');
+ const needed=pipe>49&&highHumidity;
+ box.classList.toggle('show',needed);
+ if(!needed)return;
+ const r=hp.getBoundingClientRect(),w=box.offsetWidth,h=box.offsetHeight;
+ let left=Math.max(8,Math.min(r.left+r.width/2-w/2,window.innerWidth-w-8));
+ let top=r.top-h-4; if(top<4)top=r.bottom+4;
+ box.style.left=left+'px';box.style.top=top+'px';
 }
 function tick(){
  const d=simNow(),time=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
