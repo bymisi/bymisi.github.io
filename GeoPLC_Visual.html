@@ -32,6 +32,9 @@ output{display:block}
 .chip{border:1px solid var(--line);background:#101c2b;border-radius:20px;padding:calc(5px*var(--k)) calc(8px*var(--k));font-size:calc(8px*var(--k));font-weight:800;white-space:nowrap;color:#c4d7e9}
 .live{color:var(--green);border-color:#28654f}
 .dot{display:inline-block;width:calc(5px*var(--k));height:calc(5px*var(--k));border-radius:50%;background:var(--green);margin-right:4px;box-shadow:0 0 7px var(--green)}
+.bgm-btn{cursor:pointer;transition:background .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease}
+.bgm-btn.active{color:#ffe082;border-color:#d97706;background:linear-gradient(145deg,#452708,#1c1308);box-shadow:0 0 10px #f59e0b44}
+.bgm-btn:active{transform:scale(.95)}
 
 /* Section titles */
 .sectionline,.valve-title{--k:var(--k-sec);display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:calc(9px*var(--k));letter-spacing:.08em;text-transform:uppercase;color:#a9c1d9;font-weight:850;min-width:0;white-space:nowrap}
@@ -111,7 +114,7 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 
 /* 04 Status */
 .statuses{--k:var(--k-stat);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;min-height:0}
-.status{padding:6px 2px;display:flex;flex-direction:column;justify-content:center;gap:3px;text-align:center;border-radius:10px;background:#172333;border:1px solid #33475c;min-width:0}
+.status{padding:6px 2px;display:flex;flex-direction:column;justify-content:center;gap:3px;text-align:center;border-radius:10px;background:#172333;border:1px solid #33475c;min-width:0;overflow:hidden}
 .status .ico{font-size:calc(14px*var(--k));line-height:1.3}
 .status b{font-size:calc(7.5px*var(--k));line-height:1.1}
 .status small{font-size:calc(7.5px*var(--k));line-height:1.1;color:#d0dfed}
@@ -120,8 +123,8 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .status.warn{background:linear-gradient(145deg,#48232b,#251820);border-color:#914151}
 
 /* Humidity warning: informational only; it does not change equipment status */
-.vent-warning{display:flex;align-items:center;justify-content:center;gap:3px;margin-top:1px;color:#ffcf62;font-size:calc(5.5px*var(--k,1));line-height:1.1;font-weight:850;white-space:nowrap;}
-.vent-warning .triangle{font-size:calc(9px*var(--k,1));line-height:1;}
+.vent-warning{display:flex;align-items:center;justify-content:center;gap:2px;margin-top:1px;padding:0 2px;max-width:100%;color:#ffcf62;font-size:calc(5.8px*var(--k,1));line-height:1.1;font-weight:850;letter-spacing:.02em;white-space:nowrap}
+.vent-warning .triangle{font-size:calc(8px*var(--k,1));line-height:1;flex:none}
 
 /* 05 Valves: two columns (floor left, ceiling right), one row per room */
 .valves{--k:var(--k-valve);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto repeat(4,auto);gap:4px;min-height:0}
@@ -176,11 +179,11 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 <div class="app">
 <header class="top">
  <div class="brand"><div class="logo">G</div><div><b>GeoPLC</b><small>FULL HVAC CONTROL · by_[MiSi]</small></div></div>
- <div class="topright"><span class="chip live"><i class="dot"></i>SIMULATION</span><span class="chip" id="clockMini">--:--:--</span></div>
+ <div class="topright"><button class="chip bgm-btn" id="bgmBtn" type="button" title="Toggle 8-bit background music">♪ BGM OFF</button><span class="chip live"><i class="dot"></i>SIMULATION</span><span class="chip" id="clockMini">--:--:--</span></div>
 </header>
 <div class="sectionline"><span>01 / Sensors and inputs</span><small>TOUCH TO ADJUST</small></div>
 <section class="sensors">
- <div class="panel sensor thermal-box" id="outdoorBox"><span class="kicker">Outdoor</span><strong><span id="outVal">20</span><em> °C</em></strong><input id="outdoor" type="range" min="-60" max="60" value="20"><span class="sub">Outdoor sensor</span></div>
+ <div class="panel sensor thermal-box" id="outdoorBox"><span class="kicker">Outdoor</span><strong><span id="outVal">4</span><em> °C</em></strong><input id="outdoor" type="range" min="-60" max="60" value="4"><span class="sub">Outdoor sensor</span></div>
  <div class="panel sensor thermal-box" id="hallBox"><span class="kicker">Hall</span><strong><span id="hallVal">19</span><em> °C</em></strong><input id="hall" type="range" min="10" max="32" value="19"><span class="sub">Measured temperature</span></div>
  <div class="panel sensor">
    <span class="kicker">Pipe thermostat</span>
@@ -264,7 +267,7 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 const $=id=>document.getElementById(id);
 const pipeValues=[40,45,50];
 const manual={child:25,work:23,bed:22};
-let season=0, offsetMs=0;
+let season=0, offsetMs=0, currentTempoMult=1, wasDoubleCritical=false;
 const pad=n=>String(n).padStart(2,'0');
 const simNow=()=>new Date(Date.now()+offsetMs);
 const toMins=s=>{if(!s)return null;const [h,m]=s.split(':').map(Number);return h*60+m;};
@@ -323,9 +326,23 @@ function update(){
  const out=+$('outdoor').value, hall=+$('hall').value, pipe=+$('pipe').value, highHumidity=+$('humidity').value===1;
  $('outVal').textContent=out; $('hallVal').textContent=hall;
  $('pipeVal').textContent=pipe===40?'< 40':pipe;
+
+ // Speed up 8-bit background music on dangerous pipe overheat (>49 °C)
+ currentTempoMult = pipe > 49 ? 1.35 : 1.0;
+
+ // Trigger classic 8-bit pit-fall / Game Over jingle when BOTH pipe thermostat (50) AND humidity (High) hit maximum
+ const isDoubleCritical = (pipe >= 50) && highHumidity;
+ if (isDoubleCritical && !wasDoubleCritical && typeof RetroBGM !== 'undefined') {
+   RetroBGM.playPitFall();
+ }
+ wasDoubleCritical = isDoubleCritical;
  
  let pipeStateText='Normal · Optimal', bannerMsg='NORMAL OPERATION · ALL CIRCUITS OPERATING WITHIN SAFE PARAMETERS', bannerKind='ok';
- if(pipe>49){
+ if(pipe>49 && highHumidity){
+   pipeStateText='Dangerous · Overheat';
+   bannerMsg='CRITICAL ALERT: PIPE OVERHEAT (>49°C) + HIGH HUMIDITY (>65%) · FULL PROTECTION';
+   bannerKind='warn';
+ } else if(pipe>49){
    pipeStateText='Dangerous · Overheat';
    bannerMsg='WARNING: HIGH PIPE TEMPERATURE (>49°C) · PROTECTION ACTIVE';
    bannerKind='warn';
@@ -418,13 +435,228 @@ function update(){
    if(!warning){
      warning = document.createElement('div');
      warning.className = 'vent-warning';
-     warning.innerHTML = '<span class="triangle">⚠</span><span>VENTILATION NEEDED</span>';
+     warning.innerHTML = '<span class="triangle">⚠</span><span>VENTILATION!</span>';
      hpBox.insertBefore(warning, hpState);
    }
  } else if(warning){
    warning.remove();
  }
 }
+
+// ---------- Embedded 8-bit Retro Background Synthesizer (Mobile & Desktop Safe) ----------
+const RetroBGM = (() => {
+  let ctx = null, masterGain = null, isPlaying = false, userMuted = false, step = 0, nextTime = 0, timerId = null, sfxUntil = 0;
+  let activeOscs = [];
+
+  // Classic 8-bit Mario-inspired upbeat chiptune loop (all frequencies explicitly defined!)
+  const NOTES = {
+    _:0,
+    G2:98.00, C3:130.81, D3:146.83, Ds3:155.56, E3:164.81, F3:174.61, Fs3:185.00, G3:196.00, Gs3:207.65, A3:220.00, As3:233.08, B3:246.94,
+    C4:261.63, D4:293.66, Ds4:311.13, E4:329.63, F4:349.23, Fs4:369.99, G4:392.00, Gs4:415.30, A4:440.00, As4:466.16, B4:493.88,
+    C5:523.25, D5:587.33, Ds5:622.25, E5:659.25, F5:698.46, Fs5:739.99, G5:783.99, A5:880.00, B5:987.77
+  };
+  const SEQ = [
+    // Intro riff
+    ['E5','D3',1],['E5','D3',1],['_','_',1],['E5','D3',1],['_','_',1],['C5','D3',1],['E5','D3',2],
+    ['G5','G3',2],['_','_',2],['G4','G2',2],['_','_',2],
+    // Phrase A
+    ['C5','G3',2],['_','_',1],['G4','E3',2],['_','_',1],['E4','C3',2],
+    ['_','_',1],['A4','F3',2],['B4','G3',2],['As4','Fs3',1],['A4','F3',2],
+    ['G4','E3',1.33],['E5','C4',1.33],['G5','E4',1.34],['A5','F4',2],['F5','D4',1],['G5','E4',1],
+    ['_','_',1],['E5','C4',2],['C5','A3',1],['D5','B3',1],['B4','G3',2],['_','_',1],
+    // Phrase A repeat
+    ['C5','G3',2],['_','_',1],['G4','E3',2],['_','_',1],['E4','C3',2],
+    ['_','_',1],['A4','F3',2],['B4','G3',2],['As4','Fs3',1],['A4','F3',2],
+    ['G4','E3',1.33],['E5','C4',1.33],['G5','E4',1.34],['A5','F4',2],['F5','D4',1],['G5','E4',1],
+    ['_','_',1],['E5','C4',2],['C5','A3',1],['D5','B3',1],['B4','G3',2],['_','_',1],
+    // Bridge
+    ['_','C3',2],['G5','E4',1],['Fs5','Ds4',1],['F5','D4',1],['Ds5','B3',2],['E5','C4',1],
+    ['_','G3',1],['Gs4','E3',1],['A4','F3',1],['C5','A3',1],['_','A3',1],['A4','F3',1],['C5','A3',1],['D5','B3',1],
+    ['_','C3',2],['G5','E4',1],['Fs5','Ds4',1],['F5','D4',1],['Ds5','B3',2],['E5','C4',1],
+    ['_','G3',1],['C5','G4',2],['C5','G4',1],['C5','G4',2],['_','_',2],
+    // Bridge 2
+    ['_','C3',2],['G5','E4',1],['Fs5','Ds4',1],['F5','D4',1],['Ds5','B3',2],['E5','C4',1],
+    ['_','G3',1],['Gs4','E3',1],['A4','F3',1],['C5','A3',1],['_','A3',1],['A4','F3',1],['C5','A3',1],['D5','B3',1],
+    ['_','C3',2],['Ds5','Gs3',2],['_','_',1],['D5','As3',2],['_','_',1],
+    ['C5','C4',2],['_','_',2],['G4','G3',2],['_','_',2]
+  ];
+
+  // Slow, deliberate, unmistakable 8-bit pit-fall / life-lost jingle ("ta-dap ... ta-dap ... tap ... tap ... tap")
+  const PITFALL_SEQ = [
+    ['B4','G3',0.26], ['F5','D4',0.30], ['_','_',0.22],
+    ['F5','D4',0.26], ['F5','D4',0.30], ['E5','C4',0.30], ['D5','B3',0.30],
+    ['C5','G3',0.34], ['E4','C3',0.26], ['_','_',0.16], ['E4','C3',0.26], ['C4','G2',0.58]
+  ];
+
+  function ensureCtx() {
+    if (!ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      ctx = new AC();
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 2100;
+      masterGain = ctx.createGain();
+      masterGain.gain.value = 0.14; // Clear, pleasant audible volume on both mobile speakers & desktop
+      filter.connect(masterGain);
+      masterGain.connect(ctx.destination);
+      ctx._filter = filter;
+    }
+    return true;
+  }
+
+  // Unlock mobile Web Audio hardware immediately inside the user's touch/click gesture
+  function unlockHardware() {
+    if (!ctx) return;
+    if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+    try {
+      const buf = ctx.createBuffer(1, 1, 22050);
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(ctx.destination);
+      src.start(0);
+    } catch (e) {}
+  }
+
+  // Immediately silence any currently playing or pre-scheduled oscillators
+  function stopAllNotes() {
+    activeOscs.forEach(osc => {
+      try { osc.stop(); } catch (e) {}
+    });
+    activeOscs = [];
+  }
+
+  function playNote(freq, type, start, dur, vol) {
+    if (!freq || !ctx || !isFinite(freq)) return;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, start);
+    g.gain.setValueAtTime(0.0001, start);
+    g.gain.exponentialRampToValueAtTime(vol, start + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, start + dur * 0.90);
+    osc.connect(g);
+    g.connect(ctx._filter);
+    activeOscs.push(osc);
+    osc.onended = () => {
+      const idx = activeOscs.indexOf(osc);
+      if (idx > -1) activeOscs.splice(idx, 1);
+    };
+    osc.start(start);
+    osc.stop(start + dur);
+  }
+
+  // Cut main BGM immediately, wait 1.0 full second of dramatic silence, play slow pit-fall jingle, then resume intro
+  function playPitFall() {
+    if (userMuted) return;
+    if (!ensureCtx()) return;
+    unlockHardware();
+
+    // 1. Cut any currently playing/queued notes right now
+    stopAllNotes();
+
+    // 2. Full 1.0-second dramatic pause before the slow jingle starts
+    let t = ctx.currentTime + 1.0;
+
+    // 3. Play the slow, crystal-clear pit-fall melody
+    PITFALL_SEQ.forEach(([mNote, bNote, dur]) => {
+      playNote(NOTES[mNote], 'square', t, dur, 0.68);
+      playNote(NOTES[bNote], 'triangle', t, dur, 0.85);
+      t += dur;
+    });
+
+    // 4. Short breath after the final low note, then restart main BGM from the intro
+    sfxUntil = t + 0.45;
+    nextTime = sfxUntil;
+    step = 0;
+
+    if (!isPlaying) {
+      isPlaying = true;
+      clearTimeout(timerId);
+      scheduler();
+      updateBtn();
+    }
+  }
+
+  function scheduler() {
+    if (!isPlaying || !ctx) return;
+    if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+    if (ctx.currentTime < sfxUntil) {
+      timerId = setTimeout(scheduler, 50);
+      return;
+    }
+    const baseSixteenth = 0.132 / currentTempoMult;
+    if (nextTime < ctx.currentTime) {
+      nextTime = ctx.currentTime + 0.02;
+    }
+    while (nextTime < ctx.currentTime + 0.25) {
+      const [mNote, bNote, units] = SEQ[step % SEQ.length];
+      const dur = units * baseSixteenth;
+      playNote(NOTES[mNote], 'square', nextTime, dur, 0.55);
+      playNote(NOTES[bNote], 'triangle', nextTime, dur, 0.75);
+      nextTime += dur;
+      step++;
+    }
+    timerId = setTimeout(scheduler, 50);
+  }
+
+  function updateBtn() {
+    const btn = $('bgmBtn');
+    if (!btn) return;
+    btn.classList.toggle('active', isPlaying);
+    btn.textContent = isPlaying ? '♪ BGM ON' : '♪ BGM OFF';
+  }
+
+  function start(fromAuto) {
+    if (fromAuto && userMuted) return;
+    if (!ensureCtx()) return;
+    unlockHardware();
+    if (isPlaying) {
+      updateBtn();
+      return;
+    }
+    isPlaying = true;
+    nextTime = Math.max(ctx.currentTime + 0.04, sfxUntil);
+    clearTimeout(timerId);
+    scheduler();
+    updateBtn();
+  }
+
+  function stop(manual) {
+    isPlaying = false;
+    if (manual) {
+      userMuted = true;
+      stopAllNotes();
+    }
+    clearTimeout(timerId);
+    updateBtn();
+  }
+
+  function toggle() {
+    if (isPlaying) {
+      stop(true);
+    } else {
+      userMuted = false;
+      start(false);
+    }
+  }
+
+  return { start, stop, toggle, playPitFall };
+})();
+
+$('bgmBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  RetroBGM.toggle();
+});
+
+// Mobile & desktop browsers require a valid user gesture (click / touchend / keydown) to unlock audio
+['click', 'touchend', 'keydown'].forEach(evt => {
+  window.addEventListener(evt, () => RetroBGM.start(true), { passive: true });
+});
 
 function tick(){
  const d=simNow(),time=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
@@ -490,6 +722,18 @@ function fitToScreen() {
   ['heatPump', 'floorPump', 'radPump', 'ceilPump'].forEach(id => swap($(id).querySelector('small'), 'PROTECTION · OFF'));
   document.querySelectorAll('.valve b').forEach(el => swap(el, 'CLOSED'));
 
+  // Temporarily test with the humidity ventilation warning visible on #heatPump
+  const hpBox = $('heatPump');
+  let tempWarn = hpBox.querySelector('.vent-warning');
+  let addedTempWarn = false;
+  if (!tempWarn) {
+    tempWarn = document.createElement('div');
+    tempWarn.className = 'vent-warning';
+    tempWarn.innerHTML = '<span class="triangle">⚠</span><span>VENTILATION!</span>';
+    hpBox.insertBefore(tempWarn, $('hpState'));
+    addedTempWarn = true;
+  }
+
   FIT_GROUPS.forEach(g => setScale(g, 1));
   let base = 1;
   while (!contentFits() && base > FIT_MIN) {
@@ -499,6 +743,7 @@ function fitToScreen() {
   if (!contentFits()) {
     appEl.classList.add('scroll');
     FIT_GROUPS.forEach(g => setScale(g, 1.1));
+    if (addedTempWarn) tempWarn.remove();
     saved.forEach(([el, text]) => { el.textContent = text; });
     return;
   }
@@ -511,6 +756,7 @@ function fitToScreen() {
     setScale(g, current + FIT_STEP);
     if (!contentFits()) { setScale(g, current); frozen.add(g); }
   }
+  if (addedTempWarn) tempWarn.remove();
   saved.forEach(([el, text]) => { el.textContent = text; });
 }
 
@@ -524,4 +770,3 @@ fitToScreen();
 </script>
 </body>
 </html>
-```
