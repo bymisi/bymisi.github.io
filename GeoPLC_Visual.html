@@ -53,6 +53,23 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .sensor strong em{font-size:calc(8px*var(--k));color:#9db4cc;font-style:normal}
 .sensor .sub{font-size:calc(7px*var(--k));line-height:1.15;color:#93a9c0}
 
+/* Kültéri egyedi dinamikus stílusok a csúszkához és a dobozhoz */
+#outdoor {
+  --slider-color: #42dcff;
+  --slider-glow: #42dcff77;
+}
+#outdoor::-webkit-slider-thumb {
+  border-color: var(--slider-color) !important;
+  box-shadow: 0 0 11px var(--slider-glow) !important;
+}
+#outdoor::-moz-range-thumb {
+  border-color: var(--slider-color) !important;
+}
+.sensor.outdoor-dynamic {
+  border-color: var(--box-border, var(--line));
+  background: var(--box-bg, linear-gradient(150deg,#17283c,#0d1725));
+}
+
 /* 02 Mode and rooms */
 .workarea{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5px}
 .block{--k:var(--k-block);padding:7px;display:flex;flex-direction:column;gap:5px;min-height:0}
@@ -165,7 +182,7 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 </header>
 <div class="sectionline"><span>01 / Sensors and inputs</span><small>TOUCH TO ADJUST</small></div>
 <section class="sensors">
- <div class="panel sensor"><span class="kicker">Outdoor</span><strong><span id="outVal">20</span><em> °C</em></strong><input id="outdoor" type="range" min="-60" max="60" value="20"><span class="sub">Outdoor sensor</span></div>
+ <div class="panel sensor outdoor-dynamic" id="outdoorBox"><span class="kicker">Outdoor</span><strong><span id="outVal">20</span><em> °C</em></strong><input id="outdoor" type="range" min="-60" max="60" value="20"><span class="sub">Outdoor sensor</span></div>
  <div class="panel sensor"><span class="kicker">Hall</span><strong><span id="hallVal">19</span><em> °C</em></strong><input id="hall" type="range" min="10" max="32" value="19"><span class="sub">Measured temperature</span></div>
  <div class="panel sensor">
    <span class="kicker">Pipe thermostat</span>
@@ -281,6 +298,21 @@ function update(){
  const out=+$('outdoor').value, hall=+$('hall').value, pipe=+$('pipe').value, highHumidity=+$('humidity').value===1;
  $('outVal').textContent=out; $('hallVal').textContent=hall;
  $('pipeVal').textContent=pipe===40?'< 40':pipe;
+ 
+ // Kültéri hőmérséklet dinamikus színe (-60 °C = sötétkék, +60 °C = piros)
+ const tNorm = Math.max(0, Math.min(1, (out - (-60)) / 120));
+ const hue = (1 - tNorm) * 230; // 230 (sötétkék) -> 0 (piros)
+ const dynamicColor = `hsl(${hue}, 90%, 58%)`;
+ const dynamicGlow = `hsl(${hue}, 90%, 58%, 0.45)`;
+ 
+ const outdoorEl = $('outdoor');
+ outdoorEl.style.setProperty('--slider-color', dynamicColor);
+ outdoorEl.style.setProperty('--slider-glow', dynamicGlow);
+ $('outVal').style.color = dynamicColor;
+
+ const outdoorBox = $('outdoorBox');
+ outdoorBox.style.setProperty('--box-border', `hsl(${hue}, 70%, 45%)`);
+ outdoorBox.style.setProperty('--box-bg', `linear-gradient(150deg, hsl(${hue}, 50%, 20%), #0d1725)`);
  
  let pipeStateText='Normal · Optimal', bannerMsg='NORMAL OPERATION · ALL CIRCUITS OPERATING WITHIN SAFE PARAMETERS', bannerKind='ok';
  if(pipe>49){
