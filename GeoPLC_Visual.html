@@ -104,10 +104,9 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .status.off{background:linear-gradient(145deg,#202a38,#141d29);border-color:#39495c}
 .status.warn{background:linear-gradient(145deg,#48232b,#251820);border-color:#914151}
 
-/* Ventilation alert directly inside the Heat Pump box */
-.status.vent-alert{background:linear-gradient(145deg,#5c480e,#382a08)!important;border-color:#ffcf62!important;}
-.status.vent-alert b, .status.vent-alert small{color:#ffe9a8!important;}
-.vent-msg{font-size:calc(5.5px*var(--k,1));line-height:1.15;color:#ffcf62;font-weight:800;margin-top:2px;word-break:break-word;}
+/* Humidity warning: informational only; it does not change equipment status */
+.vent-warning{display:flex;align-items:center;justify-content:center;gap:3px;margin-top:1px;color:#ffcf62;font-size:calc(5.5px*var(--k,1));line-height:1.1;font-weight:850;white-space:nowrap;}
+.vent-warning .triangle{font-size:calc(9px*var(--k,1));line-height:1;}
 
 /* 05 Valves: two columns (floor left, ceiling right), one row per room */
 .valves{--k:var(--k-valve);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto repeat(4,auto);gap:4px;min-height:0}
@@ -132,6 +131,15 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 .status.warn{background:linear-gradient(145deg,#b02a45,#6e1829);border-color:#914151}
 .status.on b,.status.on small{color:#f2fffa}
 .status.off b,.status.off small,.status.warn b,.status.warn small{color:#ffe9ed}
+/* Radiators can remain active while the system is in protection mode:
+   use a calm light-blue state instead of the red warning colour. */
+.status.radiator-protected{
+  background:linear-gradient(145deg,#b9e8ff,#78c9f2);
+  border-color:#d5f3ff;
+  box-shadow:inset 0 1px #ffffff66,0 0 10px #78c9f244;
+}
+.status.radiator-protected b,.status.radiator-protected small{color:#08263b}
+.status.radiator-protected .ico{color:#08263b}
 .valve.open{background:linear-gradient(145deg,#15805a,#0d4f38);border-color:#42e6a4}
 .valve.closed{background:linear-gradient(145deg,#6b2130,#431520);border-color:#ff647d}
 .valve.open span{color:#f2fffa}
@@ -161,8 +169,12 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
  <div class="panel sensor"><span class="kicker">Hall</span><strong><span id="hallVal">19</span><em> °C</em></strong><input id="hall" type="range" min="10" max="32" value="19"><span class="sub">Measured temperature</span></div>
  <div class="panel sensor">
    <span class="kicker">Pipe thermostat</span>
-   <strong><span id="pipeVal">40</span><em> °C</em></strong>
-   <input id="pipe" type="range" min="20" max="60" value="40">
+   <strong><span id="pipeVal">&lt; 40</span><em> °C</em></strong>
+   <select id="pipe" aria-label="Pipe thermostat state">
+     <option value="40">Normal</option>
+     <option value="45">High</option>
+     <option value="50">Dangerous</option>
+   </select>
    <span class="sub" id="pipeHint">Below 40 °C · Optimal</span>
  </div>
  <div class="panel sensor"><span class="kicker">Humidity</span><strong id="humVal">OPT.</strong><select id="humidity"><option value="0">Optimal</option><option value="1">High</option></select><span class="sub" id="humHint">Below 65%</span></div>
@@ -256,12 +268,9 @@ function markChange(el,key){
 document.addEventListener('animationend',e=>e.target.classList&&e.target.classList.remove('flash'));
 function paintStatus(id,title,state,kind){
  const el=$(id);
- // Ha a hőszivattyún nincsen vent-alert, akkor kezeljük normálisan
- if(id !== 'heatPump' || !el.classList.contains('vent-alert')){
-   el.classList.remove('on','off','warn');
-   el.classList.add(kind);
-   el.querySelector('small').textContent=state;
- }
+ el.classList.remove('on','off','warn','radiator-protected');
+ el.classList.add(kind);
+ el.querySelector('small').textContent=state;
  markChange(el,kind);
 }
 function paintValve(id,open){
@@ -271,9 +280,9 @@ function paintValve(id,open){
 function update(){
  const out=+$('outdoor').value, hall=+$('hall').value, pipe=+$('pipe').value, highHumidity=+$('humidity').value===1;
  $('outVal').textContent=out; $('hallVal').textContent=hall;
- $('pipeVal').textContent=pipe + ' °C';
+ $('pipeVal').textContent=pipe===40?'< 40':pipe;
  
- let pipeStateText='Optimal', bannerMsg='NORMAL OPERATION · ALL CIRCUITS OPERATING WITHIN SAFE PARAMETERS', bannerKind='ok';
+ let pipeStateText='Normal · Optimal', bannerMsg='NORMAL OPERATION · ALL CIRCUITS OPERATING WITHIN SAFE PARAMETERS', bannerKind='ok';
  if(pipe>49){
    pipeStateText='Dangerous · Overheat';
    bannerMsg='WARNING: HIGH PIPE TEMPERATURE (>49°C) · PROTECTION ACTIVE';
@@ -332,7 +341,7 @@ function update(){
  paintStatus('floorPump','FLOOR HEATING',fp,floorOn?'on':pipe>44?'warn':'off');
  
  let rp;if(pipe>49)rp='CIRCULATION ACTIVE';else if(!heating)rp='OFF';else rp=demand?'CIRCULATION ACTIVE':'OFF';
- const radOn=rp==='CIRCULATION ACTIVE';paintStatus('radPump','RADIATORS',rp,pipe>49?'warn':radOn?'on':'off');
+ const radOn=rp==='CIRCULATION ACTIVE';paintStatus('radPump','RADIATORS',rp,pipe>49?'radiator-protected':radOn?'on':'off');
  
  let cp;if(pipe>49||highHumidity)cp='PROTECTION · OFF';else cp=demand?'CIRCULATION ACTIVE':'OFF';
  const ceilOn=cp==='CIRCULATION ACTIVE';paintStatus('ceilPump','CEILING',cp,(pipe>49||highHumidity)?'warn':ceilOn?'on':'off');
@@ -345,32 +354,22 @@ function update(){
    paintValve('cv'+key,!ceilClosed);
  });
 
- // Ventilation alert check: Pipe max (>49) AND humidity high
- const ventNeeded = (pipe > 49) && highHumidity;
+ // Humidity warning is informational only: keep the heat-pump state and
+ // all existing control/protection decisions unchanged.
  const hpBox = $('heatPump');
- const hpIco = $('hpIco');
  const hpState = $('hpState');
- 
- let existingMsg = hpBox.querySelector('.vent-msg');
- if(existingMsg) existingMsg.remove();
-
- if(ventNeeded){
-   hpBox.classList.remove('on','off','warn');
-   hpBox.classList.add('vent-alert');
-   hpIco.textContent = '⚠️';
-   hpState.textContent = 'LOCKED';
-   
-   const msgDiv = document.createElement('div');
-   msgDiv.className = 'vent-msg';
-   msgDiv.textContent = 'Ventilation needed, open the windows';
-   hpBox.appendChild(msgDiv);
- } else {
-   hpIco.textContent = '◈';
-   if(hpBox.classList.contains('vent-alert')){
-     hpBox.classList.remove('vent-alert');
-     hpState.textContent = demand ? 'RUNNING' : 'OFF';
+ let warning = hpBox.querySelector('.vent-warning');
+ if(highHumidity){
+   if(!warning){
+     warning = document.createElement('div');
+     warning.className = 'vent-warning';
+     warning.innerHTML = '<span class="triangle">⚠</span><span>VENTILATION NEEDED</span>';
+     hpBox.insertBefore(warning, hpState);
    }
+ } else if(warning){
+   warning.remove();
  }
+
 }
 
 function tick(){
@@ -380,7 +379,8 @@ function tick(){
 $('seasonToggle').addEventListener('click',()=>{season=1-season;update();});
 $('outdoor').addEventListener('input',()=>{const t=+$('outdoor').value;if(t<20)season=0;else if(t>20)season=1;update();});
 $('hall').addEventListener('input',update);
-['pipe','humidity','timerEnabled','from','to','tChild','tWork','tBed'].forEach(id=>$(id).addEventListener('input',update));
+$('pipe').addEventListener('change',update);
+['humidity','timerEnabled','from','to','tChild','tWork','tBed'].forEach(id=>$(id).addEventListener('input',update));
 ['spChild','spWork','spBed'].forEach((id,i)=>$(id).addEventListener('input',()=>{manual[['child','work','bed'][i]]=+$(id).value;update();}));
 $('clock').addEventListener('click',()=>{const d=simNow();$('clockInput').value=pad(d.getHours())+':'+pad(d.getMinutes());$('clockInput').showPicker?.();});
 $('clockInput').addEventListener('change',e=>{const m=toMins(e.target.value);if(m===null)return;const d=new Date();d.setHours(Math.floor(m/60),m%60,0,0);offsetMs=d.getTime()-Date.now();tick();});
