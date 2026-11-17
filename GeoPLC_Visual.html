@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="hu">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#080d16">
-<title>GeoPLC — Teljes Vezérlőpult</title>
+<title>GeoPLC — Full Control Dashboard</title>
 <style>
 :root{color-scheme:dark;--bg:#080d16;--line:#263b52;--muted:#8ca4bd;--text:#edf6ff;--cyan:#42dcff;--green:#42e6a4;--red:#ff647d;
   /* Per-group font scale factors, set automatically by fitToScreen() in the script */
@@ -190,88 +190,88 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 <body>
 <div class="app">
 <header class="top">
- <div class="brand"><div class="logo">G</div><div><b>GeoPLC</b><small>TELJES ÉPÜLETGÉPÉSZETI VEZÉRLÉS · by_[MiSi]</small></div></div>
- <div class="topright"><button class="chip bgm-btn" id="bgmBtn" type="button" title="8-bites háttérzene ki/be">♪ BGM OFF</button><span class="chip live"><i class="dot"></i>SZIMULÁCIÓ</span><span class="chip" id="clockMini">--:--:--</span></div>
+ <div class="brand"><div class="logo">G</div><div><b>GeoPLC</b><small>FULL HVAC CONTROL · by_[MiSi]</small></div></div>
+ <div class="topright"><button class="chip bgm-btn" id="bgmBtn" type="button" title="Toggle 8-bit background music">♪ BGM OFF</button><span class="chip live"><i class="dot"></i>SIMULATION</span><span class="chip" id="clockMini">--:--:--</span></div>
 </header>
-<div class="sectionline"><span>01 / Érzékelők és bemenetek</span><small>ÉRINTSD MEG A MÓDOSÍTÁSHOZ</small></div>
+<div class="sectionline"><span>01 / Sensors and inputs</span><small>TOUCH TO ADJUST</small></div>
 <section class="sensors">
- <div class="panel sensor thermal-box" id="outdoorBox"><span class="kicker">Kültér</span><strong><span id="outVal">5</span><em> °C</em></strong><input id="outdoor" type="range" min="-60" max="60" step="5" value="5"><span class="sub">Kültéri szenzor</span></div>
- <div class="panel sensor thermal-box" id="hallBox"><span class="kicker">Előszoba</span><strong><span id="hallVal">19</span><em> °C</em></strong><input id="hall" type="range" min="10" max="32" value="19"><span class="sub">Mért hőmérséklet</span></div>
+ <div class="panel sensor thermal-box" id="outdoorBox"><span class="kicker">Outdoor</span><strong><span id="outVal">5</span><em> °C</em></strong><input id="outdoor" type="range" min="-60" max="60" step="5" value="5"><span class="sub">Outdoor sensor</span></div>
+ <div class="panel sensor thermal-box" id="hallBox"><span class="kicker">Hall</span><strong><span id="hallVal">19</span><em> °C</em></strong><input id="hall" type="range" min="10" max="32" value="19"><span class="sub">Measured temperature</span></div>
  <div class="panel sensor">
-   <span class="kicker">Csőtermosztát</span>
+   <span class="kicker">Pipe thermostat</span>
    <strong><span id="pipeVal">&lt; 40</span><em> °C</em></strong>
-   <select id="pipe" aria-label="Csőtermosztát állapota">
-     <option value="40">Normál</option>
-     <option value="45">Magas</option>
-     <option value="50">Veszélyes</option>
+   <select id="pipe" aria-label="Pipe thermostat state">
+     <option value="40">Normal</option>
+     <option value="45">High</option>
+     <option value="50">Dangerous</option>
    </select>
-   <span class="sub" id="pipeHint">40 °C alatt · Optimális</span>
+   <span class="sub" id="pipeHint">Below 40 °C · Optimal</span>
  </div>
- <div class="panel sensor"><span class="kicker">Páratartalom</span><strong id="humVal">OPT.</strong><select id="humidity"><option value="0">Optimális</option><option value="1">Magas</option></select><span class="sub" id="humHint">65% alatt</span></div>
+ <div class="panel sensor"><span class="kicker">Humidity</span><strong id="humVal">OPT.</strong><select id="humidity"><option value="0">Optimal</option><option value="1">High</option></select><span class="sub" id="humHint">Below 65%</span></div>
 </section>
 
 <main class="workarea">
  <section class="panel block">
-  <div class="blockhead"><b>02 / Üzemmód és helyiségek</b><span class="tag">ALAPJEL</span></div>
-  <div class="clockrow"><div><small>RENDSZERIDŐ · ÉRINTSD MEG</small><strong id="clock">--:--:--</strong></div><input class="clockedit" id="clockInput" type="time" aria-label="Szimulált idő beállítása"></div>
-  <div class="season" id="seasonBox"><div class="season-info"><span class="season-ico" id="seasonIco">🔥</span><b id="seasonLabel">TÉLI ÜZEMMÓD</b></div><button id="seasonToggle">VÁLTÁS ↔</button></div>
+  <div class="blockhead"><b>02 / Mode and rooms</b><span class="tag">SETPOINT</span></div>
+  <div class="clockrow"><div><small>SYSTEM TIME · TAP TO CHANGE</small><strong id="clock">--:--:--</strong></div><input class="clockedit" id="clockInput" type="time" aria-label="Set simulated time"></div>
+  <div class="season" id="seasonBox"><div class="season-info"><span class="season-ico" id="seasonIco">🔥</span><b id="seasonLabel">WINTER MODE</b></div><button id="seasonToggle">SWITCH ↔</button></div>
   <div class="room thermal-box" id="roomChildBox">
-    <label for="spChild">GYEREKSZOBA</label>
-    <span class="room-mode-tag" id="modeChild">KÉZI</span>
+    <label for="spChild">CHILDREN'S ROOM</label>
+    <span class="room-mode-tag" id="modeChild">MANUAL</span>
     <output id="vChild">25 °C</output>
     <input id="spChild" type="range" min="15" max="30" value="25">
   </div>
   <div class="room thermal-box" id="roomWorkBox">
-    <label for="spWork">DOLGOZÓSZOBA</label>
-    <span class="room-mode-tag" id="modeWork">KÉZI</span>
+    <label for="spWork">OFFICE</label>
+    <span class="room-mode-tag" id="modeWork">MANUAL</span>
     <output id="vWork">23 °C</output>
     <input id="spWork" type="range" min="15" max="30" value="23">
   </div>
   <div class="room thermal-box" id="roomBedBox">
-    <label for="spBed">HÁLÓSZOBA</label>
-    <span class="room-mode-tag" id="modeBed">KÉZI</span>
+    <label for="spBed">BEDROOM</label>
+    <span class="room-mode-tag" id="modeBed">MANUAL</span>
     <output id="vBed">22 °C</output>
     <input id="spBed" type="range" min="15" max="30" value="22">
   </div>
  </section>
 
  <section class="panel timer">
-  <div class="timerhead"><b>03 / Időzítő program A</b><label class="timerenable"><input id="timerEnabled" type="checkbox"> AKTÍV</label></div>
+  <div class="timerhead"><b>03 / Scheduled timer A</b><label class="timerenable"><input id="timerEnabled" type="checkbox"> ACTIVE</label></div>
   <div class="timergrid">
-   <div class="tcell"><label for="from">KEZDÉS</label><output id="fromVal">21:00</output><input id="from" type="range" min="0" max="1435" step="5" value="1260"></div>
-   <div class="tcell"><label for="to">VÉGE</label><output id="toVal">07:00</output><input id="to" type="range" min="0" max="1435" step="5" value="420"></div>
-   <div class="tcell thermal-box" id="tChildBox"><label for="tChild">GYEREK</label><output id="tChildVal">23 °C</output><input id="tChild" type="range" min="15" max="30" value="23"></div>
-   <div class="tcell thermal-box" id="tWorkBox"><label for="tWork">DOLGOZÓ</label><output id="tWorkVal">18 °C</output><input id="tWork" type="range" min="15" max="30" value="18"></div>
-   <div class="tcell thermal-box" id="tBedBox"><label for="tBed">HÁLÓ</label><output id="tBedVal">21 °C</output><input id="tBed" type="range" min="15" max="30" value="21"></div>
+   <div class="tcell"><label for="from">START</label><output id="fromVal">21:00</output><input id="from" type="range" min="0" max="1435" step="5" value="1260"></div>
+   <div class="tcell"><label for="to">END</label><output id="toVal">07:00</output><input id="to" type="range" min="0" max="1435" step="5" value="420"></div>
+   <div class="tcell thermal-box" id="tChildBox"><label for="tChild">CHILD</label><output id="tChildVal">23 °C</output><input id="tChild" type="range" min="15" max="30" value="23"></div>
+   <div class="tcell thermal-box" id="tWorkBox"><label for="tWork">OFFICE</label><output id="tWorkVal">18 °C</output><input id="tWork" type="range" min="15" max="30" value="18"></div>
+   <div class="tcell thermal-box" id="tBedBox"><label for="tBed">BEDROOM</label><output id="tBedVal">21 °C</output><input id="tBed" type="range" min="15" max="30" value="21"></div>
   </div>
-  <div class="blockhead"><span class="tag" id="timerStatus">IDŐZÍTŐ KI</span><span class="tag" id="activePeriod">21:00 → 07:00</span></div>
+  <div class="blockhead"><span class="tag" id="timerStatus">TIMER OFF</span><span class="tag" id="activePeriod">21:00 → 07:00</span></div>
  </section>
 </main>
 
 <div class="alert-banner ok" id="alertBanner">
-  <span>● RENDSZERÁLLAPOT: NORMÁL MŰKÖDÉS · MINDEN KÖR BIZTONSÁGOS TARTOMÁNYBAN</span>
+  <span>● SYSTEM STATUS: NORMAL OPERATION · ALL CIRCUITS OPERATING WITHIN SAFE PARAMETERS</span>
 </div>
 
-<div class="sectionline"><span>04 / Berendezések állapota</span><small>DINAMIKUS VEZÉRLÉS</small></div>
+<div class="sectionline"><span>04 / Equipment status</span><small>DYNAMIC CONTROL</small></div>
 <section class="statuses">
- <div class="panel status off" id="heatPump"><span class="ico" id="hpIco">◈</span><b>HŐSZIVATTYÚ</b><small id="hpState">KI</small></div>
- <div class="panel status off" id="floorPump"><span class="ico">▤</span><b>PADLÓFŰTÉS</b><small>KI</small></div>
- <div class="panel status off" id="radPump"><span class="ico">▥</span><b>RADIÁTOROK</b><small>KI</small></div>
- <div class="panel status off" id="ceilPump"><span class="ico">⌁</span><b>MENNYEZET</b><small>KI</small></div>
+ <div class="panel status off" id="heatPump"><span class="ico" id="hpIco">◈</span><b>HEAT PUMP</b><small id="hpState">OFF</small></div>
+ <div class="panel status off" id="floorPump"><span class="ico">▤</span><b>FLOOR HEATING</b><small>OFF</small></div>
+ <div class="panel status off" id="radPump"><span class="ico">▥</span><b>RADIATORS</b><small>OFF</small></div>
+ <div class="panel status off" id="ceilPump"><span class="ico">⌁</span><b>CEILING</b><small>OFF</small></div>
 </section>
 
 <section class="valves">
- <div class="valve-title"><span>05 / Szelepek helyiségenként</span><small>PADLÓ + MENNYEZET</small></div>
- <div class="valve closed" id="fvCorr"><span>Előszoba · padló</span><b>ZÁRVA</b></div>
- <div class="valve closed" id="fvChild"><span>Gyerekszoba · padló</span><b>ZÁRVA</b></div>
- <div class="valve closed" id="fvWork"><span>Dolgozószoba · padló</span><b>ZÁRVA</b></div>
- <div class="valve closed" id="fvBed"><span>Hálószoba · padló</span><b>ZÁRVA</b></div>
- <div class="valve closed" id="cvCorr"><span>Előszoba · mennyezet</span><b>ZÁRVA</b></div>
- <div class="valve closed" id="cvChild"><span>Gyerekszoba · mennyezet</span><b>ZÁRVA</b></div>
- <div class="valve closed" id="cvWork"><span>Dolgozószoba · mennyezet</span><b>ZÁRVA</b></div>
- <div class="valve closed" id="cvBed"><span>Hálószoba · mennyezet</span><b>ZÁRVA</b></div>
+ <div class="valve-title"><span>05 / Valves by room</span><small>FLOOR + CEILING</small></div>
+ <div class="valve closed" id="fvCorr"><span>Corridor · floor</span><b>CLOSED</b></div>
+ <div class="valve closed" id="fvChild"><span>Children's room · floor</span><b>CLOSED</b></div>
+ <div class="valve closed" id="fvWork"><span>Office · floor</span><b>CLOSED</b></div>
+ <div class="valve closed" id="fvBed"><span>Bedroom · floor</span><b>CLOSED</b></div>
+ <div class="valve closed" id="cvCorr"><span>Corridor · ceiling</span><b>CLOSED</b></div>
+ <div class="valve closed" id="cvChild"><span>Children's room · ceiling</span><b>CLOSED</b></div>
+ <div class="valve closed" id="cvWork"><span>Office · ceiling</span><b>CLOSED</b></div>
+ <div class="valve closed" id="cvBed"><span>Bedroom · ceiling</span><b>CLOSED</b></div>
 </section>
-<footer class="footer"><span><b>GeoPLC</b> · AZ EREDETI VEZÉRLÉSI LOGIKA ALAPJÁN</span><span>GRAFIKAI KONCEPCIÓ · by_[MiSi]</span></footer>
+<footer class="footer"><span><b>GeoPLC</b> · BASED ON THE ORIGINAL CONTROL LOGIC</span><span>GRAPHIC CONCEPT · by_[MiSi]</span></footer>
 </div>
 
 <script>
@@ -279,7 +279,7 @@ select{appearance:none;-webkit-appearance:none;background-color:#102237;backgrou
 const $=id=>document.getElementById(id);
 const pipeValues=[40,45,50];
 const manual={child:25,work:23,bed:22};
-let season=0, offsetMs=0, currentTempoMult=1, wasDoubleCritical=false, prevMatches={child:false,work:false,bed:false}, activeDragRoom=null;
+let season=0, offsetMs=0, currentTempoMult=1, wasDoubleCritical=false, prevOutdoorMatch=false, isDraggingOutdoor=false;
 
 let fwRaf = null;
 function triggerMatchFireworks(tempC, labelText){
@@ -448,7 +448,7 @@ function paintStatus(id,title,state,kind){
 }
 function paintValve(id,open){
  const el=$(id);el.classList.remove('open','closed');el.classList.add(open?'open':'closed');markChange(el,open?'open':'closed');
- el.querySelector('b').textContent=open?'NYITVA':'ZÁRVA';
+ el.querySelector('b').textContent=open?'OPEN':'CLOSED';
 }
 function applyThermalStyle(sliderId, valId, boxId, isSubtleBox){
  const slider=$(sliderId);
@@ -492,22 +492,22 @@ function update(){
  }
  wasDoubleCritical = isDoubleCritical;
  
- let pipeStateText='Normál · Optimális', bannerMsg='NORMÁL MŰKÖDÉS · MINDEN KÖR BIZTONSÁGOS TARTOMÁNYBAN', bannerKind='ok';
+ let pipeStateText='Normal · Optimal', bannerMsg='NORMAL OPERATION · ALL CIRCUITS OPERATING WITHIN SAFE PARAMETERS', bannerKind='ok';
  if(pipe>49 && highHumidity){
-   pipeStateText='Veszélyes · Túlmelegedés';
-   bannerMsg='KRITIKUS RIASZTÁS: CSŐ TÚLMELEGEDÉS (>49°C) + MAGAS PÁRA (>65%) · TELJES VÉDELEM';
+   pipeStateText='Dangerous · Overheat';
+   bannerMsg='CRITICAL ALERT: PIPE OVERHEAT (>49°C) + HIGH HUMIDITY (>65%) · FULL PROTECTION';
    bannerKind='warn';
  } else if(pipe>49){
-   pipeStateText='Veszélyes · Túlmelegedés';
-   bannerMsg='FIGYELMEZTETÉS: MAGAS CSŐHŐMÉRSÉKLET (>49°C) · VÉDELEM AKTÍV';
+   pipeStateText='Dangerous · Overheat';
+   bannerMsg='WARNING: HIGH PIPE TEMPERATURE (>49°C) · PROTECTION ACTIVE';
    bannerKind='warn';
  } else if(pipe>44){
-   pipeStateText='Magas · Figyelem';
-   bannerMsg='FIGYELEM: EMELKEDETT CSŐHŐMÉRSÉKLET (>44°C)';
+   pipeStateText='High · Caution';
+   bannerMsg='CAUTION: ELEVATED PIPE TEMPERATURE (>44°C)';
    bannerKind='warn';
  }
  if(highHumidity && bannerKind==='ok'){
-   bannerMsg='FIGYELMEZTETÉS: MAGAS PÁRATARTALOM (>65%) · MENNYEZETHŰTÉS LETILTVA';
+   bannerMsg='WARNING: HIGH HUMIDITY (>65%) · CEILING COOLING LOCKED OUT';
    bannerKind='warn';
  }
  
@@ -525,35 +525,26 @@ function update(){
  }
 
  $('seasonBox').classList.toggle('summer',season===1);
- $('seasonLabel').textContent=season===0?'TÉLI ÜZEMMÓD':'NYÁRI ÜZEMMÓD';
+ $('seasonLabel').textContent=season===0?'WINTER MODE':'SUMMER MODE';
  $('seasonIco').textContent=season===0?'🔥':'❄️';
  
  const active=activeTimer();
  const values={child:active?+$('tChild').value:manual.child,work:active?+$('tWork').value:manual.work,bed:active?+$('tBed').value:manual.bed};
 
- // Check temperature equality ONLY when moving Children's Room, Office, or Bedroom thermostats
- const curMatches={
-   child: values.child===hall,
-   work: values.work===hall,
-   bed: values.bed===hall
- };
- const matchLabels={
-   child: "GYEREKSZOBA = ELŐSZOBA",
-   work: 'DOLGOZÓSZOBA = ELŐSZOBA',
-   bed: 'HÁLÓSZOBA = ELŐSZOBA'
- };
- if(activeDragRoom && curMatches[activeDragRoom] && !prevMatches[activeDragRoom]){
-   triggerMatchFireworks(hall, matchLabels[activeDragRoom]);
+ // Check temperature equality ONLY when moving the Outdoor temperature slider
+ const curOutdoorMatch = (out === hall);
+ if(isDraggingOutdoor && curOutdoorMatch && !prevOutdoorMatch){
+   triggerMatchFireworks(hall, "OUTDOOR = HALL");
  }
- prevMatches=curMatches;
+ prevOutdoorMatch = curOutdoorMatch;
  
  [['child','spChild','vChild','modeChild'],['work','spWork','vWork','modeWork'],['bed','spBed','vBed','modeBed']].forEach(([k,input,outId,modeId])=>{
    $(input).value=values[k];$(input).disabled=active;$(outId).textContent=values[k]+' °C';
    const mEl=$(modeId);
-   if(mEl){mEl.textContent=active?'IDŐZÍTŐ':'KÉZI';mEl.classList.toggle('active',active);}
+   if(mEl){mEl.textContent=active?'TIMER':'MANUAL';mEl.classList.toggle('active',active);}
  });
 
- $('timerStatus').textContent=active?'IDŐZÍTŐ AKTÍV · PROFIL ALKALMAZVA':$('timerEnabled').checked?'VÁRAKOZÁS AZ IDŐABLAKRA':'IDŐZÍTŐ KI';
+ $('timerStatus').textContent=active?'TIMER ACTIVE · PROFILE APPLIED':$('timerEnabled').checked?'WAITING FOR TIME WINDOW':'TIMER OFF';
  $('timerStatus').classList.toggle('is-active',active);
  $('timerStatus').classList.toggle('is-armed',!active&&$('timerEnabled').checked);
  document.querySelector('.timer').classList.toggle('active',active);
@@ -577,17 +568,17 @@ function update(){
  const anyBelow=all.some(s=>s<hall),anyAbove=all.some(s=>s>hall);
  const demand=(heating||anyBelow)&&(!heating||anyAbove);
  
- paintStatus('heatPump','HŐSZIVATTYÚ',demand?'ÜZEMEL':'KI',demand?'on':'off');
+ paintStatus('heatPump','HEAT PUMP',demand?'RUNNING':'OFF',demand?'on':'off');
  
- let fp;if(pipe>44)fp='VÉDELEM · KI';else if(!heating)fp='KI';else if((heating||anyBelow)&&anyAbove)fp='KERINGETÉS AKTÍV';else fp='KI';
- const floorOn=fp==='KERINGETÉS AKTÍV';
+ let fp;if(pipe>44)fp='PROTECTION · OFF';else if(!heating)fp='OFF';else if((heating||anyBelow)&&anyAbove)fp='CIRCULATION ACTIVE';else fp='OFF';
+ const floorOn=fp==='CIRCULATION ACTIVE';
  paintStatus('floorPump','FLOOR HEATING',fp,floorOn?'on':pipe>44?'warn':'off');
  
- let rp;if(pipe>49)rp='KERINGETÉS AKTÍV';else if(!heating)rp='KI';else rp=demand?'KERINGETÉS AKTÍV':'KI';
- const radOn=rp==='KERINGETÉS AKTÍV';paintStatus('radPump','RADIATORS',rp,pipe>49?'radiator-protected':radOn?'on':'off');
+ let rp;if(pipe>49)rp='CIRCULATION ACTIVE';else if(!heating)rp='OFF';else rp=demand?'CIRCULATION ACTIVE':'OFF';
+ const radOn=rp==='CIRCULATION ACTIVE';paintStatus('radPump','RADIATORS',rp,pipe>49?'radiator-protected':radOn?'on':'off');
  
- let cp;if(pipe>49||highHumidity)cp='VÉDELEM · KI';else cp=demand?'KERINGETÉS AKTÍV':'KI';
- const ceilOn=cp==='KERINGETÉS AKTÍV';paintStatus('ceilPump','CEILING',cp,(pipe>49||highHumidity)?'warn':ceilOn?'on':'off');
+ let cp;if(pipe>49||highHumidity)cp='PROTECTION · OFF';else cp=demand?'CIRCULATION ACTIVE':'OFF';
+ const ceilOn=cp==='CIRCULATION ACTIVE';paintStatus('ceilPump','CEILING',cp,(pipe>49||highHumidity)?'warn':ceilOn?'on':'off');
  
  const rooms=[['Corr',values.bed],['Child',values.child],['Work',values.work],['Bed',values.bed]];
  rooms.forEach(([key,s])=>{
@@ -606,7 +597,7 @@ function update(){
    if(!warning){
      warning = document.createElement('div');
      warning.className = 'vent-warning';
-     warning.innerHTML = '<span class="triangle">⚠</span><span>SZELLŐZTETÉS!</span>';
+     warning.innerHTML = '<span class="triangle">⚠</span><span>VENTILATION!</span>';
      hpBox.insertBefore(warning, hpState);
    }
  } else if(warning){
@@ -834,7 +825,13 @@ function tick(){
  $('clock').textContent=time;$('clockMini').textContent=time;if(document.activeElement!==$('clockInput'))$('clockInput').value=pad(d.getHours())+':'+pad(d.getMinutes());update();
 }
 $('seasonToggle').addEventListener('click',()=>{season=1-season;update();});
-$('outdoor').addEventListener('input',()=>{const t=+$('outdoor').value;if(t<20)season=0;else if(t>20)season=1;update();});
+$('outdoor').addEventListener('input',()=>{
+  const t=+$('outdoor').value;
+  if(t<20)season=0;else if(t>20)season=1;
+  isDraggingOutdoor=true;
+  update();
+  isDraggingOutdoor=false;
+});
 $('hall').addEventListener('input',update);
 $('pipe').addEventListener('change',update);
 ['humidity','timerEnabled','from','to','tChild','tWork','tBed'].forEach(id=>$(id).addEventListener('input',update));
@@ -842,9 +839,7 @@ $('pipe').addEventListener('change',update);
   const roomKey=['child','work','bed'][i];
   $(id).addEventListener('input',()=>{
     manual[roomKey]=+$(id).value;
-    activeDragRoom=roomKey;
     update();
-    activeDragRoom=null;
   });
 });
 $('clock').addEventListener('click',()=>{const d=simNow();$('clockInput').value=pad(d.getHours())+':'+pad(d.getMinutes());$('clockInput').showPicker?.();});
@@ -884,13 +879,13 @@ function contentFits() {
 }
 
 const WORST_CASE_TEXT = [
-  ['outVal', '-60'], ['hallVal', '32'], ['pipeVal', '50 °C'], ['humVal', 'MAGAS'],
-  ['pipeHint', 'FIGYELMEZTETÉS: MAGAS CSŐHŐMÉRSÉKLET (>49°C)'], ['humHint', '65% FELETT · VÉDELEM'],
-  ['clock', '88:88:88'], ['clockMini', '88:88:88'], ['seasonLabel', 'NYÁRI ÜZEMMÓD'],
+  ['outVal', '-60'], ['hallVal', '32'], ['pipeVal', '50 °C'], ['humVal', 'HIGH'],
+  ['pipeHint', 'WARNING: HIGH PIPE TEMPERATURE (>49°C)'], ['humHint', 'ABOVE 65% · PROTECTION'],
+  ['clock', '88:88:88'], ['clockMini', '88:88:88'], ['seasonLabel', 'SUMMER MODE'],
   ['vChild', '30 °C'], ['vWork', '30 °C'], ['vBed', '30 °C'],
   ['fromVal', '88:88'], ['toVal', '88:88'],
   ['tChildVal', '30 °C'], ['tWorkVal', '30 °C'], ['tBedVal', '30 °C'],
-  ['timerStatus', 'IDŐZÍTŐ AKTÍV · PROFIL ALKALMAZVA'], ['activePeriod', '88:88 → 88:88']
+  ['timerStatus', 'TIMER ACTIVE · PROFILE APPLIED'], ['activePeriod', '88:88 → 88:88']
 ];
 
 function fitToScreen() {
@@ -898,8 +893,8 @@ function fitToScreen() {
   const saved = [];
   const swap = (el, text) => { saved.push([el, el.textContent]); el.textContent = text; };
   WORST_CASE_TEXT.forEach(([id, text]) => swap($(id), text));
-  ['heatPump', 'floorPump', 'radPump', 'ceilPump'].forEach(id => swap($(id).querySelector('small'), 'VÉDELEM · KI'));
-  document.querySelectorAll('.valve b').forEach(el => swap(el, 'ZÁRVA'));
+  ['heatPump', 'floorPump', 'radPump', 'ceilPump'].forEach(id => swap($(id).querySelector('small'), 'PROTECTION · OFF'));
+  document.querySelectorAll('.valve b').forEach(el => swap(el, 'CLOSED'));
 
   // Temporarily test with the humidity ventilation warning visible on #heatPump
   const hpBox = $('heatPump');
@@ -908,7 +903,7 @@ function fitToScreen() {
   if (!tempWarn) {
     tempWarn = document.createElement('div');
     tempWarn.className = 'vent-warning';
-    tempWarn.innerHTML = '<span class="triangle">⚠</span><span>SZELLŐZTETÉS!</span>';
+    tempWarn.innerHTML = '<span class="triangle">⚠</span><span>VENTILATION!</span>';
     hpBox.insertBefore(tempWarn, $('hpState'));
     addedTempWarn = true;
   }
