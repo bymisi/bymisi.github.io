@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Video Watermarker HD &amp; Tömörítő</title>
+  <title>Video Watermarker HD v2.2</title>
   <style>
     :root {
       --bg-primary: #0b0f19;
@@ -60,6 +60,18 @@
       letter-spacing: -0.02em;
     }
 
+    .ver-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      background-color: var(--bg-elevated);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 999px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+
     header p {
       font-size: 0.88rem;
       color: var(--text-muted);
@@ -75,16 +87,6 @@
       border-radius: var(--radius-md);
       font-family: var(--font-mono);
       font-size: 0.85rem;
-    }
-
-    #proto-warning {
-      display: none;
-      background-color: rgba(251, 191, 36, 0.12);
-      border: 1px solid var(--warning);
-      color: #fde68a;
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      font-size: 0.84rem;
     }
 
     .card {
@@ -134,45 +136,52 @@
       box-shadow: 0 0 8px var(--success);
     }
 
-    .drop-zone {
+    .picker-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .picker-box {
       position: relative;
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       border: 2px dashed var(--accent);
       border-radius: var(--radius-md);
       background-color: var(--bg-input);
-      padding: 28px 20px;
-      text-align: center;
+      padding: 20px 14px;
       cursor: pointer;
-      transition: all 0.2s ease;
-      user-select: none;
-      -webkit-user-select: none;
+      min-height: 105px;
       overflow: hidden;
     }
 
-    .drop-zone:active, .drop-zone.dragover {
-      background-color: rgba(56, 189, 248, 0.12);
+    .picker-box.secondary {
+      border-color: var(--success);
     }
 
-    .drop-zone strong {
-      display: block;
-      font-size: 1.05rem;
+    .picker-box strong {
+      font-size: 0.95rem;
       color: var(--text-main);
       margin-bottom: 4px;
     }
 
-    .drop-zone span {
-      font-size: 0.82rem;
+    .picker-box span {
+      font-size: 0.76rem;
       color: var(--text-muted);
     }
 
-    .file-input-overlay {
+    .picker-box input[type="file"] {
       position: absolute;
-      inset: 0;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0;
+      opacity: 0.001;
       cursor: pointer;
-      z-index: 10;
+      z-index: 20;
     }
 
     .video-list {
@@ -425,13 +434,13 @@
       font-family: var(--font-mono);
       font-size: 0.74rem;
       color: var(--text-muted);
-      max-height: 130px;
+      max-height: 150px;
       overflow-y: auto;
       white-space: pre-wrap;
     }
 
     @media (max-width: 600px) {
-      .form-grid {
+      .form-grid, .picker-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -440,15 +449,11 @@
 <body>
   <div class="container">
     <header>
-      <h1>Video Watermarker HD</h1>
+      <h1>Video Watermarker HD <span class="ver-badge">v2.2</span></h1>
       <p>Dátum + egyedi vízjel beégetése és tömörítés közvetlenül a böngészőben</p>
     </header>
 
     <div id="error-banner"></div>
-
-    <div id="proto-warning">
-      <strong>Tipp:</strong> Jelenleg helyi fájlkezelőből (<code>content://</code>) nyitottad meg az oldalt. Ha itt nem jelenik meg a kiválasztott videó, nyisd meg a GitHub Pages (<code>https://...</code>) linkről, ahol a Chrome teljes fájlhozzáférést ad.
-    </div>
 
     <div class="status-bar">
       <div class="status-indicator">
@@ -465,11 +470,19 @@
         <span id="fileCount">0 fájl</span>
       </div>
 
-      <label class="drop-zone" id="dropZone" for="fileInput">
-        <strong>Koppints ide a videók kiválasztásához</strong>
-        <span>Támogatott: MP4, MOV, MKV, 3GP, WEBM (több fájl is választható)</span>
-        <input type="file" id="fileInput" class="file-input-overlay" accept="video/*" multiple />
-      </label>
+      <div class="picker-grid">
+        <div class="picker-box secondary">
+          <strong>Fájlkezelő megnyitása</strong>
+          <span>Ajánlott! Megőrzi az eredeti fájlnevet és dátumot (VID_2026...)</span>
+          <input type="file" id="fileInputAll" multiple />
+        </div>
+
+        <div class="picker-box">
+          <strong>Galéria / Fotók megnyitása</strong>
+          <span>Videók gyors kiválasztása a galériából</span>
+          <input type="file" id="fileInputVideo" accept="video/*" multiple />
+        </div>
+      </div>
 
       <div class="video-list" id="videoList"></div>
     </section>
@@ -557,7 +570,7 @@
       </div>
 
       <div class="download-list" id="downloadList"></div>
-      <div class="log-box" id="logBox">Rendszernapló kész. Válassz ki egy vagy több videót a kezdéshez.</div>
+      <div class="log-box" id="logBox">Rendszernapló kész (v2.2). Válassz ki egy vagy több videót a kezdéshez.</div>
     </section>
   </div>
 
@@ -571,18 +584,13 @@
     };
 
     (function () {
-      if (window.location.protocol === "content:") {
-        var pw = document.getElementById("proto-warning");
-        if (pw) pw.style.display = "block";
-      }
-
       var MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
       var isProcessing = false;
       var selectedFiles = [];
-      var processedSignatures = {};
+      var seenObjects = [];
 
-      var dropZone = document.getElementById("dropZone");
-      var fileInput = document.getElementById("fileInput");
+      var fileInputAll = document.getElementById("fileInputAll");
+      var fileInputVideo = document.getElementById("fileInputVideo");
       var videoList = document.getElementById("videoList");
       var fileCount = document.getElementById("fileCount");
       var wmText = document.getElementById("wmText");
@@ -678,17 +686,18 @@
         return h + ":" + m + ":" + s;
       }
 
-      function probeVideoMeta(file) {
-        return new Promise(function (resolve) {
-          try {
-            var url = URL.createObjectURL(file);
-            var vid = document.createElement("video");
-            vid.preload = "metadata";
-            vid.muted = true;
-            var timer = setTimeout(function () {
-              URL.revokeObjectURL(url);
-              resolve({ width: 1280, height: 720, duration: 0 });
-            }, 3000);
-            vid.onloadedmetadata = function () {
-              clearTimeout(timer);
-              var w = vid.videoWidth || 128
+      function probeVideoMeta(file, itemObj) {
+        try {
+          var url = URL.createObjectURL(file);
+          var vid = document.createElement("video");
+          vid.preload = "metadata";
+          vid.muted = true;
+          var timer = setTimeout(function () {
+            try { URL.revokeObjectURL(url); } catch (e) {}
+          }, 5000);
+          vid.onloadedmetadata = function () {
+            clearTimeout(timer);
+            itemObj.width = vid.videoWidth || 1280;
+            itemObj.height = vid.videoHeight || 720;
+            itemObj.duration = isFinite(vid.duration) ? vid.duration : 0;
+          
