@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Video Watermarker</title>
+<style>
+:root{--bg:#f4f6f4;--card:#fff;--fg:#1a1d1a;--mut:#667066;--acc:#1f9d55;--accfg:#fff;--bd:#d9ded9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111411;--card:#1b1f1b;--fg:#e8ece8;--mut:#9aa59a;--acc:#4ade80;--accfg:#06210f;--bd:#2c332c}}
+:root[data-theme="dark"]{--bg:#111411;--card:#1b1f1b;--fg:#e8ece8;--mut:#9aa59a;--acc:#4ade80;--accfg:#06210f;--bd:#2c332c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:8px 0 2px}
+p.sub{color:var(--mut);margin:0 0 16px;font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:14px}
+label{display:block;font-size:.85rem;color:var(--mut);margin:10px 0 4px}
+input[type=text],select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);font:inherit}
+.row{display:flex;gap:10px}.row>div{flex:1}
+button{font:inherit;border:0;border-radius:10px;padding:12px 16px;background:var(--acc);color:var(--accfg);font-weight:600;cursor:pointer}
+button.sec{background:transparent;color:var(--fg);border:1px solid var(--bd)}
+button:disabled{opacity:.5}
+.file{border-top:1px solid var(--bd);padding:10px 0}
+.file:first-child{border-top:0}
+.name{word-break:break-all;font-size:.92rem}
+.meta{color:var(--mut);font-size:.8rem}
+.bar{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar>i{display:block;height:100%;width:0;background:var(--acc)}
+a.dl{display:inline-block;margin-top:6px;color:var(--acc);font-weight:600}
+.note{color:var(--mut);font-size:.82rem}
+.hide{display:none}
+</style>
+</head>
+<body>
+<main>
+<h1>Video Watermarker</h1>
+<p class="sub">Burn a date and your own text onto videos. Everything runs in your browser; nothing is uploaded.</p>
+
+<div class="card">
+  <input id="picker" type="file" accept="video/*" multiple class="hide">
+  <button id="pick">Choose videos</button>
+  <div id="list" style="margin-top:8px"></div>
+</div>
+
+<div class="card">
+  <label for="dateMode">Date in the watermark</label>
+  <select id="dateMode">
+    <option value="auto">Automatic (recording date of each video)</option>
+    <option value="manual">Manual (type any date)</option>
+    <option value="none">No date</option>
+  </select>
+  <div id="manualBox" class="hide"><label for="manualDate">Date text</label><input id="manualDate" type="text" placeholder="NOV-07-2026"></div>
+
+  <label for="text">Watermark text (city, country, handle...)</label>
+  <input id="text" type="text" value="BY_[MiSi], ">
+
+  <div class="row">
+    <div><label for="res">Resolution (shorter side)</label>
+      <select id="res"><option value="0">Original</option><option>1080</option><option>720</option><option>640</option><option>480</option><option>360</option></select></div>
+    <div><label for="quality">Compression</label>
+      <select id="quality"><option value="0.10">Best quality</option><option value="0.06" selected>Balanced</option><option value="0.035">Smallest file</option></select></div>
+  </div>
+  <label for="color">Text color</label>
+  <select id="color"><option value="#90ee90">Light green</option><option value="#ffffff">White</option><option value="#ffe14d">Yellow</option><option value="#ff6b6b">Red</option></select>
+</div>
+
+<button id="start" disabled style="width:100%">Add watermark</button>
+<button id="cancel" class="sec hide" style="width:100%;margin-top:8px">Cancel</button>
+<p class="note" id="info"></p>
+<p class="note">Videos are re-recorded in real time, so a 1 minute video takes about 1 minute. Keep this tab open and the screen on while it works. The output is MP4 where your browser supports it, otherwise WebM. Finished files are saved through the download links.</p>
+</main>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const MONTHS = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+const FPS = 30;
+let files = [];
+let running = false;
+let abortFn = null;
+let cancelled = false;
+
+const pad = (n) => String(n).padStart(2, "0");
+const formatDate = (d) => `${MONTHS[d.getMonth()]}-${pad(d.getDate())}-${d.getFullYear()}`;
+
+// Recording date: file name first (e.g. VID_20261031_...), then the file modified time.
+function recordingDate(file) {
+  const m = file.name.match(/(?<!\d)(20\d{2})(0[1-9]|1[0-2])([0-2]\d|3[01])(?!\d)/);
+  if (m) {
+    const d = new Date(+m[1], +m[2] - 1, +m[3]);
+    if (d.getMonth() === +m[2] - 1) return d; // rejects impossible dates like 20260231
+  }
+  return new Date(file.lastModified);
+}
+
+// Same sizing rules as the Python script: shrink to fit, split into two lines if still too small.
+function fitText(text, width, height) {
+  const sizeFor = (lines) => {
+    const longest = Math.max(...lines.map((l) => l.length));
+    return Math.min(height / 25, (width * 0.9) / (0.62 * longest));
+  };
+  let lines = text.split("\n");
+  let size = sizeFor(lines);
+  const spaces = [];
+  [...text].forEach((ch, i) => { if (ch === " ") spaces.push(i); });
+  if (size < height / 40 && lines.length === 1 && spaces.length) {
+    const mid = spaces.reduce((a, b) => Math.abs(b - text.length / 2) < Math.abs(a - text.length / 2) ? b : a);
+    lines = [text.slice(0, mid).trim(), text.slice(mid + 1).trim()];
+    size = sizeFor(lines);
+  }
+  return { lines, size: Math.max(Math.floor(size), 10) };
+}
+
+function pickMime() {
+  const options = ["video/mp4;codecs=avc1,mp4a.40.2", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"];
+  return options.find((t) => MediaRecorder.isTypeSupported(t)) || "";
+}
+
+function renderList() {
+  $("list").innerHTML = "";
+  files.forEach((f, i) => {
+    const div = document.createElement("div");
+    div.className = "file";
+    div.innerHTML = `<label style="margin:0;display:flex;gap:8px;align-items:flex-start;color:var(--fg)"><input type="checkbox" checked data-i="${i}"><span><span class="name"></span><br><span class="meta">${formatDate(recordingDate(f.file))} · ${(f.file.size / 1048576).toFixed(1)} MB</span></span></label><div class="bar hide"><i></i></div><div class="meta status"></div>`;
+    div.querySelector(".name").textContent = f.file.name;
+    f.el = div;
+    $("list").appendChild(div);
+  });
+  $("start").disabled = !files.length;
+}
+
+async function encode(item, opts, onProgress) {
+  const file = item.file;
+  const url = URL.createObjectURL(file);
+  const video = document.createElement("video");
+  video.src = url;
+  video.playsInline = true;
+  video.preload = "auto";
+  await new Promise((resolve, reject) => {
+    video.onloadedmetadata = resolve;
+    video.onerror = () => reject(new Error("This browser cannot read the video"));
+  });
+
+  // Output size: shorter side limited to the chosen value, never enlarged, even numbers only.
+  let w = video.videoWidth, h = video.videoHeight;
+  if (opts.res && Math.min(w, h) > opts.res) {
+    const r = opts.res / Math.min(w, h);
+    if (w >= h) { w = Math.round((w * r) / 2) * 2; h = opts.res; }
+    else { h = Math.round((h * r) / 2) * 2; w = opts.res; }
+  }
+  w -= w % 2; h -= h % 2;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext("2d");
+
+  const dayText = opts.dateMode === "auto" ? formatDate(recordingDate(file)) : opts.dateMode === "manual" ? opts.manualDate : "";
+  const fullText = [dayText, opts.text].filter(Boolean).join(" ");
+
+  let layout = null;
+  if (fullText) {
+    const { lines, size } = fitText(fullText, w, h);
+    ctx.font = `${size}px "DejaVu Sans", Verdana, sans-serif`;
+    const lineH = Math.round(size * 1.2) + 4;
+    const border = Math.max(4, Math.floor(size / 5));
+    const textW = Math.max(...lines.map((l) => ctx.measureText(l).width));
+    const textH = lines.length * lineH - 4;
+    layout = { lines, size, lineH, border, textW, textH, x: Math.floor(w * 0.04), y: Math.floor(h - textH - h * 0.02) };
+  }
+
+  const draw = () => {
+    ctx.drawImage(video, 0, 0, w, h);
+    if (!layout) return;
+    const L = layout;
+    ctx.fillStyle = "rgba(0,0,0,0.5)";
+    ctx.fillRect(L.x - L.border, L.y - L.border, L.textW + 2 * L.border, L.textH + 2 * L.border);
+    ctx.font = `${L.size}px "DejaVu Sans", Verdana, sans-serif`;
+    ctx.textBaseline = "top";
+    ctx.fillStyle = opts.color;
+    L.lines.forEach((line, i) => ctx.fillText(line, L.x, L.y + i * L.lineH));
+  };
+
+  // Video frames from the canvas, audio routed through the Web Audio API into the same stream.
+  const stream = canvas.captureStream(FPS);
+  const source = opts.audioCtx.createMediaElementSource(video);
+  const sink = opts.audioCtx.createMediaStreamDestination();
+  source.connect(sink);
+  sink.stream.getAudioTracks().forEach((t) => stream.addTrack(t));
+
+  const mime = pickMime();
+  const bps = Math.round(Math.min(Math.max(w * h * FPS * opts.quality, 300000), 25000000));
+  const recorder = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: bps } : { videoBitsPerSecond: bps });
+  const chunks = [];
+  recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+  const stopped = new Promise((resolve) => { recorder.onstop = resolve; });
+
+  let live = true;
+  const tick = () => {
+    if (!live) return;
+    draw();
+    onProgress(video.duration ? video.currentTime / video.duration : 0);
+    if ("requestVideoFrameCallback" in video) video.requestVideoFrameCallback(tick);
+    else requestAnimationFrame(tick);
+  };
+
+  recorder.start(1000);
+  await video.play();
+  tick();
+  await new Promise((resolve) => {
+    video.onended = resolve;
+    abortFn = () => { video.pause(); resolve(); };
+  });
+  live = false;
+  abortFn = null;
+  if (!cancelled) draw();
+  recorder.stop();
+  await stopped;
+  URL.revokeObjectURL(url);
+  if (cancelled) return null;
+
+  const type = recorder.mimeType || mime || "video/webm";
+  const ext = type.includes("mp4") ? ".mp4" : ".webm";
+  const base = file.name.replace(/\.[^.]+$/, "");
+  return { blob: new Blob(chunks, { type }), name: base + "_watermark" + ext };
+}
+
+async function run() {
+  if (running) return;
+  const selected = files.filter((f) => f.el.querySelector("input").checked);
+  if (!selected.length) { $("info").textContent = "Select at least one video."; return; }
+  if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) {
+    $("info").textContent = "This browser does not support video recording. Try a recent Chrome, Edge, Firefox or Safari.";
+    return;
+  }
+  running = true; cancelled = false;
+  $("start").disabled = true; $("pick").disabled = true;
+  $("cancel").classList.remove("hide");
+  $("info").textContent = "";
+
+  let wakeLock = null;
+  try { wakeLock = await navigator.wakeLock.request("screen"); } catch (e) { /* optional */ }
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  await audioCtx.resume();
+
+  const opts = {
+    dateMode: $("dateMode").value,
+    manualDate: $("manualDate").value.trim(),
+    text: $("text").value.trim(),
+    res: parseInt($("res").value, 10) || 0,
+    quality: parseFloat($("quality").value),
+    color: $("color").value,
+    audioCtx,
+  };
+
+  let done = 0;
+  for (let n = 0; n < selected.length && !cancelled; n++) {
+    const item = selected[n];
+    const bar = item.el.querySelector(".bar");
+    const fill = bar.firstElementChild;
+    const status = item.el.querySelector(".status");
+    bar.classList.remove("hide");
+    status.textContent = `[${n + 1}/${selected.length}] working...`;
+    try {
+      const result = await encode(item, opts, (p) => {
+        fill.style.width = Math.round(p * 100) + "%";
+        status.textContent = `[${n + 1}/${selected.length}] ${Math.round(p * 100)}%`;
+      });
+      if (result) {
+        fill.style.width = "100%";
+        const a = document.createElement("a");
+        a.className = "dl";
+        a.href = URL.createObjectURL(result.blob);
+        a.download = result.name;
+        a.textContent = `Download ${result.name} (${(result.blob.size / 1048576).toFixed(1)} MB)`;
+        status.textContent = "Done";
+        item.el.appendChild(a);
+        done++;
+      } else {
+        status.textContent = "Cancelled";
+      }
+    } catch (err) {
+      status.textContent = "Error: " + err.message + " (skipped)";
+    }
+  }
+
+  audioCtx.close();
+  if (wakeLock) wakeLock.release().catch(() => {});
+  running = false;
+  $("start").disabled = false; $("pick").disabled = false;
+  $("cancel").classList.add("hide");
+  $("info").textContent = `Done: ${done}/${selected.length} videos. Tap the download links above.`;
+}
+
+$("pick").onclick = () => $("picker").click();
+$("picker").onchange = (e) => {
+  files = [...e.target.files].filter((f) => f.type.startsWith("video/") || /\.(mp4|mov|mkv|3gp|webm|avi)$/i.test(f.name)).map((file) => ({ file }));
+  renderList();
+};
+$("dateMode").onchange = () => $("manualBox").classList.toggle("hide", $("dateMode").value !== "manual");
+$("start").onclick = run;
+$("cancel").onclick = () => { cancelled = true; if (abortFn) abortFn(); };
+</script>
+</body>
+</html>
