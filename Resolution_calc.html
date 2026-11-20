@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Képarány Kalkulátor &amp; Euklideszi Levezető</title>
+  <style>
+    :root {
+      --bg-primary: #0b0f19;
+      --bg-card: #131a2a;
+      --bg-elevated: #1b2438;
+      --bg-input: #0e1422;
+      --border: #26324d;
+      --border-focus: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.15);
+      --success: #34d399;
+      --warning: #fbbf24;
+      --purple: #a78bfa;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      padding: 20px 16px 48px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    .section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    /* Screen Monitor Bar */
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .stat-box {
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .stat-sub {
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button {
+      background-color: var(--bg-elevated);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+      background-color: #222e47;
+    }
+
+    button.primary {
+      background-color: var(--accent);
+      color: #06101d;
+      border-color: var(--accent);
+    }
+
+    button.primary:hover {
+      background-color: #7dd3fc;
+    }
+
+    /* Inputs */
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .input-group input {
+      width: 100%;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .input-group input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .swap-btn {
+      padding: 12px 14px;
+      font-size: 1.1rem;
+      height: 48px;
+    }
+
+    .presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .preset-chip {
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+    }
+
+    /* Results Grid */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .result-card {
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .result-card.highlight {
+      border-color: var(--accent);
+      background: linear-gradient(145deg, #1b2438 0%, #132238 100%);
+    }
+
+    .result-big {
+      font-family: var(--font-mono);
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 4px 0;
+    }
+
+    .result-card.green .result-big {
+      color: var(--success);
+    }
+
+    .result-card.purple .result-big {
+      color: var(--purple);
+    }
+
+    .result-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Visual Comparison Box */
+    .preview-wrapper {
+      margin-top: 18px;
+      background-color: var(--bg-input);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 210px;
+    }
+
+    .box-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 160px;
+    }
+
+    .rect-std {
+      position: absolute;
+      border: 2px dashed var(--success);
+      background-color: rgba(52, 211, 153, 0.08);
+      border-radius: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .rect-user {
+      position: absolute;
+      border: 2px solid var(--accent);
+      background-color: rgba(56, 189, 248, 0.16);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      transition: all 0.25s ease;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot-user {
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--accent);
+      background: rgba(56, 189, 248, 0.2);
+      border-radius: 3px;
+    }
+
+    .dot-std {
+      width: 12px;
+      height: 12px;
+      border: 2px dashed var(--success);
+      background: rgba(52, 211, 153, 0.1);
+      border-radius: 3px;
+    }
+
+    /* Accordion / Euclidean Steps */
+    details {
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    summary {
+      padding: 14px 16px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "▼";
+      font-size: 0.75rem;
+      color: var(--accent);
+      transition: transform 0.2s;
+    }
+
+    details[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .steps-body {
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .step-list {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      max-height: 240px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .step-item {
+      background-color: var(--bg-input);
+      padding: 6px 10px;
+      border-radius: 6px;
+      border-left: 3px solid var(--border);
+    }
+
+    .step-item.final {
+      border-left-color: var(--success);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .correction-box {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background-color: var(--bg-input);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      font-size: 0.84rem;
+    }
+
+    .correction-box strong {
+      color: var(--warning);
+    }
+
+    @media (max-width: 540px) {
+      .input-row {
+        grid-template-columns: 1fr;
+      }
+      .swap-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Képarány Kalkulátor</h1>
+      <p>Pontos arány, legnagyobb közös osztó (Euklideszi módszer) és élő kijelző-figyelő</p>
+    </header>
+
+    <!-- Saját képernyő adatai -->
+    <section class="card">
+      <div class="section-title">
+        <span>Saját képernyő adatai (Élő)</span>
+        <span id="live-badge" style="color: var(--success); font-size: 0.72rem;">● AKTÍV</span>
+      </div>
+      <div class="screen-grid">
+        <div class="stat-box">
+          <div class="stat-label">Fizikai kijelző (becsült)</div>
+          <div class="stat-value" id="phys-res">- × -</div>
+          <div class="stat-sub" id="phys-ratio">Arány: -</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Logikai képernyő (CSS)</div>
+          <div class="stat-value" id="log-res">- × -</div>
+          <div class="stat-sub" id="dpr-val">DPR szorzó: -</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Böngésző ablak (Viewport)</div>
+          <div class="stat-value" id="win-res">- × -</div>
+          <div class="stat-sub" id="win-ratio">Ablak arány: -</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="primary" onclick="loadPhysicalScreen()">Fizikai kijelző betöltése</button>
+        <button onclick="loadLogicalScreen()">Logikai képernyő betöltése</button>
+        <button onclick="loadWindowSize()">Böngészőablak betöltése</button>
+      </div>
+    </section>
+
+    <!-- Bemeneti mezők -->
+    <section class="card">
+      <div class="section-title">Felbontás megadása (pixel)</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="widthInput">Szélesség (W)</label>
+          <input type="number" id="widthInput" min="1" max="100000" value="1280" oninput="calculate()" />
+        </div>
+        <button class="swap-btn" title="Felcserélés (álló / fekvő)" onclick="swapValues()">⇄</button>
+        <div class="input-group">
+          <label for="heightInput">Magasság (H)</label>
+          <input type="number" id="heightInput" min="1" max="100000" value="720" oninput="calculate()" />
+        </div>
+      </div>
+
+      <div class="presets">
+        <button class="preset-chip" onclick="setRes(1280, 720)">1280×720 (HD)</button>
+        <button class="preset-chip" onclick="setRes(1920, 1080)">1920×1080 (FHD)</button>
+        <button class="preset-chip" onclick="setRes(2560, 1440)">2560×1440 (2K)</button>
+        <button class="preset-chip" onclick="setRes(3840, 2160)">3840×2160 (4K)</button>
+        <button class="preset-chip" onclick="setRes(1300, 700)">1300×700 (Teszt)</button>
+        <button class="preset-chip" onclick="setRes(1366, 768)">1366×768</button>
+        <button class="preset-chip" onclick="setRes(3440, 1440)">3440×1440 (21:9)</button>
+        <button class="preset-chip" onclick="setRes(1080, 2400)">1080×2400 (Mobil)</button>
+      </div>
+    </section>
+
+    <!-- Eredmények -->
+    <section class="card">
+      <div class="section-title">Számítási eredmények</div>
+      <div class="results-grid">
+        <div class="result-card highlight">
+          <div class="stat-label">Pontos egyszerűsített arány</div>
+          <div class="result-big" id="exactRatio">16 : 9</div>
+          <div class="result-desc" id="decimalRatio">Tizedes alak: 1.778</div>
+        </div>
+        <div class="result-card purple">
+          <div class="stat-label">Legnagyobb közös osztó (LNKO)</div>
+          <div class="result-big" id="gcdVal">80</div>
+          <div class="result-desc" id="gcdFormula">1280 ÷ 80 = 16 | 720 ÷ 80 = 9</div>
+        </div>
+        <div class="result-card green">
+          <div class="stat-label">Legközelebbi szabványos arány</div>
+          <div class="result-big" id="nearestStd">16 : 9</div>
+          <div class="result-desc" id="stdDiff">Eltérés: 0.0% (Pontos egyezés)</div>
+        </div>
+      </div>
+
+      <div class="correction-box" id="correctionBox">
+        A megadott felbontás pontosan illeszkedik a szabványhoz.
+      </div>
+
+      <!-- Vizuális összehasonlító -->
+      <div class="preview-wrapper">
+        <div class="box-stage">
+          <div class="rect-std" id="rectStd"></div>
+          <div class="rect-user" id="rectUser">1280 × 720</div>
+        </div>
+        <div class="legend">
+          <span><i class="dot-user"></i> Megadott felbontás (<strong id="legUser">16:9</strong>)</span>
+          <span><i class="dot-std"></i> Legközelebbi szabvány (<strong id="legStd">16:9</strong>)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Euklideszi levezetés -->
+    <details>
+      <summary>Hogyan jött ki a legnagyobb közös osztó? (Kivonogatós levezetés)</summary>
+      <div class="steps-body">
+        <p style="margin-top: 10px;">
+          Az <strong>Euklideszi algoritmus</strong> mindig a nagyobb számból vonja ki a kisebbet, amíg két egyforma számot nem kapunk. Az utolsó nem nulla eredmény a legnagyobb közös osztó:
+        </p>
+        <div class="step-list" id="euclideanSteps"></div>
+      </div>
+    </details>
+  </div>
+
+  <script>
+    const STANDARDS = [
+      { name: "1 : 1", w: 1, h: 1, desc: "Négyzet (pl. Instagram)" },
+      { name: "5 : 4", w: 5, h: 4, desc: "Régi 1280×1024 monitor" },
+      { name: "4 : 3", w: 4, h: 3, desc: "Klasszikus TV / iPad" },
+      { name: "3 : 2", w: 3, h: 2, desc: "Fényképezőgép / Surface" },
+      { name: "16 : 10", w: 16, h: 10, desc: "Munkaállomás / Laptop" },
+      { name: "16 : 9", w: 16, h: 9, desc: "Szabvány HD / Full HD / 4K" },
+      { name: "18 : 9", w: 18, h: 9, desc: "Modern okostelefon (2:1)" },
+      { name: "19.5 : 9", w: 19.5, h: 9, desc: "Szélesvásznú okostelefon" },
+      { name: "20 : 9", w: 20, h: 9, desc: "Hosszúkás okostelefon" },
+      { name: "21 : 9", w: 21, h: 9, desc: "Ultraszéles (Ultrawide) monitor" },
+      { name: "32 : 9", w: 32, h: 9, desc: "Super Ultrawide monitor" }
+    ];
+
+    function gcd(a, b) {
+      a = Math.abs(Math.round(a));
+      b = Math.abs(Math.round(b));
+      while (b !== 0) {
+        let t = b;
+        b = a % b;
+        a = t;
+      }
+      return a || 1;
+    }
+
+    function getEuclideanSteps(a, b) {
+      a = Math.abs(Math.round(a));
+      b = Math.abs(Math.round(b));
+      const steps = [];
+      let safety = 0;
+
+      if (a === b) {
+        steps.push({ text: `${a} = ${b} → A két szám egyenlő, az osztó: ${a}`, final: true });
+        return steps;
+      }
+
+      while (a !== b && safety < 60) {
+        if (a > b) {
+          const diff = a - b;
+          steps.push({ text: `${a} − ${b} = ${diff}`, final: diff === b });
+          a = diff;
+        } else {
+          const diff = b - a;
+          steps.push({ text: `${b} − ${a} = ${diff}`, final: diff === a });
+          b = diff;
+        }
+        safety++;
+      }
+
+      if (safety >= 60) {
+        steps.push({
+          text: `... (a folyamat folytatódik egészen a legnagyobb közös osztóig: ${gcd(a, b)})`,
+          final: true
+        });
+      }
+      return steps;
+    }
+
+    function formatRatio(w, h) {
+      const d = gcd(w, h);
+      return `${w / d} : ${h / d}`;
+    }
+
+    function getScreenMetrics() {
+      const dpr = window.devicePixelRatio || 1;
+      const logW = window.screen.width;
+      const logH = window.screen.height;
+      const physW = Math.round(logW * dpr);
+      const physH = Math.round(logH * dpr);
+      const winW = window.innerWidth;
+      const winH = window.innerHeight;
+      return { dpr, logW, logH, physW, physH, winW, winH };
+    }
+
+    function updateScreenMonitor() {
+      const m = getScreenMetrics();
+      document.getElementById("phys-res").textContent = `${m.physW} × ${m.physH}`;
+      document.getElementById("phys-ratio").textContent = `Arány: ${formatRatio(m.physW, m.physH)} (${(m.physW / m.physH).toFixed(3)})`;
+
+      document.getElementById("log-res").textContent = `${m.logW} × ${m.logH}`;
+      document.getElementById("dpr-val").textContent = `DPR szorzó: ${m.dpr.toFixed(2)}×`;
+
+      document.getElementById("win-res").textContent = `${m.winW} × ${m.winH}`;
+      document.getElementById("win-ratio").textContent = `Ablak arány: ${formatRatio(m.winW, m.winH)}`;
+    }
+
+    function setRes(w, h) {
+      document.getElementById("widthInput").value = w;
+      document.getElementById("heightInput").value = h;
+      calculate();
+    }
+
+    function loadPhysicalScreen() {
+      const m = getScreenMetrics();
+      setRes(m.physW, m.physH);
+    }
+
+    function loadLogicalScreen() {
+      const m = getScreenMetrics();
+      setRes(m.logW, m.logH);
+    }
+
+    function loadWindowSize() {
+      const m = getScreenMetrics();
+      setRes(m.winW, m.winH);
+    }
+
+    function swapValues() {
+      const wEl = document.getElementById("widthInput");
+      const hEl = document.getElementById("heightInput");
+      const temp = wEl.value;
+      wEl.value = hEl.value;
+      hEl.value = temp;
+      calculate();
+    }
+
+    function findNearestStandard(w, h) {
+      const isPortrait = h > w;
+      const normRatio = isPortrait ? h / w : w / h;
+
+      let best = STANDARDS[0];
+      let minDiff = Infinity;
+
+      for (const st of STANDARDS) {
+        const stRatio = st.w / st.h;
+        const diff = Math.abs(normRatio - stRatio);
+        if (diff < minDiff) {
+          minDiff = diff;
+          best = st;
+        }
+      }
+
+      const displayName = isPortrait ? `${best.h} : ${best.w}` : best.name;
+      const targetW = isPortrait ? best.h : best.w;
+      const targetH = isPortrait ? best.w : best.h;
+      const targetRatio = targetW / targetH;
+      const actualRatio = w / h;
+      const pctDiff = (Math.abs(actualRatio - targetRatio) / targetRatio) * 100;
+
+      return {
+        name: displayName,
+        desc: best.desc,
+        targetW,
+        targetH,
+        targetRatio,
+        pctDiff
+      };
+    }
+
+    function calculate() {
+      const w = parseInt(document.getElementById("widthInput").value, 10);
+      const h = parseInt(document.getElementById("heightInput").value, 10);
+
+      if (!w || !h || w <= 0 || h <= 0) return;
+
+      const divisor = gcd(w, h);
+      const rw = w / divisor;
+      const rh = h / divisor;
+      const dec = w / h;
+
+      document.getElementById("exactRatio").textContent = `${rw} : ${rh}`;
+      document.getElementById("decimalRatio").textContent = `Tizedes alak: ${dec.toFixed(3)}`;
+
+      document.getElementById("gcdVal").textContent = divisor;
+      document.getElementById("gcdFormula").textContent = `${w} ÷ ${divisor} = ${rw} | ${h} ÷ ${divisor} = ${rh}`;
+
+      const nearest = findNearestStandard(w, h);
+      document.getElementById("nearestStd").textContent = nearest.name;
+      document.getElementById("stdDiff").textContent =
+        nearest.pctDiff < 0.05
+          ? `Pontos egyezés (${nearest.desc})`
+          : `Eltérés: ${nearest.pctDiff.toFixed(2)}% (${nearest.desc})`;
+
+      // Correction 
