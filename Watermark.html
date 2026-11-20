@@ -66,6 +66,27 @@
       margin-top: 4px;
     }
 
+    #error-banner {
+      display: none;
+      background-color: #450a0a;
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    #proto-warning {
+      display: none;
+      background-color: rgba(251, 191, 36, 0.12);
+      border: 1px solid var(--warning);
+      color: #fde68a;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+    }
+
     .card {
       background-color: var(--bg-card);
       border: 1px solid var(--border);
@@ -86,7 +107,6 @@
       align-items: center;
     }
 
-    /* Engine Status */
     .status-bar {
       display: flex;
       align-items: center;
@@ -110,32 +130,27 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background-color: var(--warning);
-    }
-
-    .dot.ready {
       background-color: var(--success);
       box-shadow: 0 0 8px var(--success);
     }
 
-    .dot.error {
-      background-color: var(--danger);
-    }
-
-    /* File Upload Zone */
     .drop-zone {
-      border: 2px dashed var(--border);
+      position: relative;
+      display: block;
+      border: 2px dashed var(--accent);
       border-radius: var(--radius-md);
       background-color: var(--bg-input);
       padding: 28px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s ease;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow: hidden;
     }
 
-    .drop-zone:hover, .drop-zone.dragover {
-      border-color: var(--accent);
-      background-color: rgba(56, 189, 248, 0.06);
+    .drop-zone:active, .drop-zone.dragover {
+      background-color: rgba(56, 189, 248, 0.12);
     }
 
     .drop-zone strong {
@@ -150,7 +165,16 @@
       color: var(--text-muted);
     }
 
-    /* Video List */
+    .file-input-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 10;
+    }
+
     .video-list {
       margin-top: 14px;
       display: flex;
@@ -195,7 +219,7 @@
       border: 1px solid var(--border);
       color: var(--text-muted);
       border-radius: 6px;
-      padding: 4px 10px;
+      padding: 6px 10px;
       cursor: pointer;
       font-size: 0.8rem;
     }
@@ -205,7 +229,6 @@
       color: var(--danger);
     }
 
-    /* Form Controls */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -246,6 +269,11 @@
       box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
+    .hint-text {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+    }
+
     .color-row {
       display: flex;
       gap: 8px;
@@ -262,7 +290,6 @@
       padding: 2px;
     }
 
-    /* Watermark Live Preview */
     .preview-box {
       margin-top: 14px;
       background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
@@ -286,7 +313,7 @@
     }
 
     .wm-badge {
-      background-color: rgba(0, 0, 0, 0.55);
+      background-color: rgba(0, 0, 0, 0.5);
       color: var(--lightgreen);
       font-family: var(--font-sans);
       font-size: 0.95rem;
@@ -298,7 +325,6 @@
       word-break: break-word;
     }
 
-    /* Action Buttons */
     .btn-primary {
       width: 100%;
       background-color: var(--accent);
@@ -321,7 +347,6 @@
       cursor: not-allowed;
     }
 
-    /* Progress & Results */
     .progress-area {
       display: none;
       flex-direction: column;
@@ -353,7 +378,7 @@
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, var(--accent), var(--success));
-      transition: width 0.2s ease;
+      transition: width 0.15s linear;
     }
 
     .progress-sub {
@@ -419,13 +444,18 @@
       <p>Dátum + egyedi vízjel beégetése és tömörítés közvetlenül a böngészőben</p>
     </header>
 
-    <!-- Motor állapot -->
+    <div id="error-banner"></div>
+
+    <div id="proto-warning">
+      <strong>Tipp:</strong> Jelenleg helyi fájlkezelőből (<code>content://</code>) nyitottad meg az oldalt. Ha itt nem jelenik meg a kiválasztott videó, nyisd meg a GitHub Pages (<code>https://...</code>) linkről, ahol a Chrome teljes fájlhozzáférést ad.
+    </div>
+
     <div class="status-bar">
       <div class="status-indicator">
-        <span class="dot" id="engineDot"></span>
-        <span id="engineStatus">FFmpeg motor előkészítése...</span>
+        <span class="dot"></span>
+        <span id="engineStatus">Natív böngészős videómotor kész!</span>
       </div>
-      <span style="font-size: 0.75rem; color: var(--text-muted);">100% Helyi feldolgozás</span>
+      <span style="font-size: 0.75rem; color: var(--text-muted);">Offline &amp; Hardveres GPU</span>
     </div>
 
     <!-- 1. Videók kiválasztása -->
@@ -435,16 +465,16 @@
         <span id="fileCount">0 fájl</span>
       </div>
 
-      <div class="drop-zone" id="dropZone">
-        <strong>Kattints ide vagy húzd ide a videókat</strong>
-        <span>Támogatott: MP4, MOV, MKV, 3GP, WEBM, AVI (több fájl is választható)</span>
-        <input type="file" id="fileInput" accept="video/*,.mp4,.mov,.mkv,.3gp,.webm,.avi" multiple style="display: none;" />
-      </div>
+      <label class="drop-zone" id="dropZone" for="fileInput">
+        <strong>Koppints ide a videók kiválasztásához</strong>
+        <span>Támogatott: MP4, MOV, MKV, 3GP, WEBM (több fájl is választható)</span>
+        <input type="file" id="fileInput" class="file-input-overlay" accept="video/*" multiple />
+      </label>
 
       <div class="video-list" id="videoList"></div>
     </section>
 
-    <!-- 2. Vízjel és tömörítés beállításai -->
+    <!-- 2. Beállítások -->
     <section class="card">
       <div class="section-title">2. Vízjel és tömörítés beállításai</div>
 
@@ -458,14 +488,15 @@
           <label for="dateMode">Dátum módja</label>
           <select id="dateMode">
             <option value="auto" selected>Automatikus (fájlnévből / fájl dátumából)</option>
-            <option value="manual">Manuális dátum megadása</option>
+            <option value="manual">Manuális dátum (lásd lentebb)</option>
             <option value="none">Nincs dátum (csak a szöveg)</option>
           </select>
         </div>
 
-        <div class="form-group" id="manualDateGroup" style="display: none;">
-          <label for="manualDateInput">Egyedi dátum szövege</label>
+        <div class="form-group" id="manualDateGroup">
+          <label for="manualDateInput">Manuális dátum szövege</label>
           <input type="text" id="manualDateInput" placeholder="Pl. NOV-20-2026" />
+          <span class="hint-text">Csak „Manuális dátum” módban kerül a videóra.</span>
         </div>
 
         <div class="form-group">
@@ -476,21 +507,22 @@
             <option value="640">640p</option>
             <option value="480">480p (kisebb fájlméret)</option>
             <option value="360">360p (gyors tömörítés)</option>
-            <option value="custom">Egyedi méret (pixel)...</option>
+            <option value="custom">Egyedi méret (lásd lentebb)</option>
           </select>
         </div>
 
-        <div class="form-group" id="customResGroup" style="display: none;">
-          <label for="customResInput">Rövidebb oldal (px, 100–4320)</label>
+        <div class="form-group" id="customResGroup">
+          <label for="customResInput">Egyedi rövidebb oldal (px, 100–4320)</label>
           <input type="number" id="customResInput" min="100" max="4320" step="2" value="720" />
+          <span class="hint-text">Csak „Egyedi méret” választásakor aktív.</span>
         </div>
 
         <div class="form-group">
-          <label for="presetSpeed">Tömörítési sebesség / minőség</label>
-          <select id="presetSpeed">
-            <option value="ultrafast">Ultrafast (leggyorsabb)</option>
-            <option value="veryfast" selected>Veryfast (eredeti Python beállítás)</option>
-            <option value="fast">Fast (kisebb fájlméret)</option>
+          <label for="bitrateSelect">Tömörítési minőség (Bitráta)</label>
+          <select id="bitrateSelect">
+            <option value="5000000">Magas minőség (5 Mbps)</option>
+            <option value="2500000" selected>Normál HD (2.5 Mbps - ajánlott)</option>
+            <option value="1200000">Tömörített (1.2 Mbps - kis fájlméret)</option>
           </select>
         </div>
 
@@ -503,16 +535,15 @@
         </div>
       </div>
 
-      <!-- Élő előnézet -->
       <div class="preview-box">
         <span class="preview-label">Élő előnézet (bal alsó sarok)</span>
         <div class="wm-badge" id="wmPreview">NOV-20-2026 BY_[MiSi], </div>
       </div>
     </section>
 
-    <!-- 3. Indítás és folyamat -->
+    <!-- 3. Indítás -->
     <section class="card">
-      <button class="btn-primary" id="startBtn" disabled>Videók feldolgozása és vízjelezése</button>
+      <button class="btn-primary" type="button" id="startBtn" disabled>Videók feldolgozása és vízjelezése</button>
 
       <div class="progress-area" id="progressArea">
         <div class="progress-header">
@@ -522,7 +553,7 @@
         <div class="progress-track">
           <div class="progress-fill" id="progressFill"></div>
         </div>
-        <div class="progress-sub" id="progressEta">Hátralévő idő: számítás...</div>
+        <div class="progress-sub" id="progressEta">Kérlek ne zárd be az ablakot feldolgozás közben...</div>
       </div>
 
       <div class="download-list" id="downloadList"></div>
@@ -530,63 +561,62 @@
     </section>
   </div>
 
-  <!-- FFmpeg.wasm betöltése -->
-  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
-  <script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
-
   <script>
+    window.onerror = function (msg, url, line) {
+      var banner = document.getElementById("error-banner");
+      if (banner) {
+        banner.style.display = "block";
+        banner.textContent = "JS Hiba (sor " + line + "): " + msg;
+      }
+    };
+
     (function () {
-      const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-      const FONT_URL = "https://cdn.jsdelivr.net/npm/dejavu-fonts-ttf@2.37.3/ttf/DejaVuSans.ttf";
+      if (window.location.protocol === "content:") {
+        var pw = document.getElementById("proto-warning");
+        if (pw) pw.style.display = "block";
+      }
 
-      let ffmpeg = null;
-      let engineReady = false;
-      let isProcessing = false;
-      let selectedFiles = [];
-      let fontLoaded = false;
+      var MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+      var isProcessing = false;
+      var selectedFiles = [];
+      var processedSignatures = {};
 
-      // DOM elemek
-      const engineDot = document.getElementById("engineDot");
-      const engineStatus = document.getElementById("engineStatus");
-      const dropZone = document.getElementById("dropZone");
-      const fileInput = document.getElementById("fileInput");
-      const videoList = document.getElementById("videoList");
-      const fileCount = document.getElementById("fileCount");
-      const wmText = document.getElementById("wmText");
-      const dateMode = document.getElementById("dateMode");
-      const manualDateGroup = document.getElementById("manualDateGroup");
-      const manualDateInput = document.getElementById("manualDateInput");
-      const resPreset = document.getElementById("resPreset");
-      const customResGroup = document.getElementById("customResGroup");
-      const customResInput = document.getElementById("customResInput");
-      const presetSpeed = document.getElementById("presetSpeed");
-      const fontColorPicker = document.getElementById("fontColorPicker");
-      const fontColorHex = document.getElementById("fontColorHex");
-      const wmPreview = document.getElementById("wmPreview");
-      const startBtn = document.getElementById("startBtn");
-      const progressArea = document.getElementById("progressArea");
-      const progressTitle = document.getElementById("progressTitle");
-      const progressPercent = document.getElementById("progressPercent");
-      const progressFill = document.getElementById("progressFill");
-      const progressEta = document.getElementById("progressEta");
-      const downloadList = document.getElementById("downloadList");
-      const logBox = document.getElementById("logBox");
+      var dropZone = document.getElementById("dropZone");
+      var fileInput = document.getElementById("fileInput");
+      var videoList = document.getElementById("videoList");
+      var fileCount = document.getElementById("fileCount");
+      var wmText = document.getElementById("wmText");
+      var dateMode = document.getElementById("dateMode");
+      var manualDateInput = document.getElementById("manualDateInput");
+      var resPreset = document.getElementById("resPreset");
+      var customResInput = document.getElementById("customResInput");
+      var bitrateSelect = document.getElementById("bitrateSelect");
+      var fontColorPicker = document.getElementById("fontColorPicker");
+      var fontColorHex = document.getElementById("fontColorHex");
+      var wmPreview = document.getElementById("wmPreview");
+      var startBtn = document.getElementById("startBtn");
+      var progressArea = document.getElementById("progressArea");
+      var progressTitle = document.getElementById("progressTitle");
+      var progressPercent = document.getElementById("progressPercent");
+      var progressFill = document.getElementById("progressFill");
+      var progressEta = document.getElementById("progressEta");
+      var downloadList = document.getElementById("downloadList");
+      var logBox = document.getElementById("logBox");
 
       function log(msg) {
-        const time = new Date().toLocaleTimeString();
-        logBox.textContent += `\n[${time}] ${msg}`;
+        var time = new Date().toLocaleTimeString();
+        logBox.textContent += "\n[" + time + "] " + msg;
         logBox.scrollTop = logBox.scrollHeight;
       }
 
-      // 1. Dátum kinyerése a Python szkript logikája alapján
       function extractRecordingDate(file) {
-        const name = file.name;
-        const match = name.match(/(?<!\d)(20\d{2})(0[1-9]|1[0-2])([0-2]\d|3[01])(?!\d)/);
+        var name = file.name || "";
+        var match = name.match(/(20\d{2})(0[1-9]|1[0-2])([0-2]\d|3[01])/);
         if (match) {
-          const y = parseInt(match[1], 10);
-          const m = parseInt(match[2], 10) - 1;
-          const d = parseInt(match[3], 10);
-          const dt = new Date(y, m, d);
+          var y = parseInt(match[1], 10);
+          var m = parseInt(match[2], 10) - 1;
+          var d = parseInt(match[3], 10);
+          var dt = new Date(y, m, d);
           if (dt.getFullYear() === y && dt.getMonth() === m && dt.getDate() === d) {
             return formatDate(dt);
           }
@@ -595,36 +625,38 @@
       }
 
       function formatDate(d) {
-        const month = MONTHS[d.getMonth()];
-        const day = String(d.getDate()).padStart(2, "0");
-        const year = d.getFullYear();
-        return `${month}-${day}-${year}`;
+        var month = MONTHS[d.getMonth()];
+        var day = String(d.getDate()).padStart(2, "0");
+        var year = d.getFullYear();
+        return month + "-" + day + "-" + year;
       }
 
-      // 2. Szöveg tördelés és betűméret számítás (a Python fit_text pontos mása)
       function fitText(text, width, height) {
         function fontSizeFor(lines) {
-          const longest = Math.max(...lines.map((l) => l.length), 1);
+          var longest = 1;
+          for (var i = 0; i < lines.length; i++) {
+            if (lines[i].length > longest) longest = lines[i].length;
+          }
           return Math.min(height / 25, (width * 0.9) / (0.62 * longest));
         }
 
-        let lines = text.split("\n");
-        let size = fontSizeFor(lines);
+        var lines = text.split("\n");
+        var size = fontSizeFor(lines);
 
-        const spaces = [];
-        for (let i = 0; i < text.length; i++) {
+        var spaces = [];
+        for (var i = 0; i < text.length; i++) {
           if (text[i] === " ") spaces.push(i);
         }
 
         if (size < height / 40 && lines.length === 1 && spaces.length > 0) {
-          const half = Math.floor(text.length / 2);
-          let middle = spaces[0];
-          let minDiff = Math.abs(middle - half);
-          for (const idx of spaces) {
-            const diff = Math.abs(idx - half);
+          var half = Math.floor(text.length / 2);
+          var middle = spaces[0];
+          var minDiff = Math.abs(middle - half);
+          for (var j = 0; j < spaces.length; j++) {
+            var diff = Math.abs(spaces[j] - half);
             if (diff < minDiff) {
               minDiff = diff;
-              middle = idx;
+              middle = spaces[j];
             }
           }
           lines = [text.slice(0, middle).trim(), text.slice(middle + 1).trim()];
@@ -632,6 +664,7 @@
         }
 
         return {
+          lines: lines,
           text: lines.join("\n"),
           fontSize: Math.max(Math.floor(size), 10)
         };
@@ -639,315 +672,23 @@
 
       function formatTime(seconds) {
         seconds = Math.max(0, Math.floor(seconds));
-        const h = Math.floor(seconds / 3600);
-        const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
-        const s = String(seconds % 60).padStart(2, "0");
-        return `${h}:${m}:${s}`;
+        var h = Math.floor(seconds / 3600);
+        var m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+        var s = String(seconds % 60).padStart(2, "0");
+        return h + ":" + m + ":" + s;
       }
 
-      // 3. Videó valós méretének kiolvasása HTML5 Video elemmel (rotációt automatikusan kezeli)
       function probeVideoMeta(file) {
-        return new Promise((resolve) => {
-          const url = URL.createObjectURL(file);
-          const vid = document.createElement("video");
-          vid.preload = "metadata";
-          vid.muted = true;
-          vid.onloadedmetadata = function () {
-            const w = vid.videoWidth || 1280;
-            const h = vid.videoHeight || 720;
-            const dur = isFinite(vid.duration) ? vid.duration : 0;
-            URL.revokeObjectURL(url);
-            resolve({ width: w, height: h, duration: dur });
-          };
-          vid.onerror = function () {
-            URL.revokeObjectURL(url);
-            resolve({ width: 1280, height: 720, duration: 0 });
-          };
-          vid.src = url;
-        });
-      }
-
-      // 4. Élő előnézet frissítése
-      function updatePreview() {
-        const sampleDate = selectedFiles.length > 0 ? selectedFiles[0].autoDate : formatDate(new Date());
-        let dateStr = "";
-        if (dateMode.value === "auto") dateStr = sampleDate;
-        else if (dateMode.value === "manual") dateStr = manualDateInput.value.trim();
-
-        const txt = wmText.value.trim();
-        const combined = [dateStr, txt].filter(Boolean).join(" ");
-        const fitted = combined ? fitText(combined, 1280, 720).text : "(Nincs vízjel szöveg – csak újratömörítés)";
-
-        wmPreview.textContent = fitted;
-        wmPreview.style.color = fontColorHex.value.trim() || "lightgreen";
-      }
-
-      // 5. Fájllista kezelése
-      async function addFiles(fileList) {
-        for (const file of fileList) {
-          const autoDate = extractRecordingDate(file);
-          const meta = await probeVideoMeta(file);
-          selectedFiles.push({
-            file,
-            autoDate,
-            width: meta.width,
-            height: meta.height,
-            duration: meta.duration
-          });
-        }
-        renderFileList();
-        updatePreview();
-        updateStartButton();
-      }
-
-      function renderFileList() {
-        videoList.innerHTML = "";
-        fileCount.textContent = `${selectedFiles.length} fájl`;
-
-        selectedFiles.forEach((item, index) => {
-          const sizeMB = (item.file.size / (1024 * 1024)).toFixed(1);
-          const div = document.createElement("div");
-          div.className = "video-item";
-          div.innerHTML = `
-            <div class="video-item-info">
-              <div class="video-name">${index + 1}. ${item.file.name}</div>
-              <div class="video-meta">[${item.autoDate}] • ${item.width}×${item.height} • ${formatTime(item.duration)} • ${sizeMB} MB</div>
-            </div>
-            <button type="button" class="btn-remove" data-idx="${index}">Törlés</button>
-          `;
-          videoList.appendChild(div);
-        });
-
-        document.querySelectorAll(".btn-remove").forEach((btn) => {
-          btn.addEventListener("click", function () {
-            const idx = parseInt(this.getAttribute("data-idx"), 10);
-            selectedFiles.splice(idx, 1);
-            renderFileList();
-            updatePreview();
-            updateStartButton();
-          });
-        });
-      }
-
-      function updateStartButton() {
-        startBtn.disabled = !(engineReady && selectedFiles.length > 0 && !isProcessing);
-      }
-
-      // 6. FFmpeg.wasm inicializálása
-      async function initEngine() {
-        try {
-          if (typeof FFmpegWASM === "undefined" || typeof FFmpegUtil === "undefined") {
-            throw new Error("Az FFmpeg könyvtár nem töltődött be. Ellenőrizd az internetkapcsolatot.");
-          }
-          const { FFmpeg } = FFmpegWASM;
-          const { toBlobURL } = FFmpegUtil;
-
-          ffmpeg = new FFmpeg();
-          const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
-
-          engineStatus.textContent = "FFmpeg motor letöltése (kb. 30 MB, egyszeri)...";
-          log("FFmpeg WebAssembly mag betöltése...");
-
-          await ffmpeg.load({
-            coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
-            wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm")
-          });
-
-          engineStatus.textContent = "DejaVu Sans betűtípus betöltése...";
-          const fontResp = await fetch(FONT_URL);
-          if (!fontResp.ok) throw new Error("Nem sikerült letölteni a DejaVuSans.ttf betűtípust.");
-          const fontBuf = new Uint8Array(await fontResp.arrayBuffer());
-          await ffmpeg.writeFile("DejaVuSans.ttf", fontBuf);
-          fontLoaded = true;
-
-          engineReady = true;
-          engineDot.classList.add("ready");
-          engineStatus.textContent = "FFmpeg motor és betűtípus kész!";
-          log("Motor és DejaVuSans.ttf sikeresen betöltve.");
-          updateStartButton();
-        } catch (err) {
-          engineDot.classList.add("error");
-          engineStatus.textContent = "Hiba a motor betöltésekor";
-          log("HIBA: " + err.message);
-        }
-      }
-
-      // 7. Feldolgozás futtatása
-      async function processVideos() {
-        if (!engineReady || selectedFiles.length === 0 || isProcessing) return;
-
-        isProcessing = true;
-        updateStartButton();
-        downloadList.innerHTML = "";
-        progressArea.style.display = "flex";
-
-        let targetRes = null;
-        if (resPreset.value === "custom") {
-          const val = parseInt(customResInput.value, 10);
-          if (val >= 100 && val <= 4320) targetRes = Math.floor(val / 2) * 2;
-        } else if (resPreset.value !== "orig") {
-          targetRes = parseInt(resPreset.value, 10);
-        }
-
-        const customTxt = wmText.value.trim();
-        const colorVal = fontColorHex.value.trim() || "lightgreen";
-        const speed = presetSpeed.value;
-
-        for (let i = 0; i < selectedFiles.length; i++) {
-          const item = selectedFiles[i];
-          const inName = `input_${i}.mp4`;
-          const outName = `output_${i}.mp4`;
-          const txtName = `wm_${i}.txt`;
-
-          let dayText = "";
-          if (dateMode.value === "auto") dayText = item.autoDate;
-          else if (dateMode.value === "manual") dayText = manualDateInput.value.trim();
-
-          const fullText = [dayText, customTxt].filter(Boolean).join(" ");
-
-          progressTitle.textContent = `[${i + 1}/${selectedFiles.length}] ${item.file.name}`;
-          progressPercent.textContent = "0%";
-          progressFill.style.width = "0%";
-          progressEta.textContent = "Fájl beolvasása a memóriába...";
-          log(`Feldolgozás indul: ${item.file.name} -> "${fullText || "(csak tömörítés)"}"`);
-
-          const fileData = new Uint8Array(await item.file.arrayBuffer());
-          await ffmpeg.writeFile(inName, fileData);
-
-          let width = item.width;
-          let height = item.height;
-          const filters = [];
-
-          if (targetRes) {
-            const shortSide = Math.min(width, height);
-            if (shortSide > targetRes) {
-              const ratio = targetRes / shortSide;
-              if (width >= height) {
-                width = Math.round((width * ratio) / 2) * 2;
-                height = targetRes;
-              } else {
-                width = targetRes;
-                height = Math.round((height * ratio) / 2) * 2;
-              }
-              filters.push(`scale=${width}:${height}`);
-            }
-          }
-
-          if (fullText && fontLoaded) {
-            const fitted = fitText(fullText, width, height);
-            const border = Math.max(4, Math.floor(fitted.fontSize / 5));
-            const posX = Math.floor(width * 0.04);
-            const posY = Math.floor(height * 0.02);
-
-            await ffmpeg.writeFile(txtName, new TextEncoder().encode(fitted.text));
-            filters.push(
-              `drawtext=textfile=${txtName}:expansion=none:fontfile=DejaVuSans.ttf:` +
-              `fontsize=${fitted.fontSize}:boxborderw=${border}:fontcolor=${colorVal}:` +
-              `box=1:boxcolor=black@0.5:line_spacing=4:x=${posX}:y=h-th-${posY}`
-            );
-          }
-
-          const args = ["-y", "-i", inName];
-          if (filters.length > 0) {
-            args.push("-vf", filters.join(","));
-          }
-          args.push("-c:v", "libx264", "-preset", speed, "-crf", "23", "-c:a", "copy", outName);
-
-          const startTime = Date.now();
-          const onProgress = ({ progress }) => {
-            const p = Math.max(0, Math.min(progress || 0, 1));
-            const pct = Math.round(p * 100);
-            progressPercent.textContent = `${pct}%`;
-            progressFill.style.width = `${pct}%`;
-
-            const elapsed = (Date.now() - startTime) / 1000;
-            if (p > 0.02) {
-              const rem = (elapsed / p) * (1 - p);
-              progressEta.textContent = `Eltelt: ${formatTime(elapsed)} | Hátralévő idő: ~${formatTime(rem)}`;
-            }
-          };
-
-          ffmpeg.on("progress", onProgress);
-
+        return new Promise(function (resolve) {
           try {
-            await ffmpeg.exec(args);
-            const outData = await ffmpeg.readFile(outName);
-            const blob = new Blob([outData.buffer], { type: "video/mp4" });
-            const downloadUrl = URL.createObjectURL(blob);
-
-            const baseName = item.file.name.replace(/\.[^/.]+$/, "");
-            const finalFileName = `${baseName}_watermark.mp4`;
-            const outMB = (blob.size / (1024 * 1024)).toFixed(1);
-
-            const card = document.createElement("div");
-            card.className = "download-card";
-            card.innerHTML = `
-              <div>
-                <div style="font-weight: 700; font-size: 0.9rem;">${finalFileName}</div>
-                <div style="font-size: 0.78rem; color: var(--text-muted);">Kész méret: ${outMB} MB (${width}×${height})</div>
-              </div>
-              <a class="download-btn" href="${downloadUrl}" download="${finalFileName}">Letöltés</a>
-            `;
-            downloadList.appendChild(card);
-            log(`Kész: ${finalFileName} (${outMB} MB)`);
-          } catch (err) {
-            log(`Hiba a videónál (${item.file.name}): ${err.message}`);
-          } finally {
-            ffmpeg.off("progress", onProgress);
-            try { await ffmpeg.deleteFile(inName); } catch (e) {}
-            try { await ffmpeg.deleteFile(outName); } catch (e) {}
-            try { await ffmpeg.deleteFile(txtName); } catch (e) {}
-          }
-        }
-
-        progressTitle.textContent = "Minden kiválasztott videó elkészült!";
-        progressPercent.textContent = "100%";
-        progressFill.style.width = "100%";
-        progressEta.textContent = "Kattints a zöld Letöltés gombra a mentéshez.";
-        isProcessing = false;
-        updateStartButton();
-      }
-
-      // Eseménykezelők
-      dropZone.addEventListener("click", () => fileInput.click());
-      fileInput.addEventListener("change", (e) => {
-        if (e.target.files.length > 0) addFiles(e.target.files);
-        fileInput.value = "";
-      });
-
-      dropZone.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropZone.classList.add("dragover");
-      });
-      dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
-      dropZone.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropZone.classList.remove("dragover");
-        if (e.dataTransfer.files.length > 0) addFiles(e.dataTransfer.files);
-      });
-
-      dateMode.addEventListener("change", () => {
-        manualDateGroup.style.display = dateMode.value === "manual" ? "flex" : "none";
-        updatePreview();
-      });
-
-      resPreset.addEventListener("change", () => {
-        customResGroup.style.display = resPreset.value === "custom" ? "flex" : "none";
-      });
-
-      fontColorPicker.addEventListener("input", () => {
-        fontColorHex.value = fontColorPicker.value;
-        updatePreview();
-      });
-      fontColorHex.addEventListener("input", updatePreview);
-      wmText.addEventListener("input", updatePreview);
-      manualDateInput.addEventListener("input", updatePreview);
-      startBtn.addEventListener("click", processVideos);
-
-      // Indítás
-      updatePreview();
-      initEngine();
-    })();
-  </script>
-</body>
-</html>
+            var url = URL.createObjectURL(file);
+            var vid = document.createElement("video");
+            vid.preload = "metadata";
+            vid.muted = true;
+            var timer = setTimeout(function () {
+              URL.revokeObjectURL(url);
+              resolve({ width: 1280, height: 720, duration: 0 });
+            }, 3000);
+            vid.onloadedmetadata = function () {
+              clearTimeout(timer);
+              var w = vid.videoWidth || 128
