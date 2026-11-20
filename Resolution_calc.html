@@ -66,6 +66,17 @@
       margin-top: 4px;
     }
 
+    #error-banner {
+      display: none;
+      background-color: #450a0a;
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
     .card {
       background-color: var(--bg-card);
       border: 1px solid var(--border);
@@ -87,7 +98,6 @@
       gap: 8px;
     }
 
-    /* Screen Monitor Bar */
     .screen-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -154,7 +164,6 @@
       background-color: #7dd3fc;
     }
 
-    /* Inputs */
     .input-row {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -209,7 +218,6 @@
       font-family: var(--font-mono);
     }
 
-    /* Results Grid */
     .results-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -249,7 +257,6 @@
       color: var(--text-muted);
     }
 
-    /* Visual Comparison Box */
     .preview-wrapper {
       margin-top: 18px;
       background-color: var(--bg-input);
@@ -327,7 +334,6 @@
       border-radius: 3px;
     }
 
-    /* Accordion / Euclidean Steps */
     details {
       background-color: var(--bg-elevated);
       border: 1px solid var(--border);
@@ -424,7 +430,8 @@
       <p>Pontos arány, legnagyobb közös osztó (Euklideszi módszer) és élő kijelző-figyelő</p>
     </header>
 
-    <!-- Saját képernyő adatai -->
+    <div id="error-banner"></div>
+
     <section class="card">
       <div class="section-title">
         <span>Saját képernyő adatai (Élő)</span>
@@ -433,55 +440,53 @@
       <div class="screen-grid">
         <div class="stat-box">
           <div class="stat-label">Fizikai kijelző (becsült)</div>
-          <div class="stat-value" id="phys-res">- × -</div>
+          <div class="stat-value" id="phys-res">Betöltés...</div>
           <div class="stat-sub" id="phys-ratio">Arány: -</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Logikai képernyő (CSS)</div>
-          <div class="stat-value" id="log-res">- × -</div>
+          <div class="stat-value" id="log-res">Betöltés...</div>
           <div class="stat-sub" id="dpr-val">DPR szorzó: -</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Böngésző ablak (Viewport)</div>
-          <div class="stat-value" id="win-res">- × -</div>
+          <div class="stat-value" id="win-res">Betöltés...</div>
           <div class="stat-sub" id="win-ratio">Ablak arány: -</div>
         </div>
       </div>
       <div class="btn-row">
-        <button class="primary" onclick="loadPhysicalScreen()">Fizikai kijelző betöltése</button>
-        <button onclick="loadLogicalScreen()">Logikai képernyő betöltése</button>
-        <button onclick="loadWindowSize()">Böngészőablak betöltése</button>
+        <button class="primary" type="button" id="btnPhys">Fizikai kijelző betöltése</button>
+        <button type="button" id="btnLog">Logikai képernyő betöltése</button>
+        <button type="button" id="btnWin">Böngészőablak betöltése</button>
       </div>
     </section>
 
-    <!-- Bemeneti mezők -->
     <section class="card">
       <div class="section-title">Felbontás megadása (pixel)</div>
       <div class="input-row">
         <div class="input-group">
           <label for="widthInput">Szélesség (W)</label>
-          <input type="number" id="widthInput" min="1" max="100000" value="1280" oninput="calculate()" />
+          <input type="number" id="widthInput" min="1" max="100000" value="1280" />
         </div>
-        <button class="swap-btn" title="Felcserélés (álló / fekvő)" onclick="swapValues()">⇄</button>
+        <button class="swap-btn" type="button" id="btnSwap" title="Felcserélés (álló / fekvő)">⇄</button>
         <div class="input-group">
           <label for="heightInput">Magasság (H)</label>
-          <input type="number" id="heightInput" min="1" max="100000" value="720" oninput="calculate()" />
+          <input type="number" id="heightInput" min="1" max="100000" value="720" />
         </div>
       </div>
 
       <div class="presets">
-        <button class="preset-chip" onclick="setRes(1280, 720)">1280×720 (HD)</button>
-        <button class="preset-chip" onclick="setRes(1920, 1080)">1920×1080 (FHD)</button>
-        <button class="preset-chip" onclick="setRes(2560, 1440)">2560×1440 (2K)</button>
-        <button class="preset-chip" onclick="setRes(3840, 2160)">3840×2160 (4K)</button>
-        <button class="preset-chip" onclick="setRes(1300, 700)">1300×700 (Teszt)</button>
-        <button class="preset-chip" onclick="setRes(1366, 768)">1366×768</button>
-        <button class="preset-chip" onclick="setRes(3440, 1440)">3440×1440 (21:9)</button>
-        <button class="preset-chip" onclick="setRes(1080, 2400)">1080×2400 (Mobil)</button>
+        <button class="preset-chip" type="button" data-w="1280" data-h="720">1280×720 (HD)</button>
+        <button class="preset-chip" type="button" data-w="1920" data-h="1080">1920×1080 (FHD)</button>
+        <button class="preset-chip" type="button" data-w="2560" data-h="1440">2560×1440 (2K)</button>
+        <button class="preset-chip" type="button" data-w="3840" data-h="2160">3840×2160 (4K)</button>
+        <button class="preset-chip" type="button" data-w="1300" data-h="700">1300×700 (Teszt)</button>
+        <button class="preset-chip" type="button" data-w="1366" data-h="768">1366×768</button>
+        <button class="preset-chip" type="button" data-w="3440" data-h="1440">3440×1440 (21:9)</button>
+        <button class="preset-chip" type="button" data-w="1080" data-h="2400">1080×2400 (Mobil)</button>
       </div>
     </section>
 
-    <!-- Eredmények -->
     <section class="card">
       <div class="section-title">Számítási eredmények</div>
       <div class="results-grid">
@@ -506,7 +511,6 @@
         A megadott felbontás pontosan illeszkedik a szabványhoz.
       </div>
 
-      <!-- Vizuális összehasonlító -->
       <div class="preview-wrapper">
         <div class="box-stage">
           <div class="rect-std" id="rectStd"></div>
@@ -519,7 +523,6 @@
       </div>
     </section>
 
-    <!-- Euklideszi levezetés -->
     <details>
       <summary>Hogyan jött ki a legnagyobb közös osztó? (Kivonogatós levezetés)</summary>
       <div class="steps-body">
@@ -532,177 +535,258 @@
   </div>
 
   <script>
-    const STANDARDS = [
-      { name: "1 : 1", w: 1, h: 1, desc: "Négyzet (pl. Instagram)" },
-      { name: "5 : 4", w: 5, h: 4, desc: "Régi 1280×1024 monitor" },
-      { name: "4 : 3", w: 4, h: 3, desc: "Klasszikus TV / iPad" },
-      { name: "3 : 2", w: 3, h: 2, desc: "Fényképezőgép / Surface" },
-      { name: "16 : 10", w: 16, h: 10, desc: "Munkaállomás / Laptop" },
-      { name: "16 : 9", w: 16, h: 9, desc: "Szabvány HD / Full HD / 4K" },
-      { name: "18 : 9", w: 18, h: 9, desc: "Modern okostelefon (2:1)" },
-      { name: "19.5 : 9", w: 19.5, h: 9, desc: "Szélesvásznú okostelefon" },
-      { name: "20 : 9", w: 20, h: 9, desc: "Hosszúkás okostelefon" },
-      { name: "21 : 9", w: 21, h: 9, desc: "Ultraszéles (Ultrawide) monitor" },
-      { name: "32 : 9", w: 32, h: 9, desc: "Super Ultrawide monitor" }
-    ];
-
-    function gcd(a, b) {
-      a = Math.abs(Math.round(a));
-      b = Math.abs(Math.round(b));
-      while (b !== 0) {
-        let t = b;
-        b = a % b;
-        a = t;
+    window.onerror = function(msg, url, line) {
+      var banner = document.getElementById("error-banner");
+      if (banner) {
+        banner.style.display = "block";
+        banner.textContent = "JS Hiba (sor " + line + "): " + msg;
       }
-      return a || 1;
-    }
+    };
 
-    function getEuclideanSteps(a, b) {
-      a = Math.abs(Math.round(a));
-      b = Math.abs(Math.round(b));
-      const steps = [];
-      let safety = 0;
+    (function() {
+      var STANDARDS = [
+        { name: "1 : 1", w: 1, h: 1, desc: "Négyzet (pl. Instagram)" },
+        { name: "5 : 4", w: 5, h: 4, desc: "Régi 1280×1024 monitor" },
+        { name: "4 : 3", w: 4, h: 3, desc: "Klasszikus TV / iPad" },
+        { name: "3 : 2", w: 3, h: 2, desc: "Fényképezőgép / Surface" },
+        { name: "16 : 10", w: 16, h: 10, desc: "Munkaállomás / Laptop" },
+        { name: "16 : 9", w: 16, h: 9, desc: "Szabvány HD / Full HD / 4K" },
+        { name: "18 : 9", w: 18, h: 9, desc: "Modern okostelefon (2:1)" },
+        { name: "19.5 : 9", w: 19.5, h: 9, desc: "Szélesvásznú okostelefon" },
+        { name: "20 : 9", w: 20, h: 9, desc: "Hosszúkás okostelefon" },
+        { name: "21 : 9", w: 21, h: 9, desc: "Ultraszéles (Ultrawide) monitor" },
+        { name: "32 : 9", w: 32, h: 9, desc: "Super Ultrawide monitor" }
+      ];
 
-      if (a === b) {
-        steps.push({ text: `${a} = ${b} → A két szám egyenlő, az osztó: ${a}`, final: true });
+      function gcd(a, b) {
+        a = Math.abs(Math.round(a));
+        b = Math.abs(Math.round(b));
+        while (b !== 0) {
+          var t = b;
+          b = a % b;
+          a = t;
+        }
+        return a || 1;
+      }
+
+      function getEuclideanSteps(a, b) {
+        a = Math.abs(Math.round(a));
+        b = Math.abs(Math.round(b));
+        var steps = [];
+        var safety = 0;
+
+        if (a === b) {
+          steps.push({ text: a + " = " + b + " → A két szám egyenlő, az osztó: " + a, final: true });
+          return steps;
+        }
+
+        while (a !== b && safety < 60) {
+          if (a > b) {
+            var diff1 = a - b;
+            steps.push({ text: a + " − " + b + " = " + diff1, final: diff1 === b });
+            a = diff1;
+          } else {
+            var diff2 = b - a;
+            steps.push({ text: b + " − " + a + " = " + diff2, final: diff2 === a });
+            b = diff2;
+          }
+          safety++;
+        }
+
+        if (safety >= 60) {
+          steps.push({
+            text: "... (a folyamat folytatódik egészen a legnagyobb közös osztóig: " + gcd(a, b) + ")",
+            final: true
+          });
+        }
         return steps;
       }
 
-      while (a !== b && safety < 60) {
-        if (a > b) {
-          const diff = a - b;
-          steps.push({ text: `${a} − ${b} = ${diff}`, final: diff === b });
-          a = diff;
-        } else {
-          const diff = b - a;
-          steps.push({ text: `${b} − ${a} = ${diff}`, final: diff === a });
-          b = diff;
-        }
-        safety++;
+      function formatRatio(w, h) {
+        if (!w || !h) return "-";
+        var d = gcd(w, h);
+        return (w / d) + " : " + (h / d);
       }
 
-      if (safety >= 60) {
-        steps.push({
-          text: `... (a folyamat folytatódik egészen a legnagyobb közös osztóig: ${gcd(a, b)})`,
-          final: true
+      function getScreenMetrics() {
+        var dpr = window.devicePixelRatio || 1;
+        var logW = (window.screen && window.screen.width) ? window.screen.width : window.innerWidth;
+        var logH = (window.screen && window.screen.height) ? window.screen.height : window.innerHeight;
+        var physW = Math.round(logW * dpr);
+        var physH = Math.round(logH * dpr);
+        var winW = window.innerWidth || document.documentElement.clientWidth || logW;
+        var winH = window.innerHeight || document.documentElement.clientHeight || logH;
+        return { dpr: dpr, logW: logW, logH: logH, physW: physW, physH: physH, winW: winW, winH: winH };
+      }
+
+      function updateScreenMonitor() {
+        var m = getScreenMetrics();
+        document.getElementById("phys-res").textContent = m.physW + " × " + m.physH;
+        document.getElementById("phys-ratio").textContent = "Arány: " + formatRatio(m.physW, m.physH) + " (" + (m.physW / m.physH).toFixed(3) + ")";
+
+        document.getElementById("log-res").textContent = m.logW + " × " + m.logH;
+        document.getElementById("dpr-val").textContent = "DPR szorzó: " + m.dpr.toFixed(2) + "×";
+
+        document.getElementById("win-res").textContent = m.winW + " × " + m.winH;
+        document.getElementById("win-ratio").textContent = "Ablak arány: " + formatRatio(m.winW, m.winH);
+      }
+
+      function setRes(w, h) {
+        document.getElementById("widthInput").value = w;
+        document.getElementById("heightInput").value = h;
+        calculate();
+      }
+
+      function findNearestStandard(w, h) {
+        var isPortrait = h > w;
+        var normRatio = isPortrait ? h / w : w / h;
+
+        var best = STANDARDS[0];
+        var minDiff = Infinity;
+
+        for (var i = 0; i < STANDARDS.length; i++) {
+          var st = STANDARDS[i];
+          var stRatio = st.w / st.h;
+          var diff = Math.abs(normRatio - stRatio);
+          if (diff < minDiff) {
+            minDiff = diff;
+            best = st;
+          }
+        }
+
+        var displayName = isPortrait ? (best.h + " : " + best.w) : best.name;
+        var targetW = isPortrait ? best.h : best.w;
+        var targetH = isPortrait ? best.w : best.h;
+        var targetRatio = targetW / targetH;
+        var actualRatio = w / h;
+        var pctDiff = (Math.abs(actualRatio - targetRatio) / targetRatio) * 100;
+
+        return {
+          name: displayName,
+          desc: best.desc,
+          targetW: targetW,
+          targetH: targetH,
+          targetRatio: targetRatio,
+          pctDiff: pctDiff
+        };
+      }
+
+      function calculate() {
+        var w = parseInt(document.getElementById("widthInput").value, 10);
+        var h = parseInt(document.getElementById("heightInput").value, 10);
+
+        if (!w || !h || w <= 0 || h <= 0) return;
+
+        var divisor = gcd(w, h);
+        var rw = w / divisor;
+        var rh = h / divisor;
+        var dec = w / h;
+
+        document.getElementById("exactRatio").textContent = rw + " : " + rh;
+        document.getElementById("decimalRatio").textContent = "Tizedes alak: " + dec.toFixed(3);
+
+        document.getElementById("gcdVal").textContent = divisor;
+        document.getElementById("gcdFormula").textContent = w + " ÷ " + divisor + " = " + rw + " | " + h + " ÷ " + divisor + " = " + rh;
+
+        var nearest = findNearestStandard(w, h);
+        document.getElementById("nearestStd").textContent = nearest.name;
+        document.getElementById("stdDiff").textContent =
+          nearest.pctDiff < 0.05
+            ? "Pontos egyezés (" + nearest.desc + ")"
+            : "Eltérés: " + nearest.pctDiff.toFixed(2) + "% (" + nearest.desc + ")";
+
+        var corrBox = document.getElementById("correctionBox");
+        if (nearest.pctDiff < 0.05) {
+          corrBox.innerHTML = "✅ A <strong>" + w + " × " + h + "</strong> felbontás pontosan <strong>" + nearest.name + "</strong> képarányú.";
+        } else {
+          var idealH = Math.round((w * nearest.targetH) / nearest.targetW);
+          var idealW = Math.round((h * nearest.targetW) / nearest.targetH);
+          corrBox.innerHTML = "💡 A legközelebbi szabvány a <strong>" + nearest.name + "</strong>. Ehhez a szélességhez (<strong>" + w + " px</strong>) pontosan <strong>" + w + " × " + idealH + " px</strong>, a magassághoz (<strong>" + h + " px</strong>) pedig <strong>" + idealW + " × " + h + " px</strong> tartozna.";
+        }
+
+        var maxStageW = 240;
+        var maxStageH = 140;
+
+        function fitBox(ratio) {
+          var bw = maxStageW;
+          var bh = bw / ratio;
+          if (bh > maxStageH) {
+            bh = maxStageH;
+            bw = bh * ratio;
+          }
+          return { w: Math.round(bw), h: Math.round(bh) };
+        }
+
+        var userBox = fitBox(dec);
+        var stdBox = fitBox(nearest.targetRatio);
+
+        var rectUser = document.getElementById("rectUser");
+        rectUser.style.width = userBox.w + "px";
+        rectUser.style.height = userBox.h + "px";
+        rectUser.textContent = w + "×" + h;
+
+        var rectStd = document.getElementById("rectStd");
+        rectStd.style.width = stdBox.w + "px";
+        rectStd.style.height = stdBox.h + "px";
+
+        document.getElementById("legUser").textContent = rw + ":" + rh;
+        document.getElementById("legStd").textContent = nearest.name;
+
+        var stepsContainer = document.getElementById("euclideanSteps");
+        stepsContainer.innerHTML = "";
+        var steps = getEuclideanSteps(w, h);
+        for (var j = 0; j < steps.length; j++) {
+          var st = steps[j];
+          var div = document.createElement("div");
+          div.className = st.final ? "step-item final" : "step-item";
+          div.textContent = st.text;
+          stepsContainer.appendChild(div);
+        }
+      }
+
+      document.getElementById("btnPhys").addEventListener("click", function() {
+        var m = getScreenMetrics();
+        setRes(m.physW, m.physH);
+      });
+
+      document.getElementById("btnLog").addEventListener("click", function() {
+        var m = getScreenMetrics();
+        setRes(m.logW, m.logH);
+      });
+
+      document.getElementById("btnWin").addEventListener("click", function() {
+        var m = getScreenMetrics();
+        setRes(m.winW, m.winH);
+      });
+
+      document.getElementById("btnSwap").addEventListener("click", function() {
+        var wEl = document.getElementById("widthInput");
+        var hEl = document.getElementById("heightInput");
+        var temp = wEl.value;
+        wEl.value = hEl.value;
+        hEl.value = temp;
+        calculate();
+      });
+
+      document.getElementById("widthInput").addEventListener("input", calculate);
+      document.getElementById("heightInput").addEventListener("input", calculate);
+
+      var chips = document.querySelectorAll(".preset-chip");
+      for (var k = 0; k < chips.length; k++) {
+        chips[k].addEventListener("click", function() {
+          var pw = parseInt(this.getAttribute("data-w"), 10);
+          var ph = parseInt(this.getAttribute("data-h"), 10);
+          setRes(pw, ph);
         });
       }
-      return steps;
-    }
 
-    function formatRatio(w, h) {
-      const d = gcd(w, h);
-      return `${w / d} : ${h / d}`;
-    }
+      window.addEventListener("resize", updateScreenMonitor);
 
-    function getScreenMetrics() {
-      const dpr = window.devicePixelRatio || 1;
-      const logW = window.screen.width;
-      const logH = window.screen.height;
-      const physW = Math.round(logW * dpr);
-      const physH = Math.round(logH * dpr);
-      const winW = window.innerWidth;
-      const winH = window.innerHeight;
-      return { dpr, logW, logH, physW, physH, winW, winH };
-    }
-
-    function updateScreenMonitor() {
-      const m = getScreenMetrics();
-      document.getElementById("phys-res").textContent = `${m.physW} × ${m.physH}`;
-      document.getElementById("phys-ratio").textContent = `Arány: ${formatRatio(m.physW, m.physH)} (${(m.physW / m.physH).toFixed(3)})`;
-
-      document.getElementById("log-res").textContent = `${m.logW} × ${m.logH}`;
-      document.getElementById("dpr-val").textContent = `DPR szorzó: ${m.dpr.toFixed(2)}×`;
-
-      document.getElementById("win-res").textContent = `${m.winW} × ${m.winH}`;
-      document.getElementById("win-ratio").textContent = `Ablak arány: ${formatRatio(m.winW, m.winH)}`;
-    }
-
-    function setRes(w, h) {
-      document.getElementById("widthInput").value = w;
-      document.getElementById("heightInput").value = h;
-      calculate();
-    }
-
-    function loadPhysicalScreen() {
-      const m = getScreenMetrics();
-      setRes(m.physW, m.physH);
-    }
-
-    function loadLogicalScreen() {
-      const m = getScreenMetrics();
-      setRes(m.logW, m.logH);
-    }
-
-    function loadWindowSize() {
-      const m = getScreenMetrics();
-      setRes(m.winW, m.winH);
-    }
-
-    function swapValues() {
-      const wEl = document.getElementById("widthInput");
-      const hEl = document.getElementById("heightInput");
-      const temp = wEl.value;
-      wEl.value = hEl.value;
-      hEl.value = temp;
-      calculate();
-    }
-
-    function findNearestStandard(w, h) {
-      const isPortrait = h > w;
-      const normRatio = isPortrait ? h / w : w / h;
-
-      let best = STANDARDS[0];
-      let minDiff = Infinity;
-
-      for (const st of STANDARDS) {
-        const stRatio = st.w / st.h;
-        const diff = Math.abs(normRatio - stRatio);
-        if (diff < minDiff) {
-          minDiff = diff;
-          best = st;
-        }
-      }
-
-      const displayName = isPortrait ? `${best.h} : ${best.w}` : best.name;
-      const targetW = isPortrait ? best.h : best.w;
-      const targetH = isPortrait ? best.w : best.h;
-      const targetRatio = targetW / targetH;
-      const actualRatio = w / h;
-      const pctDiff = (Math.abs(actualRatio - targetRatio) / targetRatio) * 100;
-
-      return {
-        name: displayName,
-        desc: best.desc,
-        targetW,
-        targetH,
-        targetRatio,
-        pctDiff
-      };
-    }
-
-    function calculate() {
-      const w = parseInt(document.getElementById("widthInput").value, 10);
-      const h = parseInt(document.getElementById("heightInput").value, 10);
-
-      if (!w || !h || w <= 0 || h <= 0) return;
-
-      const divisor = gcd(w, h);
-      const rw = w / divisor;
-      const rh = h / divisor;
-      const dec = w / h;
-
-      document.getElementById("exactRatio").textContent = `${rw} : ${rh}`;
-      document.getElementById("decimalRatio").textContent = `Tizedes alak: ${dec.toFixed(3)}`;
-
-      document.getElementById("gcdVal").textContent = divisor;
-      document.getElementById("gcdFormula").textContent = `${w} ÷ ${divisor} = ${rw} | ${h} ÷ ${divisor} = ${rh}`;
-
-      const nearest = findNearestStandard(w, h);
-      document.getElementById("nearestStd").textContent = nearest.name;
-      document.getElementById("stdDiff").textContent =
-        nearest.pctDiff < 0.05
-          ? `Pontos egyezés (${nearest.desc})`
-          : `Eltérés: ${nearest.pctDiff.toFixed(2)}% (${nearest.desc})`;
-
-      // Correction 
+      // Azonnali indítás betöltéskor
+      updateScreenMonitor();
+      var initMetrics = getScreenMetrics();
+      setRes(initMetrics.physW, initMetrics.physH);
+    })();
+  </script>
+</body>
+</html>
