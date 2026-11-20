@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Watermarker HD &amp; Tömörítő</title>
+  <style>
+    :root {
+      --bg-primary: #0b0f19;
+      --bg-card: #131a2a;
+      --bg-elevated: #1b2438;
+      --bg-input: #0e1422;
+      --border: #26324d;
+      --border-focus: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.15);
+      --success: #34d399;
+      --lightgreen: #90ee90;
+      --warning: #fbbf24;
+      --danger: #ef4444;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      padding: 20px 16px 60px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    header {
+      text-align: center;
+      padding: 6px 0;
+    }
+
+    header h1 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    .section-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Engine Status */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      font-size: 0.85rem;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--warning);
+    }
+
+    .dot.ready {
+      background-color: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    .dot.error {
+      background-color: var(--danger);
+    }
+
+    /* File Upload Zone */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-input);
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--accent);
+      background-color: rgba(56, 189, 248, 0.06);
+    }
+
+    .drop-zone strong {
+      display: block;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .drop-zone span {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Video List */
+    .video-list {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .video-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-size: 0.85rem;
+    }
+
+    .video-item-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .video-name {
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .video-meta {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .btn-remove {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .btn-remove:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    /* Form Controls */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 11px 14px;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .color-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    input[type="color"] {
+      width: 46px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-input);
+      cursor: pointer;
+      padding: 2px;
+    }
+
+    /* Watermark Live Preview */
+    .preview-box {
+      margin-top: 14px;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      position: relative;
+      min-height: 92px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .preview-label {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .wm-badge {
+      background-color: rgba(0, 0, 0, 0.55);
+      color: var(--lightgreen);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      padding: 5px 9px;
+      border-radius: 4px;
+      white-space: pre-line;
+      line-height: 1.25;
+      max-width: 100%;
+      word-break: break-word;
+    }
+
+    /* Action Buttons */
+    .btn-primary {
+      width: 100%;
+      background-color: var(--accent);
+      color: #06101d;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: #7dd3fc;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Progress & Results */
+    .progress-area {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      background-color: var(--bg-input);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      transition: width 0.2s ease;
+    }
+
+    .progress-sub {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .download-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .download-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background-color: rgba(52, 211, 153, 0.08);
+      border: 1px solid var(--success);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+    }
+
+    .download-btn {
+      background-color: var(--success);
+      color: #052e16;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .log-box {
+      margin-top: 12px;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      max-height: 130px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Video Watermarker HD</h1>
+      <p>Dátum + egyedi vízjel beégetése és tömörítés közvetlenül a böngészőben</p>
+    </header>
+
+    <!-- Motor állapot -->
+    <div class="status-bar">
+      <div class="status-indicator">
+        <span class="dot" id="engineDot"></span>
+        <span id="engineStatus">FFmpeg motor előkészítése...</span>
+      </div>
+      <span style="font-size: 0.75rem; color: var(--text-muted);">100% Helyi feldolgozás</span>
+    </div>
+
+    <!-- 1. Videók kiválasztása -->
+    <section class="card">
+      <div class="section-title">
+        <span>1. Videók kiválasztása</span>
+        <span id="fileCount">0 fájl</span>
+      </div>
+
+      <div class="drop-zone" id="dropZone">
+        <strong>Kattints ide vagy húzd ide a videókat</strong>
+        <span>Támogatott: MP4, MOV, MKV, 3GP, WEBM, AVI (több fájl is választható)</span>
+        <input type="file" id="fileInput" accept="video/*,.mp4,.mov,.mkv,.3gp,.webm,.avi" multiple style="display: none;" />
+      </div>
+
+      <div class="video-list" id="videoList"></div>
+    </section>
+
+    <!-- 2. Vízjel és tömörítés beállításai -->
+    <section class="card">
+      <div class="section-title">2. Vízjel és tömörítés beállításai</div>
+
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="wmText">Vízjel szövege (a dátum automatikusan elé kerül)</label>
+          <input type="text" id="wmText" value="BY_[MiSi], " placeholder="Pl. BY_[MiSi], Budapest, Hungary" />
+        </div>
+
+        <div class="form-group">
+          <label for="dateMode">Dátum módja</label>
+          <select id="dateMode">
+            <option value="auto" selected>Automatikus (fájlnévből / fájl dátumából)</option>
+            <option value="manual">Manuális dátum megadása</option>
+            <option value="none">Nincs dátum (csak a szöveg)</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="manualDateGroup" style="display: none;">
+          <label for="manualDateInput">Egyedi dátum szövege</label>
+          <input type="text" id="manualDateInput" placeholder="Pl. NOV-20-2026" />
+        </div>
+
+        <div class="form-group">
+          <label for="resPreset">Kimeneti felbontás (rövidebb oldal)</label>
+          <select id="resPreset">
+            <option value="orig">Eredeti felbontás megtartása</option>
+            <option value="720" selected>720p (HD - ajánlott)</option>
+            <option value="640">640p</option>
+            <option value="480">480p (kisebb fájlméret)</option>
+            <option value="360">360p (gyors tömörítés)</option>
+            <option value="custom">Egyedi méret (pixel)...</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="customResGroup" style="display: none;">
+          <label for="customResInput">Rövidebb oldal (px, 100–4320)</label>
+          <input type="number" id="customResInput" min="100" max="4320" step="2" value="720" />
+        </div>
+
+        <div class="form-group">
+          <label for="presetSpeed">Tömörítési sebesség / minőség</label>
+          <select id="presetSpeed">
+            <option value="ultrafast">Ultrafast (leggyorsabb)</option>
+            <option value="veryfast" selected>Veryfast (eredeti Python beállítás)</option>
+            <option value="fast">Fast (kisebb fájlméret)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="fontColorHex">Szöveg színe</label>
+          <div class="color-row">
+            <input type="color" id="fontColorPicker" value="#90ee90" />
+            <input type="text" id="fontColorHex" value="lightgreen" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Élő előnézet -->
+      <div class="preview-box">
+        <span class="preview-label">Élő előnézet (bal alsó sarok)</span>
+        <div class="wm-badge" id="wmPreview">NOV-20-2026 BY_[MiSi], </div>
+      </div>
+    </section>
+
+    <!-- 3. Indítás és folyamat -->
+    <section class="card">
+      <button class="btn-primary" id="startBtn" disabled>Videók feldolgozása és vízjelezése</button>
+
+      <div class="progress-area" id="progressArea">
+        <div class="progress-header">
+          <span id="progressTitle">Feldolgozás...</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-sub" id="progressEta">Hátralévő idő: számítás...</div>
+      </div>
+
+      <div class="download-list" id="downloadList"></div>
+      <div class="log-box" id="logBox">Rendszernapló kész. Válassz ki egy vagy több videót a kezdéshez.</div>
+    </section>
+  </div>
+
+  <!-- FFmpeg.wasm betöltése -->
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
+  <script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+
+  <script>
+    (function () {
+      const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+      const FONT_URL = "https://cdn.jsdelivr.net/npm/dejavu-fonts-ttf@2.37.3/ttf/DejaVuSans.ttf";
+
+      let ffmpeg = null;
+      let engineReady = false;
+      let isProcessing = false;
+      let selectedFiles = [];
+      let fontLoaded = false;
+
+      // DOM elemek
+      const engineDot = document.getElementById("engineDot");
+      const engineStatus = document.getElementById("engineStatus");
+      const dropZone = document.getElementById("dropZone");
+      const fileInput = document.getElementById("fileInput");
+      const videoList = document.getElementById("videoList");
+      const fileCount = document.getElementById("fileCount");
+      const wmText = document.getElementById("wmText");
+      const dateMode = document.getElementById("dateMode");
+      const manualDateGroup = document.getElementById("manualDateGroup");
+      const manualDateInput = document.getElementById("manualDateInput");
+      const resPreset = document.getElementById("resPreset");
+      const customResGroup = document.getElementById("customResGroup");
+      const customResInput = document.getElementById("customResInput");
+      const presetSpeed = document.getElementById("presetSpeed");
+      const fontColorPicker = document.getElementById("fontColorPicker");
+      const fontColorHex = document.getElementById("fontColorHex");
+      const wmPreview = document.getElementById("wmPreview");
+      const startBtn = document.getElementById("startBtn");
+      const progressArea = document.getElementById("progressArea");
+      const progressTitle = document.getElementById("progressTitle");
+      const progressPercent = document.getElementById("progressPercent");
+      const progressFill = document.getElementById("progressFill");
+      const progressEta = document.getElementById("progressEta");
+      const downloadList = document.getElementById("downloadList");
+      const logBox = document.getElementById("logBox");
+
+      function log(msg) {
+        const time = new Date().toLocaleTimeString();
+        logBox.textContent += `\n[${time}] ${msg}`;
+        logBox.scrollTop = logBox.scrollHeight;
+      }
+
+      // 1. Dátum kinyerése a Python szkript logikája alapján
+      function extractRecordingDate(file) {
+        const name = file.name;
+        const match = name.match(/(?<!\d)(20\d{2})(0[1-9]|1[0-2])([0-2]\d|3[01])(?!\d)/);
+        if (match) {
+          const y = parseInt(match[1], 10);
+          const m = parseInt(match[2], 10) - 1;
+          const d = parseInt(match[3], 10);
+          const dt = new Date(y, m, d);
+          if (dt.getFullYear() === y && dt.getMonth() === m && dt.getDate() === d) {
+            return formatDate(dt);
+          }
+        }
+        return formatDate(new Date(file.lastModified || Date.now()));
+      }
+
+      function formatDate(d) {
+        const month = MONTHS[d.getMonth()];
+        const day = String(d.getDate()).padStart(2, "0");
+        const year = d.getFullYear();
+        return `${month}-${day}-${year}`;
+      }
+
+      // 2. Szöveg tördelés és betűméret számítás (a Python fit_text pontos mása)
+      function fitText(text, width, height) {
+        function fontSizeFor(lines) {
+          const longest = Math.max(...lines.map((l) => l.length), 1);
+          return Math.min(height / 25, (width * 0.9) / (0.62 * longest));
+        }
+
+        let lines = text.split("\n");
+        let size = fontSizeFor(lines);
+
+        const spaces = [];
+        for (let i = 0; i < text.length; i++) {
+          if (text[i] === " ") spaces.push(i);
+        }
+
+        if (size < height / 40 && lines.length === 1 && spaces.length > 0) {
+          const half = Math.floor(text.length / 2);
+          let middle = spaces[0];
+          let minDiff = Math.abs(middle - half);
+          for (const idx of spaces) {
+            const diff = Math.abs(idx - half);
+            if (diff < minDiff) {
+              minDiff = diff;
+              middle = idx;
+            }
+          }
+          lines = [text.slice(0, middle).trim(), text.slice(middle + 1).trim()];
+          size = fontSizeFor(lines);
+        }
+
+        return {
+          text: lines.join("\n"),
+          fontSize: Math.max(Math.floor(size), 10)
+        };
+      }
+
+      function formatTime(seconds) {
+        seconds = Math.max(0, Math.floor(seconds));
+        const h = Math.floor(seconds / 3600);
+        const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+        const s = String(seconds % 60).padStart(2, "0");
+        return `${h}:${m}:${s}`;
+      }
+
+      // 3. Videó valós méretének kiolvasása HTML5 Video elemmel (rotációt automatikusan kezeli)
+      function probeVideoMeta(file) {
+        return new Promise((resolve) => {
+          const url = URL.createObjectURL(file);
+          const vid = document.createElement("video");
+          vid.preload = "metadata";
+          vid.muted = true;
+          vid.onloadedmetadata = function () {
+            const w = vid.videoWidth || 1280;
+            const h = vid.videoHeight || 720;
+            const dur = isFinite(vid.duration) ? vid.duration : 0;
+            URL.revokeObjectURL(url);
+            resolve({ width: w, height: h, duration: dur });
+          };
+          vid.onerror = function () {
+            URL.revokeObjectURL(url);
+            resolve({ width: 1280, height: 720, duration: 0 });
+          };
+          vid.src = url;
+        });
+      }
+
+      // 4. Élő előnézet frissítése
+      function updatePreview() {
+        const sampleDate = selectedFiles.length > 0 ? selectedFiles[0].autoDate : formatDate(new Date());
+        let dateStr = "";
+        if (dateMode.value === "auto") dateStr = sampleDate;
+        else if (dateMode.value === "manual") dateStr = manualDateInput.value.trim();
+
+        const txt = wmText.value.trim();
+        const combined = [dateStr, txt].filter(Boolean).join(" ");
+        const fitted = combined ? fitText(combined, 1280, 720).text : "(Nincs vízjel szöveg – csak újratömörítés)";
+
+        wmPreview.textContent = fitted;
+        wmPreview.style.color = fontColorHex.value.trim() || "lightgreen";
+      }
+
+      // 5. Fájllista kezelése
+      async function addFiles(fileList) {
+        for (const file of fileList) {
+          const autoDate = extractRecordingDate(file);
+          const meta = await probeVideoMeta(file);
+          selectedFiles.push({
+            file,
+            autoDate,
+            width: meta.width,
+            height: meta.height,
+            duration: meta.duration
+          });
+        }
+        renderFileList();
+        updatePreview();
+        updateStartButton();
+      }
+
+      function renderFileList() {
+        videoList.innerHTML = "";
+        fileCount.textContent = `${selectedFiles.length} fájl`;
+
+        selectedFiles.forEach((item, index) => {
+          const sizeMB = (item.file.size / (1024 * 1024)).toFixed(1);
+          const div = document.createElement("div");
+          div.className = "video-item";
+          div.innerHTML = `
+            <div class="video-item-info">
+              <div class="video-name">${index + 1}. ${item.file.name}</div>
+              <div class="video-meta">[${item.autoDate}] • ${item.width}×${item.height} • ${formatTime(item.duration)} • ${sizeMB} MB</div>
+            </div>
+            <button type="button" class="btn-remove" data-idx="${index}">Törlés</button>
+          `;
+          videoList.appendChild(div);
+        });
+
+        document.querySelectorAll(".btn-remove").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const idx = parseInt(this.getAttribute("data-idx"), 10);
+            selectedFiles.splice(idx, 1);
+            renderFileList();
+            updatePreview();
+            updateStartButton();
+          });
+        });
+      }
+
+      function updateStartButton() {
+        startBtn.disabled = !(engineReady && selectedFiles.length > 0 && !isProcessing);
+      }
+
+      // 6. FFmpeg.wasm inicializálása
+      async function initEngine() {
+        try {
+          if (typeof FFmpegWASM === "undefined" || typeof FFmpegUtil === "undefined") {
+            throw new Error("Az FFmpeg könyvtár nem töltődött be. Ellenőrizd az internetkapcsolatot.");
+          }
+          const { FFmpeg } = FFmpegWASM;
+          const { toBlobURL } = FFmpegUtil;
+
+          ffmpeg = new FFmpeg();
+          const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
+
+          engineStatus.textContent = "FFmpeg motor letöltése (kb. 30 MB, egyszeri)...";
+          log("FFmpeg WebAssembly mag betöltése...");
+
+          await ffmpeg.load({
+            coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+            wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm")
+          });
+
+          engineStatus.textContent = "DejaVu Sans betűtípus betöltése...";
+          const fontResp = await fetch(FONT_URL);
+          if (!fontResp.ok) throw new Error("Nem sikerült letölteni a DejaVuSans.ttf betűtípust.");
+          const fontBuf = new Uint8Array(await fontResp.arrayBuffer());
+          await ffmpeg.writeFile("DejaVuSans.ttf", fontBuf);
+          fontLoaded = true;
+
+          engineReady = true;
+          engineDot.classList.add("ready");
+          engineStatus.textContent = "FFmpeg motor és betűtípus kész!";
+          log("Motor és DejaVuSans.ttf sikeresen betöltve.");
+          updateStartButton();
+        } catch (err) {
+          engineDot.classList.add("error");
+          engineStatus.textContent = "Hiba a motor betöltésekor";
+          log("HIBA: " + err.message);
+        }
+      }
+
+      // 7. Feldolgozás futtatása
+      async function processVideos() {
+        if (!engineReady || selectedFiles.length === 0 || isProcessing) return;
+
+        isProcessing = true;
+        updateStartButton();
+        downloadList.innerHTML = "";
+        progressArea.style.display = "flex";
+
+        let targetRes = null;
+        if (resPreset.value === "custom") {
+          const val = parseInt(customResInput.value, 10);
+          if (val >= 100 && val <= 4320) targetRes = Math.floor(val / 2) * 2;
+        } else if (resPreset.value !== "orig") {
+          targetRes = parseInt(resPreset.value, 10);
+        }
+
+        const customTxt = wmText.value.trim();
+        const colorVal = fontColorHex.value.trim() || "lightgreen";
+        const speed = presetSpeed.value;
+
+        for (let i = 0; i < selectedFiles.length; i++) {
+          const item = selectedFiles[i];
+          const inName = `input_${i}.mp4`;
+          const outName = `output_${i}.mp4`;
+          const txtName = `wm_${i}.txt`;
+
+          let dayText = "";
+          if (dateMode.value === "auto") dayText = item.autoDate;
+          else if (dateMode.value === "manual") dayText = manualDateInput.value.trim();
+
+          const fullText = [dayText, customTxt].filter(Boolean).join(" ");
+
+          progressTitle.textContent = `[${i + 1}/${selectedFiles.length}] ${item.file.name}`;
+          progressPercent.textContent = "0%";
+          progressFill.style.width = "0%";
+          progressEta.textContent = "Fájl beolvasása a memóriába...";
+          log(`Feldolgozás indul: ${item.file.name} -> "${fullText || "(csak tömörítés)"}"`);
+
+          const fileData = new Uint8Array(await item.file.arrayBuffer());
+          await ffmpeg.writeFile(inName, fileData);
+
+          let width = item.width;
+          let height = item.height;
+          const filters = [];
+
+          if (targetRes) {
+            const shortSide = Math.min(width, height);
+            if (shortSide > targetRes) {
+              const ratio = targetRes / shortSide;
+              if (width >= height) {
+                width = Math.round((width * ratio) / 2) * 2;
+                height = targetRes;
+              } else {
+                width = targetRes;
+                height = Math.round((height * ratio) / 2) * 2;
+              }
+              filters.push(`scale=${width}:${height}`);
+            }
+          }
+
+          if (fullText && fontLoaded) {
+            const fitted = fitText(fullText, width, height);
+            const border = Math.max(4, Math.floor(fitted.fontSize / 5));
+            const posX = Math.floor(width * 0.04);
+            const posY = Math.floor(height * 0.02);
+
+            await ffmpeg.writeFile(txtName, new TextEncoder().encode(fitted.text));
+            filters.push(
+              `drawtext=textfile=${txtName}:expansion=none:fontfile=DejaVuSans.ttf:` +
+              `fontsize=${fitted.fontSize}:boxborderw=${border}:fontcolor=${colorVal}:` +
+              `box=1:boxcolor=black@0.5:line_spacing=4:x=${posX}:y=h-th-${posY}`
+            );
+          }
+
+          const args = ["-y", "-i", inName];
+          if (filters.length > 0) {
+            args.push("-vf", filters.join(","));
+          }
+          args.push("-c:v", "libx264", "-preset", speed, "-crf", "23", "-c:a", "copy", outName);
+
+          const startTime = Date.now();
+          const onProgress = ({ progress }) => {
+            const p = Math.max(0, Math.min(progress || 0, 1));
+            const pct = Math.round(p * 100);
+            progressPercent.textContent = `${pct}%`;
+            progressFill.style.width = `${pct}%`;
+
+            const elapsed = (Date.now() - startTime) / 1000;
+            if (p > 0.02) {
+              const rem = (elapsed / p) * (1 - p);
+              progressEta.textContent = `Eltelt: ${formatTime(elapsed)} | Hátralévő idő: ~${formatTime(rem)}`;
+            }
+          };
+
+          ffmpeg.on("progress", onProgress);
+
+          try {
+            await ffmpeg.exec(args);
+            const outData = await ffmpeg.readFile(outName);
+            const blob = new Blob([outData.buffer], { type: "video/mp4" });
+            const downloadUrl = URL.createObjectURL(blob);
+
+            const baseName = item.file.name.replace(/\.[^/.]+$/, "");
+            const finalFileName = `${baseName}_watermark.mp4`;
+            const outMB = (blob.size / (1024 * 1024)).toFixed(1);
+
+            const card = document.createElement("div");
+            card.className = "download-card";
+            card.innerHTML = `
+              <div>
+                <div style="font-weight: 700; font-size: 0.9rem;">${finalFileName}</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">Kész méret: ${outMB} MB (${width}×${height})</div>
+              </div>
+              <a class="download-btn" href="${downloadUrl}" download="${finalFileName}">Letöltés</a>
+            `;
+            downloadList.appendChild(card);
+            log(`Kész: ${finalFileName} (${outMB} MB)`);
+          } catch (err) {
+            log(`Hiba a videónál (${item.file.name}): ${err.message}`);
+          } finally {
+            ffmpeg.off("progress", onProgress);
+            try { await ffmpeg.deleteFile(inName); } catch (e) {}
+            try { await ffmpeg.deleteFile(outName); } catch (e) {}
+            try { await ffmpeg.deleteFile(txtName); } catch (e) {}
+          }
+        }
+
+        progressTitle.textContent = "Minden kiválasztott videó elkészült!";
+        progressPercent.textContent = "100%";
+        progressFill.style.width = "100%";
+        progressEta.textContent = "Kattints a zöld Letöltés gombra a mentéshez.";
+        isProcessing = false;
+        updateStartButton();
+      }
+
+      // Eseménykezelők
+      dropZone.addEventListener("click", () => fileInput.click());
+      fileInput.addEventListener("change", (e) => {
+        if (e.target.files.length > 0) addFiles(e.target.files);
+        fileInput.value = "";
+      });
+
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("dragover");
+      });
+      dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+      dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("dragover");
+        if (e.dataTransfer.files.length > 0) addFiles(e.dataTransfer.files);
+      });
+
+      dateMode.addEventListener("change", () => {
+        manualDateGroup.style.display = dateMode.value === "manual" ? "flex" : "none";
+        updatePreview();
+      });
+
+      resPreset.addEventListener("change", () => {
+        customResGroup.style.display = resPreset.value === "custom" ? "flex" : "none";
+      });
+
+      fontColorPicker.addEventListener("input", () => {
+        fontColorHex.value = fontColorPicker.value;
+        updatePreview();
+      });
+      fontColorHex.addEventListener("input", updatePreview);
+      wmText.addEventListener("input", updatePreview);
+      manualDateInput.addEventListener("input", updatePreview);
+      startBtn.addEventListener("click", processVideos);
+
+      // Indítás
+      updatePreview();
+      initEngine();
+    })();
+  </script>
+</body>
+</html>
