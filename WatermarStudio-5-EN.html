@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Video Studio — Gamer Edition</title>
+<style>
+:root{--bg:#f4f6f4;--card:#fff;--fg:#1a1d1a;--mut:#667066;--acc:#1f9d55;--accfg:#fff;--bd:#d9ded9;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111411;--card:#1b1f1b;--fg:#e8ece8;--mut:#9aa59a;--acc:#4ade80;--accfg:#06210f;--bd:#2c332c}}
+:root[data-theme="dark"]{--bg:#111411;--card:#1b1f1b;--fg:#e8ece8;--mut:#9aa59a;--acc:#4ade80;--accfg:#06210f;--bd:#2c332c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:8px 0 2px}
+p.sub{color:var(--mut);margin:0 0 16px;font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:14px}
+label{display:block;font-size:.85rem;color:var(--mut);margin:10px 0 4px}
+input[type=text],select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);font:inherit}
+.row{display:flex;gap:10px}.row>div{flex:1}
+button{font:inherit;border:0;border-radius:10px;padding:12px 16px;background:var(--acc);color:var(--accfg);font-weight:600;cursor:pointer}
+button.sec{background:transparent;color:var(--fg);border:1px solid var(--bd)}
+button:disabled{opacity:.5}
+.file{border-top:1px solid var(--bd);padding:10px 0}
+.file:first-child{border-top:0}
+.name{word-break:break-all;font-size:.92rem}
+.meta{color:var(--mut);font-size:.8rem}
+.bar{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar>i{display:block;height:100%;width:0;background:var(--acc)}
+a.dl{display:inline-block;margin-top:6px;color:var(--acc);font-weight:600}
+.note{color:var(--mut);font-size:.82rem}
+.hide{display:none}
+
+#ratioPanel{
+      --bg-primary: #0b0f19;
+      --bg-card: #131a2a;
+      --bg-elevated: #1b2438;
+      --bg-input: #0e1422;
+      --border: #26324d;
+      --border-focus: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.15);
+      --success: #34d399;
+      --warning: #fbbf24;
+      --purple: #a78bfa;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+#ratioPanel *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+#ratioPanel{
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      padding: 20px 16px 48px;
+      min-height: 100vh;
+    }
+#ratioPanel .container{
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+#ratioPanel header{
+      text-align: center;
+      padding: 8px 0;
+    }
+#ratioPanel header h1{
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+#ratioPanel header p{
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+#ratioPanel #error-banner{
+      display: none;
+      background-color: #450a0a;
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+#ratioPanel .card{
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+#ratioPanel .section-title{
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+#ratioPanel .screen-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+#ratioPanel .stat-box{
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+#ratioPanel .stat-label{
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+#ratioPanel .stat-value{
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+#ratioPanel .stat-sub{
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+#ratioPanel .btn-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+#ratioPanel button{
+      background-color: var(--bg-elevated);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+#ratioPanel button:hover{
+      border-color: var(--accent);
+      background-color: #222e47;
+    }
+#ratioPanel button.primary{
+      background-color: var(--accent);
+      color: #06101d;
+      border-color: var(--accent);
+    }
+#ratioPanel button.primary:hover{
+      background-color: #7dd3fc;
+    }
+#ratioPanel .input-row{
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: end;
+    }
+#ratioPanel .input-group label{
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+#ratioPanel .input-group input{
+      width: 100%;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+#ratioPanel .input-group input:focus{
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+#ratioPanel .swap-btn{
+      padding: 12px 14px;
+      font-size: 1.1rem;
+      height: 48px;
+    }
+#ratioPanel .presets{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+#ratioPanel .preset-chip{
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+    }
+#ratioPanel .results-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+#ratioPanel .result-card{
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+#ratioPanel .result-card.highlight{
+      border-color: var(--accent);
+      background: linear-gradient(145deg, #1b2438 0%, #132238 100%);
+    }
+#ratioPanel .result-big{
+      font-family: var(--font-mono);
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 4px 0;
+    }
+#ratioPanel .result-card.green .result-big{
+      color: var(--success);
+    }
+#ratioPanel .result-card.purple .result-big{
+      color: var(--purple);
+    }
+#ratioPanel .result-desc{
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+#ratioPanel .preview-wrapper{
+      margin-top: 18px;
+      background-color: var(--bg-input);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 210px;
+    }
+#ratioPanel .box-stage{
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 160px;
+    }
+#ratioPanel .rect-std{
+      position: absolute;
+      border: 2px dashed var(--success);
+      background-color: rgba(52, 211, 153, 0.08);
+      border-radius: 6px;
+      transition: all 0.25s ease;
+    }
+#ratioPanel .rect-user{
+      position: absolute;
+      border: 2px solid var(--accent);
+      background-color: rgba(56, 189, 248, 0.16);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      transition: all 0.25s ease;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    }
+#ratioPanel .legend{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+#ratioPanel .legend span{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+#ratioPanel .dot-user{
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--accent);
+      background: rgba(56, 189, 248, 0.2);
+      border-radius: 3px;
+    }
+#ratioPanel .dot-std{
+      width: 12px;
+      height: 12px;
+      border: 2px dashed var(--success);
+      background: rgba(52, 211, 153, 0.1);
+      border-radius: 3px;
+    }
+#ratioPanel details{
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+#ratioPanel summary{
+      padding: 14px 16px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+#ratioPanel summary::-webkit-details-marker{
+      display: none;
+    }
+#ratioPanel summary::after{
+      content: "▼";
+      font-size: 0.75rem;
+      color: var(--accent);
+      transition: transform 0.2s;
+    }
+#ratioPanel details[open] summary::after{
+      transform: rotate(180deg);
+    }
+#ratioPanel .steps-body{
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+#ratioPanel .step-list{
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      max-height: 240px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+#ratioPanel .step-item{
+      background-color: var(--bg-input);
+      padding: 6px 10px;
+      border-radius: 6px;
+      border-left: 3px solid var(--border);
+    }
+#ratioPanel .step-item.final{
+      border-left-color: var(--success);
+      color: var(--success);
+      font-weight: 700;
+    }
+#ratioPanel .correction-box{
+      margin-top: 14px;
+      padding: 12px 14px;
+      background-color: var(--bg-input);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      font-size: 0.84rem;
+    }
+#ratioPanel .correction-box strong{
+      color: var(--warning);
+    }
+@media (max-width: 540px){#ratioPanel .input-row{
+        grid-template-columns: 1fr;
+      }
+#ratioPanel .swap-btn{
+        width: 100%;
+      }
+
+    }
+
+  
+:root{--bg:#070b14;--card:#101a2b;--fg:#e8f3ff;--mut:#8da4bd;--acc:#38d9ff;--accfg:#03121a;--bd:#233b56;--neon:#38d9ff;--green:#35e6a2}
+body{background:radial-gradient(ellipse at 50% -20%,#16345a 0%,#080e1b 48%,#050810 100%);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1000px;margin:0 auto;padding:clamp(8px,2vw,18px)}
+.app-head{display:flex;align-items:center;gap:12px;margin:2px 0 12px}
+.brand-mark{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--acc);border-radius:13px;color:var(--acc);font-size:22px;background:#0b2234;box-shadow:0 0 20px #38d9ff24}
+h1{font-size:clamp(1.15rem,4vw,1.65rem);letter-spacing:.08em;margin:0;color:#f3fbff}
+h1 small{display:block;font-size:.52em;letter-spacing:.2em;color:var(--acc)}
+p.sub{font-size:.76rem;color:var(--mut);margin:2px 0 0}
+.card{background:linear-gradient(145deg,#111e31,#0b1423);border:1px solid #24415e;border-radius:14px;padding:clamp(10px,2vw,15px);margin-bottom:10px;box-shadow:0 8px 25px #0005}
+label{color:#a8bfd6;font-size:.78rem;margin:7px 0 3px}
+input[type=text],input[type=number],select{background:#081321;color:#e8f3ff;border:1px solid #29435f;border-radius:9px;padding:9px;font-size: .92rem;min-width:0}
+button{background:linear-gradient(135deg,#1fc9f3,#2584e8);color:#03121a;border:1px solid #4de1ff;border-radius:9px;padding:10px 12px;font-weight:800;font-size:.86rem;box-shadow:0 0 13px #1bbce522}
+button.sec{background:#101e30;color:#bfeaff;border:1px solid #34516e;box-shadow:none}
+button:disabled{opacity:.42}
+.row{gap:8px}
+.note,.meta{color:#91a9c2;font-size:.72rem}
+.file{border-top:1px solid #223b55;padding:8px 0}
+.name{font-size:.83rem;color:#f0f8ff;font-weight:700}
+.video-dims{display:inline-block;color:#4be0bd;font:700 .73rem ui-monospace,monospace;margin-top:3px}
+.bar{height:6px;background:#081321}
+.bar>i{background:linear-gradient(90deg,#28c7ff,#37e5a4)}
+a.dl{color:#4ce6b5;font-size:.82rem}
+#list{max-height:26vh;overflow:auto}
+#start{margin-top:3px;min-height:48px;letter-spacing:.035em}
+#cancel{min-height:40px}
+#info{margin:7px 0}
+#log{max-height:85px!important;font-size:.68rem!important;background:#07101d!important;border-color:#1f3b57!important}
+.ratio-module{margin-top:10px;background:#0c1727;border:1px solid #294966;border-radius:13px;overflow:hidden}
+.ratio-module>summary{padding:12px 14px;color:#7fe7ff;font-size:.83rem;font-weight:900;letter-spacing:.04em;display:flex;justify-content:space-between;cursor:pointer}
+.ratio-summary-hint{font-size:.68rem;color:#8ba8c2;font-weight:500}
+#ratioPanel{padding:0 10px 10px;max-height:65vh;overflow:auto}
+#ratioPanel .container{max-width:none;gap:8px}
+#ratioPanel header{display:none}
+#ratioPanel .card{padding:10px;margin:0;box-shadow:none;background:#0e1b2c;border-color:#233e5b}
+#ratioPanel .section-title{font-size:.68rem;margin-bottom:8px}
+#ratioPanel .screen-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:8px}
+#ratioPanel .stat-box{padding:7px;background:#0a1524}
+#ratioPanel .stat-label{font-size:.63rem}
+#ratioPanel .stat-value{font-size:.78rem;overflow-wrap:anywhere}
+#ratioPanel .stat-sub{font-size:.61rem}
+#ratioPanel .btn-row{gap:5px}
+#ratioPanel button{font-size:.68rem;padding:6px 7px}
+#ratioPanel .input-row{grid-template-columns:1fr auto 1fr;gap:7px}
+#ratioPanel .input-group label{font-size:.68rem;margin-bottom:3px}
+#ratioPanel .input-group input{font-size:1rem;padding:7px}
+#ratioPanel .swap-btn{height:37px;padding:5px 9px}
+#ratioPanel .presets{gap:5px;margin-top:8px}
+#ratioPanel .preset-chip{font-size:.63rem;padding:4px 7px}
+#ratioPanel .results-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+#ratioPanel .result-card{padding:8px}
+#ratioPanel .result-big{font-size:1.08rem}
+#ratioPanel .result-desc{font-size:.63rem}
+#ratioPanel .correction-box{font-size:.68rem;padding:8px;margin-top:8px}
+#ratioPanel .preview-wrapper{min-height:125px;padding:8px;margin-top:8px}
+#ratioPanel .box-stage{height:90px}
+#ratioPanel .legend{font-size:.63rem;gap:8px;margin-top:6px}
+#ratioPanel details{background:#0b1727}
+#ratioPanel summary{font-size:.72rem;padding:9px}
+#ratioPanel .steps-body{font-size:.72rem}
+#ratioPanel .step-list{font-size:.68rem;max-height:120px}
+@media(min-width:760px){
+ main{padding:16px 22px}
+ #list{max-height:24vh}
+ .watermark-layout{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+}
+@media(max-width:520px){
+ .app-head{gap:9px}
+ .brand-mark{width:38px;height:38px}
+ .row{gap:6px}
+ #ratioPanel .screen-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ #ratioPanel .input-row{grid-template-columns:1fr auto 1fr}
+ #ratioPanel .results-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ #ratioPanel .preview-wrapper{display:none}
+}
+
+</style>
+</head>
+<body>
+<main>
+<header class="app-head">
+  <div class="brand-mark">▶</div>
+  <div><h1>VIDEO STUDIO <small>GAMER EDITION</small></h1>
+  <p class="sub">Watermarking · compression · aspect ratio analysis — locally in your browser</p></div>
+</header>
+
+<div class="card">
+  <input id="pickerAll" type="file" multiple class="hide">
+  <input id="pickerVideo" type="file" accept="video/*" multiple class="hide">
+  <div class="row">
+    <div><button id="pickAll" style="width:100%">File manager</button><div class="note">Recommended: preserves original filename and date</div></div>
+    <div><button id="pickVideo" class="sec" style="width:100%">Gallery</button><div class="note">Quick video selection</div></div>
+  </div>
+  <div id="list" style="margin-top:8px"></div>
+</div>
+
+<div class="card">
+  <label for="dateMode">Date in watermark</label>
+  <select id="dateMode">
+    <option value="auto">Automatic (video recording date)</option>
+    <option value="manual">Manual date</option>
+    <option value="none">No date</option>
+  </select>
+  <div id="manualBox" class="hide"><label for="manualDate">Date text</label><input id="manualDate" type="text" placeholder="NOV-07-2026"></div>
+
+  <label for="text">Watermark text (city, country, name...)</label>
+  <input id="text" type="text" value="BY_[MiSi], ">
+
+  <div class="row">
+    <div><label for="res">Output resolution (shorter side)</label>
+      <select id="res"><option value="0">Original</option><option value="1080">1080p</option><option value="720" selected>720p (recommended)</option><option value="640">640p</option><option value="480">480p</option><option value="360">360p</option><option value="custom">Custom...</option></select>
+      <input id="customRes" type="number" min="100" max="4320" step="2" value="720" class="hide" style="margin-top:6px;width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)"></div>
+    <div><label for="quality">Compression (bitrate)</label>
+      <select id="quality"><option value="5000000">High quality (5 Mbps)</option><option value="2500000" selected>Normal HD (2.5 Mbps)</option><option value="1200000">Compressed (1.2 Mbps)</option></select></div>
+  </div>
+  <label for="color">Watermark color</label>
+  <div class="row"><input id="colorPicker" type="color" value="#90ee90" style="width:56px;height:42px;padding:2px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);flex:none"><input id="color" type="text" value="lightgreen" placeholder="lightgreen or #90ee90"></div>
+  <div class="note" style="margin-top:10px">Live preview (bottom-left corner)</div>
+  <div id="preview" style="display:inline-block;margin-top:4px;padding:6px 10px;border-radius:6px;background:rgba(0,0,0,.5);font-family:Verdana,sans-serif;font-size:.95rem"></div>
+</div>
+
+<button id="start" disabled style="width:100%">START WATERMARKING &amp; COMPRESSION</button>
+<button id="cancel" class="sec hide" style="width:100%;margin-top:8px">CANCEL</button>
+<p class="note" id="info"></p>
+<pre id="log" class="note" style="white-space:pre-wrap;max-height:160px;overflow:auto;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:8px;margin:0 0 12px">Ready. Choose one or more videos.</pre>
+<p class="note">Videos are processed by your phone's hardware video encoder (WebCodecs), making it much faster than software encoding. If your browser does not support it, it automatically falls back to the slower FFmpeg engine. Keep this page and screen open until finished. Output is MP4/H.264 + AAC.</p>
+
+<details class="ratio-module" id="ratioModule">
+  <summary><span>📐 ASPECT RATIO ANALYZER &amp; CALCULATOR</span><span class="ratio-summary-hint">Details</span></summary>
+  <div id="ratioPanel">
+    <div class="container">
+    <header>
+      <h1>Aspect Ratio Calculator</h1>
+      <p>Exact ratio, greatest common divisor (Euclidean method) and live screen monitor</p>
+    </header>
+
+    <div id="error-banner"></div>
+
+    <section class="card">
+      <div class="section-title">
+        <span>Your screen data (Live)</span>
+        <span id="live-badge" style="color: var(--success); font-size: 0.72rem;">● ACTIVE</span>
+      </div>
+      <div class="screen-grid">
+        <div class="stat-box">
+          <div class="stat-label">Physical display (estimated)</div>
+          <div class="stat-value" id="phys-res">Loading...</div>
+          <div class="stat-sub" id="phys-ratio">Ratio: -</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Logical screen (CSS)</div>
+          <div class="stat-value" id="log-res">Loading...</div>
+          <div class="stat-sub" id="dpr-val">DPR multiplier: -</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Browser window (Viewport)</div>
+          <div class="stat-value" id="win-res">Loading...</div>
+          <div class="stat-sub" id="win-ratio">Window ratio: -</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="primary" type="button" id="btnPhys">Load physical display</button>
+        <button type="button" id="btnLog">Load logical screen</button>
+        <button type="button" id="btnWin">Load browser window</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">Enter resolution (pixels)</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="widthInput">Width (W)</label>
+          <input type="number" id="widthInput" min="1" max="100000" value="1280" />
+        </div>
+        <button class="swap-btn" type="button" id="btnSwap" title="Swap (portrait / landscape)">⇄</button>
+        <div class="input-group">
+          <label for="heightInput">Height (H)</label>
+          <input type="number" id="heightInput" min="1" max="100000" value="720" />
+        </div>
+      </div>
+
+      <div class="presets">
+        <button class="preset-chip" type="button" data-w="1280" data-h="720">1280×720 (HD)</button>
+        <button class="preset-chip" type="button" data-w="1920" data-h="1080">1920×1080 (FHD)</button>
+        <button class="preset-chip" type="button" data-w="2560" data-h="1440">2560×1440 (2K)</button>
+        <button class="preset-chip" type="button" data-w="3840" data-h="2160">3840×2160 (4K)</button>
+        <button class="preset-chip" type="button" data-w="1300" data-h="700">1300×700 (Test)</button>
+        <button class="preset-chip" type="button" data-w="1366" data-h="768">1366×768</button>
+        <button class="preset-chip" type="button" data-w="3440" data-h="1440">3440×1440 (21:9)</button>
+        <button class="preset-chip" type="button" data-w="1080" data-h="2400">1080×2400 (Mobile)</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">Calculation results</div>
+      <div class="results-grid">
+        <div class="result-card highlight">
+          <div class="stat-label">Exact simplified ratio</div>
+          <div class="result-big" id="exactRatio">16 : 9</div>
+          <div class="result-desc" id="decimalRatio">Decimal: 1.778</div>
+        </div>
+        <div class="result-card purple">
+          <div class="stat-label">Greatest common divisor (GCD)</div>
+          <div class="result-big" id="gcdVal">80</div>
+          <div class="result-desc" id="gcdFormula">1280 ÷ 80 = 16 | 720 ÷ 80 = 9</div>
+        </div>
+        <div class="result-card green">
+          <div class="stat-label">Nearest standard ratio</div>
+          <div class="result-big" id="nearestStd">16 : 9</div>
+          <div class="result-desc" id="stdDiff">Difference: 0.0% (Exact match)</div>
+        </div>
+      </div>
+
+      <div class="correction-box" id="correctionBox">
+        The entered resolution matches the standard exactly.
+      </div>
+
+      <div class="preview-wrapper">
+        <div class="box-stage">
+          <div class="rect-std" id="rectStd"></div>
+          <div class="rect-user" id="rectUser">1280 × 720</div>
+        </div>
+        <div class="legend">
+          <span><i class="dot-user"></i> Entered resolution (<strong id="legUser">16:9</strong>)</span>
+          <span><i class="dot-std"></i> Nearest standard (<strong id="legStd">16:9</strong>)</span>
+        </div>
+      </div>
+    </section>
+
+    <details>
+      <summary>How was the greatest common divisor found? (Subtraction steps)</summary>
+      <div class="steps-body">
+        <p style="margin-top: 10px;">
+          The <strong>Euclidean algorithm</strong> keeps subtracting the smaller number from the larger one until two equal numbers remain. The last non-zero result is the greatest common divisor:
+        </p>
+        <div class="step-list" id="euclideanSteps"></div>
+      </div>
+    </details>
+  </div>
+  </div>
+</details>
+
+</main>
+
+<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
+<script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mp4box@0.5.2/dist/mp4box.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/build/mp4-muxer.js"></script>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const MONTHS = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+let files = [];
+let running = false;
+let cancelled = false;
+let ffmpeg = null;
+let ffmpegReady = false;
+let activeObjectUrls = [];
+
+function log(msg) {
+  const box = $("log");
+  box.textContent += "\n[" + new Date().toLocaleTimeString() + "] " + msg;
+  box.scrollTop = box.scrollHeight;
+}
+function pad(n) { return String(n).padStart(2, "0"); }
+function formatTime(sec) {
+  sec = Math.max(0, Math.floor(sec));
+  return `${Math.floor(sec / 3600)}:${pad(Math.floor(sec % 3600 / 60))}:${pad(sec % 60)}`;
+}
+const formatDate = (d) => `${MONTHS[d.getMonth()]}-${pad(d.getDate())}-${d.getFullYear()}`;
+function recordingDate(file) {
+  const m = file.name.match(/(?<!\d)(20\d{2})(0[1-9]|1[0-2])([0-2]\d|3[01])(?!\d)/);
+  if (m) {
+    const d = new Date(+m[1], +m[2] - 1, +m[3]);
+    if (d.getMonth() === +m[2] - 1) return d;
+  }
+  return new Date(file.lastModified);
+}
+function validColor(value) {
+  const probe = new Option().style;
+  probe.color = value;
+  return probe.color !== "" ? value : "#90ee90";
+}
+function updatePreview() {
+  const mode = $("dateMode").value;
+  const first = files[0] ? formatDate(recordingDate(files[0].file)) : formatDate(new Date());
+  const day = mode === "auto" ? first : mode === "manual" ? $("manualDate").value.trim() : "";
+  const el = $("preview");
+  el.textContent = [day, $("text").value.trim()].filter(Boolean).join(" ") || "(no watermark)";
+  el.style.color = validColor($("color").value.trim());
+}
+function selectedResolution() {
+  const v = $("res").value;
+  if (v === "custom") {
+    const n = parseInt($("customRes").value, 10);
+    return n >= 100 && n <= 4320 ? Math.floor(n / 2) * 2 : 0;
+  }
+  return parseInt(v, 10) || 0;
+}
+function fitText(text, width, height, ctx) {
+  const sizeFor = (lines) => {
+    const longest = Math.max(...lines.map((l) => l.length));
+    return Math.min(height / 25, (width * 0.9) / (0.62 * longest));
+  };
+  let lines = text.split("\n");
+  let size = sizeFor(lines);
+  const spaces = [];
+  [...text].forEach((ch, i) => { if (ch === " ") spaces.push(i); });
+  if (size < height / 40 && lines.length === 1 && spaces.length) {
+    const mid = spaces.reduce((a, b) => Math.abs(b - text.length / 2) < Math.abs(a - text.length / 2) ? b : a);
+    lines = [text.slice(0, mid).trim(), text.slice(mid + 1).trim()];
+    size = sizeFor(lines);
+  }
+  return { lines, size: Math.max(Math.floor(size), 10) };
+}
+function renderList() {
+  $("list").innerHTML = "";
+  files.forEach((f, i) => {
+    const div = document.createElement("div");
+    div.className = "file";
+    div.innerHTML = `<label style="margin:0;display:flex;gap:8px;align-items:flex-start;color:var(--fg)"><input type="checkbox" checked data-i="${i}"><span><span class="name"></span><br><span class="meta">${formatDate(recordingDate(f.file))} · ${(f.file.size / 1048576).toFixed(1)} MB</span></span></label><div class="bar hide"><i></i></div><div class="meta status"></div>`;
+    div.querySelector(".name").textContent = f.file.name;
+    f.el = div;
+    $("list").appendChild(div);
+  });
+  $("start").disabled = !files.length || running;
+}
+function loadFiles(e) {
+  files = [...e.target.files]
+    .filter((f) => f.type.startsWith("video/") || /\.(mp4|mov|mkv|3gp|webm|avi|m4v)$/i.test(f.name))
+    .map((file) => ({ file }));
+  renderList();
+  updatePreview();
+  log(`${files.length} video(s) selected.`);
+  e.target.value = "";
+}
+function loadVideoMetadata(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const video = document.createElement("video");
+    video.preload = "metadata";
+    video.muted = true;
+    video.onloadedmetadata = () => {
+      const data = { width: video.videoWidth, height: video.videoHeight, duration: video.duration };
+      URL.revokeObjectURL(url);
+      if (!data.width || !data.height) reject(new Error("The video resolution cannot be read by the browser."));
+      else resolve(data);
+    };
+    video.onerror = () => { URL.revokeObjectURL(url); reject(new Error("The browser cannot read the video metadata. Try an MP4 file.")); };
+    video.src = url;
+  });
+}
+function outputSize(width, height, limit) {
+  let w = width, h = height;
+  if (limit && Math.min(w, h) > limit) {
+    const scale = limit / Math.min(w, h);
+    w = Math.round(width * scale);
+    h = Math.round(height * scale);
+  }
+  w = Math.max(2, w - (w % 2));
+  h = Math.max(2, h - (h % 2));
+  return { width: w, height: h };
+}
+async function makeWatermarkPng(width, height, opts, file) {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d", { alpha: true });
+  const dayText = opts.dateMode === "auto" ? formatDate(recordingDate(file)) : opts.dateMode === "manual" ? opts.manualDate : "";
+  const fullText = [dayText, opts.text].filter(Boolean).join(" ");
+  if (fullText) {
+    const { lines, size } = fitText(fullText, width, height, ctx);
+    ctx.font = `${size}px "DejaVu Sans", Verdana, sans-serif`;
+    const lineH = Math.round(size * 1.2) + 4;
+    const border = Math.max(4, Math.floor(size / 5));
+    const textW = Math.max(...lines.map((line) => ctx.measureText(line).width));
+    const textH = lines.length * lineH - 4;
+    const x = Math.floor(width * 0.04);
+    const y = Math.floor(height - textH - height * 0.02);
+    ctx.fillStyle = "rgba(0,0,0,0.5)";
+    ctx.fillRect(x - border, y - border, textW + 2 * border, textH + 2 * border);
+    ctx.font = `${size}px "DejaVu Sans", Verdana, sans-serif`;
+    ctx.textBaseline = "top";
+    ctx.fillStyle = opts.color;
+    lines.forEach((line, i) => ctx.fillText(line, x, y + i * lineH));
+  }
+  const blob = await new Promise((resolve, reject) => canvas.toBlob((b) => b ? resolve(b) : reject(new Error("Could not create the watermark image layer.")), "image/png"));
+  return new Uint8Array(await blob.arrayBuffer());
+}
+// Several CDN/version combinations are tried one after another; every failure is written to the log box.
+const FFMPEG_SOURCES = [
+  { name: "unpkg core 0.12.6 (esm)", lib: "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd", core: "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm" },
+  { name: "jsdelivr core 0.12.6 (esm)", lib: "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd", core: "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm" },
+  { name: "unpkg core 0.12.4 (esm)", lib: "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd", core: "https://unpkg.com/@ffmpeg/core@0.12.4/dist/esm" },
+  { name: "unpkg core 0.12.6 (umd)", lib: "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd", core: "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd" }
+];
+function errText(e) { return e && e.message ? e.message : String(e); }
+async function loadFFmpegWith(src) {
+  const toBlobURL = window.FFmpegUtil.toBlobURL;
+  const inst = new window.FFmpegWASM.FFmpeg();
+  inst.on("progress", ({ progress }) => {
+    if (typeof progress === "number" && Number.isFinite(progress)) {
+      window.__ffmpegProgress = Math.max(0, Math.min(1, progress));
+      if (window.__progressFill) window.__progressFill.style.width = Math.round(window.__ffmpegProgress * 100) + "%";
+    }
+  });
+  inst.on("log", ({ message }) => {
+    if (message && /error|failed|invalid/i.test(message)) log("FFmpeg: " + message.slice(0, 220));
+  });
+  try {
+    // Sanity check: is the core script reachable and really JavaScript (not an error page)?
+    const res = await fetch(src.core + "/ffmpeg-core.js");
+    const text = await res.text();
+    log(`Core script: HTTP ${res.status}, ${text.length} chars, starts with: ${text.slice(0, 40).replace(/\s+/g, " ")}`);
+    if (!res.ok || text.indexOf("createFFmpegCore") < 0) throw new Error("core script is not valid JavaScript");
+    await inst.load({
+      classWorkerURL: await toBlobURL(src.lib + "/814.ffmpeg.js", "text/javascript"),
+      coreURL: await toBlobURL(src.core + "/ffmpeg-core.js", "text/javascript"),
+      wasmURL: await toBlobURL(src.core + "/ffmpeg-core.wasm", "application/wasm")
+    });
+    return inst;
+  } catch (e) {
+    try { inst.terminate(); } catch (_) {}
+    throw e;
+  }
+}
+async function ensureFFmpeg() {
+  if (ffmpegReady && ffmpeg) return;
+  if (!window.FFmpegWASM || !window.FFmpegUtil) {
+    throw new Error("The FFmpeg library did not load. Check your internet connection and reload the page.");
+  }
+  $("info").textContent = "Loading the FFmpeg video engine for the first time (can be tens of MB)...";
+  let lastError = null;
+  for (const src of FFMPEG_SOURCES) {
+    try {
+      log("Trying FFmpeg source: " + src.name);
+      ffmpeg = await loadFFmpegWith(src);
+      ffmpegReady = true;
+      $("info").textContent = "FFmpeg is ready.";
+      log("FFmpeg engine loaded from: " + src.name);
+      return;
+    } catch (e) {
+      lastError = e;
+      log(`Source failed (${src.name}): ${errText(e)}`);
+    }
+  }
+  throw lastError || new Error("FFmpeg could not be loaded");
+}
+function safeName(name) {
+  return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80) || "video";
+}
+async function encodeWithFFmpeg(item, opts, onProgress) {
+  const file = item.file;
+  const meta = await loadVideoMetadata(file);
+  const size = outputSize(meta.width, meta.height, opts.res);
+  const inputName = "input_" + safeName(file.name);
+  const overlayName = "watermark.png";
+  const outputName = "output.mp4";
+  const overlay = await makeWatermarkPng(size.width, size.height, opts, file);
+  const inputData = new Uint8Array(await file.arrayBuffer());
+  const fs = ffmpeg;
+  try {
+    await fs.writeFile(inputName, inputData);
+    await fs.writeFile(overlayName, overlay);
+    window.__ffmpegProgress = 0;
+    const filter = `[0:v]scale=${size.width}:${size.height}:flags=fast_bilinear[base];[base][1:v]overlay=0:0:format=auto,format=yuv420p[v]`;
+    const code = await fs.exec([
+      "-hide_banner", "-y", "-i", inputName, "-i", overlayName,
+      "-filter_complex", filter,
+      "-map", "[v]", "-map", "0:a?",
+      "-c:v", "libx264", "-preset", "ultrafast", "-threads", "1", "-b:v", String(opts.bitrate),
+      "-maxrate", String(opts.bitrate), "-bufsize", String(opts.bitrate * 2),
+      "-r", "30", "-tune", "zerolatency", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
+      "-movflags", "+faststart", outputName
+    ]);
+    if (code !== 0 && !cancelled) throw new Error("FFmpeg stopped with exit code: " + code);
+    if (cancelled) return null;
+    const data = await fs.readFile(outputName);
+    const blob = new Blob([data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength)], { type: "video/mp4" });
+    const base = file.name.replace(/\.[^.]+$/, "");
+    return { blob, name: base + "_watermark.mp4", width: size.width, height: size.height };
+  } finally {
+    for (const name of [inputName, overlayName, outputName]) {
+      try { await fs.deleteFile(name); } catch (_) {}
+    }
+  }
+}
+// ===================== WebCodecs engine (hardware accelerated) =====================
+// Demux with MP4Box (only the moov box is parsed, sample bytes are read straight from the File),
+// decode with VideoDecoder, draw frame + watermark on a canvas, encode with VideoEncoder,
+// AAC audio is copied without re-encoding, everything is muxed into MP4 with mp4-muxer.
+function webCodecsAvailable() {
+  return !!(window.VideoDecoder && window.VideoEncoder && window.EncodedVideoChunk && window.VideoFrame && window.MP4Box && window.Mp4Muxer);
+}
+function wait(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
+
+// Finds top-level MP4 boxes (ftyp, moov) without reading the huge mdat box.
+async function findTopLevelBoxes(file, wanted) {
+  const found = {};
+  let pos = 0;
+  while (pos + 8 <= file.size && Object.keys(found).length < wanted.length) {
+    const head = new DataView(await file.slice(pos, pos + 16).arrayBuffer());
+    let size = head.getUint32(0);
+    const type = String.fromCharCode(head.getUint8(4), head.getUint8(5), head.getUint8(6), head.getUint8(7));
+    if (size === 1) size = Number(head.getBigUint64(8)); // 64-bit box size
+    else if (size === 0) size = file.size - pos;          // box runs to the end of the file
+    if (size < 8) break;
+    if (wanted.includes(type)) found[type] = { pos, size };
+    pos += size;
+  }
+  return found;
+}
+
+// Reads the bytes of several samples with a single File.slice call.
+async function readSamples(file, samples) {
+  let start = Infinity, end = 0;
+  for (const s of samples) { start = Math.min(start, s.offset); end = Math.max(end, s.offset + s.size); }
+  const buf = new Uint8Array(await file.slice(start, end).arrayBuffer());
+  return samples.map((s) => buf.subarray(s.offset - start, s.offset - start + s.size));
+}
+
+async function pickEncoderConfig(width, height, bitrate, fps) {
+  const pixels = width * height;
+  const levels = pixels > 2073600 ? ["33"] : pixels > 921600 ? ["28", "33"] : ["1f", "28", "33"];
+  for (const level of levels) {
+    for (const profile of ["6400", "4d00", "4200"]) { // High, Main, Baseline
+      const config = { codec: `avc1.${profile}${level}`, width, height, bitrate, framerate: fps, avc: { format: "avc" }, hardwareAcceleration: "prefer-hardware" };
+      try {
+        const res = await VideoEncoder.isConfigSupported(config);
+        if (res.supported) return config;
+      } catch (_) { /* try next */ }
+    }
+  }
+  throw new Error(`No supported H.264 encoder configuration for ${width}x${height}`);
+}
+
+async function encodeWithWebCodecs(item, opts, onProgress) {
+  const file = item.file;
+  const meta = await loadVideoMetadata(file);
+  const size = outputSize(meta.width, meta.height, opts.res);
+  const outW = size.width, outH = size.height;
+
+  // 1) Parse only ftyp + moov with MP4Box (the sample table), never the whole file.
+  const boxes = await findTopLevelBoxes(file, ["ftyp", "moov"]);
+  if (!boxes.moov) throw new Error("No moov box found (not a standard MP4 file)");
+  const parts = [];
+  if (boxes.ftyp) parts.push(new Uint8Array(await file.slice(boxes.ftyp.pos, boxes.ftyp.pos + boxes.ftyp.size).arrayBuffer()));
+  parts.push(new Uint8Array(await file.slice(boxes.moov.pos, boxes.moov.pos + boxes.moov.size).arrayBuffer()));
+  const merged = new Uint8Array(parts.reduce((n, p) => n + p.length, 0));
+  let at = 0;
+  for (const p of parts) { merged.set(p, at); at += p.length; }
+  const headerBuffer = merged.buffer;
+  headerBuffer.fileStart = 0;
+
+  const mp4 = MP4Box.createFile();
+  const info = await new Promise((resolve, reject) => {
+    mp4.onReady = resolve;
+    mp4.onError = (e) => reject(new Error("MP4 parse error: " + e));
+    mp4.appendBuffer(headerBuffer);
+    mp4.flush();
+  });
+  const vInfo = info.videoTracks[0];
+  if (!vInfo) throw new Error("No video track found");
+  const vTrak = mp4.getTrackById(vInfo.id);
+  const vSamples = vTrak.samples;
+  if (!vSamples || !vSamples.length) throw new Error("Empty video sample table");
+
+  // Rotation (phones store portrait videos as rotated landscape).
+  const mx = vTrak.tkhd && vTrak.tkhd.matrix;
+  let rotation = mx ? Math.round(Math.atan2(mx[1], mx[0]) * 180 / Math.PI) : 0;
+  rotation = ((rotation % 360) + 360) % 360;
+  const swap = rotation === 90 || rotation === 270;
+
+  // 2) Decoder configuration.
+  const entry = vTrak.mdia.minf.stbl.stsd.entries[0];
+  const cfgBox = entry.avcC || entry.hvcC || entry.vpcC || entry.av1C;
+  let description;
+  if (cfgBox) {
+    const ds = new DataStream(undefined, 0, DataStream.BIG_ENDIAN);
+    cfgBox.write(ds);
+    description = new Uint8Array(ds.buffer, 8); // skip the 8 byte box header
+  }
+  const decConfig = { codec: vInfo.codec.startsWith("vp08") ? "vp8" : vInfo.codec, codedWidth: vInfo.video.width, codedHeight: vInfo.video.height };
+  if (description) decConfig.description = description;
+  const decSupport = await VideoDecoder.isConfigSupported(decConfig);
+  if (!decSupport.supported) throw new Error("Video codec not supported by this browser: " + vInfo.codec);
+
+  // 3) Encoder + muxer.
+  const durationSec = vInfo.duration / vInfo.timescale;
+  const srcFps = durationSec > 0 ? vSamples.length / durationSec : 30;
+  const fps = Math.max(1, Math.min(30, Math.round(srcFps)));
+  const encConfig = await pickEncoderConfig(outW, outH, opts.bitrate, fps);
+
+  const aInfo = info.audioTracks[0];
+  const aTrak = aInfo ? mp4.getTrackById(aInfo.id) : null;
+  const useAudio = !!(aInfo && /^mp4a\.40/.test(aInfo.codec) && aTrak && aTrak.samples && aTrak.samples.length);
+  if (aInfo && !useAudio) log("Audio track skipped (only AAC audio is copied): " + aInfo.codec);
+  let audioDescription = null;
+  if (useAudio) {
+    try { audioDescription = aTrak.mdia.minf.stbl.stsd.entries[0].esds.esd.descs[0].descs[0].data; } catch (_) { audioDescription = null; }
+  }
+  const muxerOptions = {
+    target: new Mp4Muxer.ArrayBufferTarget(),
+    video: { codec: "avc", width: outW, height: outH },
+    fastStart: "in-memory",
+    firstTimestampBehavior: "offset"
+  };
+  if (useAudio) muxerOptions.audio = { codec: "aac", numberOfChannels: aInfo.audio.channel_count, sampleRate: aInfo.audio.sample_rate };
+  const muxer = new Mp4Muxer.Muxer(muxerOptions);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = outW; canvas.height = outH;
+  const ctx = canvas.getContext("2d", { alpha: false });
+  const overlayPng = await makeWatermarkPng(outW, outH, opts, file);
+  const overlay = await createImageBitmap(new Blob([overlayPng], { type: "image/png" }));
+
+  let fatal = null, decoded = 0, kept = 0, lastKept = -1;
+  const keepStep = 1e6 / fps;
+  const encoder = new VideoEncoder({
+    output: (chunk, chunkMeta) => { try { muxer.addVideoChunk(chunk, chunkMeta); } catch (e) { fatal = e; } },
+    error: (e) => { fatal = e; }
+  });
+  encoder.configure(encConfig);
+
+  const drawAndEncode = (frame) => {
+    decoded++;
+    if (cancelled || fatal) return;
+    const ts = frame.timestamp;
+    if (lastKept >= 0 && ts - lastKept < keepStep - 2000) return; // frame rate cap (max 30 fps)
+    lastKept = ts;
+    const dw = swap ? outH : outW, dh = swap ? outW : outH;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.translate(outW / 2, outH / 2);
+    ctx.rotate(rotation * Math.PI / 180);
+    ctx.drawImage(frame, -dw / 2, -dh / 2, dw, dh);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.drawImage(overlay, 0, 0, outW, outH);
+    const init = frame.duration ? { timestamp: ts, duration: frame.duration } : { timestamp: ts };
+    const out = new VideoFrame(canvas, init);
+    encoder.encode(out, { keyFrame: kept % 90 === 0 });
+    out.close();
+    kept++;
+  };
+  const decoder = new VideoDecoder({
+    output: (frame) => { try { drawAndEncode(frame); } catch (e) { fatal = e; } finally { frame.close(); } },
+    error: (e) => { fatal = e; }
+  });
+  decoder.configure(decConfig);
+
+  try {
+    // 4) Audio: copy the AAC frames without re-encoding.
+    if (useAudio) {
+      const aSamples = aTrak.samples;
+      let firstAudio = true;
+      for (let i = 0; i < aSamples.length && !cancelled; i += 400) {
+        const batch = aSamples.slice(i, i + 400);
+        const datas = await readSamples(file, batch);
+        batch.forEach((s, k) => {
+          const metaArg = firstAudio ? { decoderConfig: { codec: "mp4a.40.2", sampleRate: aInfo.audio.sample_rate, numberOfChannels: aInfo.audio.channel_count, description: audioDescription || undefined } } : undefined;
+          muxer.addAudioChunkRaw(datas[k].slice(), "key", Math.round(s.cts * 1e6 / s.timescale), Math.round(s.duration * 1e6 / s.timescale), metaArg);
+          firstAudio = false;
+        });
+      }
+    }
+
+    // 5) Video: read, decode, draw, encode (with back-pressure so memory stays small).
+    let startedWithKey = false;
+    const BATCH = 30;
+    for (let i = 0; i < vSamples.length && !cancelled && !fatal; i += BATCH) {
+      const batch = vSamples.slice(i, i + BATCH);
+      const datas = await readSamples(file, batch);
+      for (let k = 0; k < batch.length; k++) {
+        const s = batch[k];
+        if (!startedWithKey && !s.is_sync) continue; // decoding must start at a key frame
+        startedWithKey = true;
+        decoder.decode(new EncodedVideoChunk({
+          type: s.is_sync ? "key" : "delta",
+          timestamp: Math.round(s.cts * 1e6 / s.timescale),
+          duration: Math.round(s.duration * 1e6 / s.timescale),
+          data: datas[k]
+        }));
+      }
+      while ((decoder.decodeQueueSize > 12 || encoder.encodeQueueSize > 12) && !cancelled && !fatal) await wait(2);
+      onProgress(Math.min(0.99, decoded / vSamples.length));
+    }
+    if (!cancelled && !fatal) { await decoder.flush(); await encoder.flush(); }
+    if (fatal) throw fatal instanceof Error ? fatal : new Error(String(fatal));
+    if (cancelled) return null;
+    muxer.finalize();
+    const blob = new Blob([muxer.target.buffer], { type: "video/mp4" });
+    const base = file.name.replace(/\.[^.]+$/, "");
+    onProgress(1);
+    return { blob, name: base + "_watermark.mp4", width: outW, height: outH };
+  } finally {
+    try { if (decoder.state !== "closed") decoder.close(); } catch (_) {}
+    try { if (encoder.state !== "closed") encoder.close(); } catch (_) {}
+    try { overlay.close(); } catch (_) {}
+  }
+}
+
+// Fast path first; falls back to the slow FFmpeg engine only if WebCodecs is missing or fails.
+async function encodeFrameByFrame(item, opts, onProgress) {
+  if (webCodecsAvailable()) {
+    try {
+      log("Using the fast hardware (WebCodecs) engine.");
+      return await encodeWithWebCodecs(item, opts, onProgress);
+    } catch (err) {
+      if (cancelled) return null;
+      log("WebCodecs engine failed: " + (err && err.message ? err.message : String(err)) + " - falling back to FFmpeg (slow).");
+    }
+  } else {
+    log("WebCodecs is not available in this browser - using FFmpeg (slow).");
+  }
+  await ensureFFmpeg();
+  return encodeWithFFmpeg(item, opts, onProgress);
+}
+
+async function run() {
+  if (running) return;
+  const selected = files.filter((f) => f.el.querySelector("input").checked);
+  if (!selected.length) { $("info").textContent = "Select at least one video."; return; }
+  running = true;
+  cancelled = false;
+  $("start").disabled = true;
+  $("pickAll").disabled = true;
+  $("pickVideo").disabled = true;
+  $("cancel").classList.remove("hide");
+  $("info").textContent = "Preparing…";
+  let wakeLock = null;
+  try { if (navigator.wakeLock) wakeLock = await navigator.wakeLock.request("screen"); } catch (_) {}
+  const opts = {
+    dateMode: $("dateMode").value,
+    manualDate: $("manualDate").value.trim(),
+    text: $("text").value.trim(),
+    res: selectedResolution(),
+    bitrate: parseInt($("quality").value, 10),
+    color: validColor($("color").value.trim())
+  };
+  let done = 0;
+  try {
+    for (let n = 0; n < selected.length && !cancelled; n++) {
+      const item = selected[n];
+      const bar = item.el.querySelector(".bar");
+      const fill = bar.firstElementChild;
+      const status = item.el.querySelector(".status");
+      bar.classList.remove("hide");
+      fill.style.width = "0%";
+      window.__progressFill = fill;
+      window.__ffmpegProgress = 0;
+      status.textContent = `[${n + 1}/${selected.length}] processing…`;
+      log(`Frame-by-frame processing started: ${item.file.name}`);
+      const t0 = Date.now();
+      try {
+        const result = await encodeFrameByFrame(item, opts, (p) => {
+          fill.style.width = Math.round(p * 100) + "%";
+        });
+        window.__progressFill = null;
+        if (result) {
+          fill.style.width = "100%";
+          const a = document.createElement("a");
+          a.className = "dl";
+          a.href = URL.createObjectURL(result.blob);
+          a.download = result.name;
+          activeObjectUrls.push(a.href);
+          a.textContent = `Download: ${result.name} · ${result.width}×${result.height} · ${(result.blob.size / 1048576).toFixed(1)} MB`;
+          status.textContent = `Done · ${formatTime((Date.now() - t0) / 1000)} processing time`;
+          item.el.appendChild(a);
+          done++;
+          log(`Finished: ${result.name}`);
+        } else {
+          status.textContent = "Cancelled";
+        }
+      } catch (err) {
+        window.__progressFill = null;
+        status.textContent = "Error: " + (err && err.message ? err.message : String(err));
+        log(`Error (${item.file.name}): ${err && err.message ? err.message : String(err)}`);
+        if (/memory|allocation|out of memory/i.test(String(err))) {
+          log("The browser may have run out of memory. Try a shorter or smaller file.");
+        }
+      }
+    }
+  } catch (err) {
+    $("info").textContent = "FFmpeg error: " + (err && err.message ? err.message : String(err));
+    log("Engine error: " + (err && err.message ? err.message : String(err)));
+  }
+  if (wakeLock) { try { await wakeLock.release(); } catch (_) {} }
+  running = false;
+  $("start").disabled = !files.length;
+  $("pickAll").disabled = false;
+  $("pickVideo").disabled = false;
+  $("cancel").classList.add("hide");
+  window.__progressFill = null;
+  if (cancelled) $("info").textContent = `Cancelled. Finished: ${done}/${selected.length}.`;
+  else if (!$("info").textContent.startsWith("FFmpeg error:")) $("info").textContent = `Finished: ${done}/${selected.length} video(s). Tap the download links to save the files.`;
+}
+
+$("pickAll").onclick = () => $("pickerAll").click();
+$("pickVideo").onclick = () => $("pickerVideo").click();
+$("pickerAll").onchange = loadFiles;
+$("pickerVideo").onchange = loadFiles;
+$("dateMode").onchange = () => { $("manualBox").classList.toggle("hide", $("dateMode").value !== "manual"); updatePreview(); };
+$("res").onchange = () => $("customRes").classList.toggle("hide", $("res").value !== "custom");
+$("colorPicker").oninput = () => { $("color").value = $("colorPicker").value; updatePreview(); };
+["text", "manualDate", "color"].forEach((id) => { $(id).oninput = updatePreview; });
+$("start").onclick = run;
+$("cancel").onclick = () => {
+  cancelled = true;
+  if (ffmpeg && running) {
+    try { ffmpeg.terminate(); } catch (_) {}
+    ffmpeg = null;
+    ffmpegReady = false;
+  }
+};
+updatePreview();
+
+</script>
+<script>
+
+    window.onerror = function(msg, url, line) {
+      var banner = document.getElementById("error-banner");
+      if (banner) {
+        banner.style.display = "block";
+        banner.textContent = "JS Error (line " + line + "): " + msg;
+      }
+    };
+
+    (function() {
+      var STANDARDS = [
+        { name: "1 : 1", w: 1, h: 1, desc: "Square (e.g. Instagram)" },
+        { name: "5 : 4", w: 5, h: 4, desc: "Old 1280×1024 monitor" },
+        { name: "4 : 3", w: 4, h: 3, desc: "Classic TV / iPad" },
+        { name: "3 : 2", w: 3, h: 2, desc: "Camera / Surface" },
+        { name: "16 : 10", w: 16, h: 10, desc: "Workstation / Laptop" },
+        { name: "16 : 9", w: 16, h: 9, desc: "Standard HD / Full HD / 4K" },
+        { name: "18 : 9", w: 18, h: 9, desc: "Modern smartphone (2:1)" },
+        { name: "19.5 : 9", w: 19.5, h: 9, desc: "Widescreen smartphone" },
+        { name: "20 : 9", w: 20, h: 9, desc: "Tall smartphone" },
+        { name: "21 : 9", w: 21, h: 9, desc: "Ultrawide monitor" },
+        { name: "32 : 9", w: 32, h: 9, desc: "Super Ultrawide monitor" }
+      ];
+
+      function gcd(a, b) {
+        a = Math.abs(Math.round(a));
+        b = Math.abs(Math.round(b));
+        while (b !== 0) {
+          var t = b;
+          b = a % b;
+          a = t;
+        }
+        return a || 1;
+      }
+
+      function getEuclideanSteps(a, b) {
+        a = Math.abs(Math.round(a));
+        b = Math.abs(Math.round(b));
+        var steps = [];
+        var safety = 0;
+
+        if (a === b) {
+          steps.push({ text: a + " = " + b + " → The two numbers are equal, the divisor is: " + a, final: true });
+          return steps;
+        }
+
+        while (a !== b && safety < 60) {
+          if (a > b) {
+            var diff1 = a - b;
+            steps.push({ text: a + " − " + b + " = " + diff1, final: diff1 === b });
+            a = diff1;
+          } else {
+            var diff2 = b - a;
+            steps.push({ text: b + " − " + a + " = " + diff2, final: diff2 === a });
+            b = diff2;
+          }
+          safety++;
+        }
+
+        if (safety >= 60) {
+          steps.push({
+            text: "... (the process continues until the greatest common divisor: " + gcd(a, b) + ")",
+            final: true
+          });
+        }
+        return steps;
+      }
+
+      function formatRatio(w, h) {
+        if (!w || !h) return "-";
+        var d = gcd(w, h);
+        return (w / d) + " : " + (h / d);
+      }
+
+      function getScreenMetrics() {
+        var dpr = window.devicePixelRatio || 1;
+        var logW = (window.screen && window.screen.width) ? window.screen.width : window.innerWidth;
+        var logH = (window.screen && window.screen.height) ? window.screen.height : window.innerHeight;
+        var physW = Math.round(logW * dpr);
+        var physH = Math.round(logH * dpr);
+        var winW = window.innerWidth || document.documentElement.clientWidth || logW;
+        var winH = window.innerHeight || document.documentElement.clientHeight || logH;
+        return { dpr: dpr, logW: logW, logH: logH, physW: physW, physH: physH, winW: winW, winH: winH };
+      }
+
+      function updateScreenMonitor() {
+        var m = getScreenMetrics();
+        document.getElementById("phys-res").textContent = m.physW + " × " + m.physH;
+        document.getElementById("phys-ratio").textContent = "Ratio: " + formatRatio(m.physW, m.physH) + " (" + (m.physW / m.physH).toFixed(3) + ")";
+
+        document.getElementById("log-res").textContent = m.logW + " × " + m.logH;
+        document.getElementById("dpr-val").textContent = "DPR multiplier: " + m.dpr.toFixed(2) + "×";
+
+        document.getElementById("win-res").textContent = m.winW + " × " + m.winH;
+        document.getElementById("win-ratio").textContent = "Window ratio: " + formatRatio(m.winW, m.winH);
+      }
+
+      function setRes(w, h) {
+        document.getElementById("widthInput").value = w;
+        document.getElementById("heightInput").value = h;
+        calculate();
+      }
+
+      function findNearestStandard(w, h) {
+        var isPortrait = h > w;
+        var normRatio = isPortrait ? h / w : w / h;
+
+        var best = STANDARDS[0];
+        var minDiff = Infinity;
+
+        for (var i = 0; i < STANDARDS.length; i++) {
+          var st = STANDARDS[i];
+          var stRatio = st.w / st.h;
+          var diff = Math.abs(normRatio - stRatio);
+          if (diff < minDiff) {
+            minDiff = diff;
+            best = st;
+          }
+        }
+
+        var displayName = isPortrait ? (best.h + " : " + best.w) : best.name;
+        var targetW = isPortrait ? best.h : best.w;
+        var targetH = isPortrait ? best.w : best.h;
+        var targetRatio = targetW / targetH;
+        var actualRatio = w / h;
+        var pctDiff = (Math.abs(actualRatio - targetRatio) / targetRatio) * 100;
+
+        return {
+          name: displayName,
+          desc: best.desc,
+          targetW: targetW,
+          targetH: targetH,
+          targetRatio: targetRatio,
+          pctDiff: pctDiff
+        };
+      }
+
+      function calculate() {
+        var w = parseInt(document.getElementById("widthInput").value, 10);
+        var h = parseInt(document.getElementById("heightInput").value, 10);
+
+        if (!w || !h || w <= 0 || h <= 0) return;
+
+        var divisor = gcd(w, h);
+        var rw = w / divisor;
+        var rh = h / divisor;
+        var dec = w / h;
+
+        document.getElementById("exactRatio").textContent = rw + " : " + rh;
+        document.getElementById("decimalRatio").textContent = "Decimal: " + dec.toFixed(3);
+
+        document.getElementById("gcdVal").textContent = divisor;
+        document.getElementById("gcdFormula").textContent = w + " ÷ " + divisor + " = " + rw + " | " + h + " ÷ " + divisor + " = " + rh;
+
+        var nearest = findNearestStandard(w, h);
+        document.getElementById("nearestStd").textContent = nearest.name;
+        document.getElementById("stdDiff").textContent =
+          nearest.pctDiff < 0.05
+            ? "Exact match (" + nearest.desc + ")"
+            : "Difference: " + nearest.pctDiff.toFixed(2) + "% (" + nearest.desc + ")";
+
+        var corrBox = document.getElementById("correctionBox");
+        if (nearest.pctDiff < 0.05) {
+          corrBox.innerHTML = "✅ The <strong>" + w + " × " + h + "</strong> resolution is exactly <strong>" + nearest.name + "</strong>.";
+        } else {
+          var idealH = Math.round((w * nearest.targetH) / nearest.targetW);
+          var idealW = Math.round((h * nearest.targetW) / nearest.targetH);
+          corrBox.innerHTML = "💡 The nearest standard is <strong>" + nearest.name + "</strong>. For this width (<strong>" + w + " px</strong>) the exact size would be <strong>" + w + " × " + idealH + " px</strong>, and for this height (<strong>" + h + " px</strong>) it would be <strong>" + idealW + " × " + h + " px</strong>.";
+        }
+
+        var maxStageW = 240;
+        var maxStageH = 140;
+
+        function fitBox(ratio) {
+          var bw = maxStageW;
+          var bh = bw / ratio;
+          if (bh > maxStageH) {
+            bh = maxStageH;
+            bw = bh * ratio;
+          }
+          return { w: Math.round(bw), h: Math.round(bh) };
+        }
+
+        var userBox = fitBox(dec);
+        var stdBox = fitBox(nearest.targetRatio);
+
+        var rectUser = document.getElementById("rectUser");
+        rectUser.style.width = userBox.w + "px";
+        rectUser.style.height = userBox.h + "px";
+        rectUser.textContent = w + "×" + h;
+
+        var rectStd = document.getElementById("rectStd");
+        rectStd.style.width = stdBox.w + "px";
+        rectStd.style.height = stdBox.h + "px";
+
+        document.getElementById("legUser").textContent = rw + ":" + rh;
+        document.getElementById("legStd").textContent = nearest.name;
+
+        var stepsContainer = document.getElementById("euclideanSteps");
+        stepsContainer.innerHTML = "";
+        var steps = getEuclideanSteps(w, h);
+        for (var j = 0; j < steps.length; j++) {
+          var st = steps[j];
+          var div = document.createElement("div");
+          div.className = st.final ? "step-item final" : "step-item";
+          div.textContent = st.text;
+          stepsContainer.appendChild(div);
+        }
+      }
+
+      document.getElementById("btnPhys").addEventListener("click", function() {
+        var m = getScreenMetrics();
+        setRes(m.physW, m.physH);
+      });
+
+      document.getElementById("btnLog").addEventListener("click", function() {
+        var m = getScreenMetrics();
+        setRes(m.logW, m.logH);
+      });
+
+      document.getElementById("btnWin").addEventListener("click", function() {
+        var m = getScreenMetrics();
+        setRes(m.winW, m.winH);
+      });
+
+      document.getElementById("btnSwap").addEventListener("click", function() {
+        var wEl = document.getElementById("widthInput");
+        var hEl = document.getElementById("heightInput");
+        var temp = wEl.value;
+        wEl.value = hEl.value;
+        hEl.value = temp;
+        calculate();
+      });
+
+      document.getElementById("widthInput").addEventListener("input", calculate);
+      document.getElementById("heightInput").addEventListener("input", calculate);
+
+      var chips = document.querySelectorAll(".preset-chip");
+      for (var k = 0; k < chips.length; k++) {
+        chips[k].addEventListener("click", function() {
+          var pw = parseInt(this.getAttribute("data-w"), 10);
+          var ph = parseInt(this.getAttribute("data-h"), 10);
+          setRes(pw, ph);
+        });
+      }
+
+      window.addEventListener("resize", updateScreenMonitor);
+
+      // Azonnali indítás betöltéskor
+      updateScreenMonitor();
+      var initMetrics = getScreenMetrics();
+      setRes(initMetrics.physW, initMetrics.physH);
+    })();
+
+</script>
+</body>
+</html>
