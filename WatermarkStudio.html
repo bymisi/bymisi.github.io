@@ -782,35 +782,63 @@ async function makeWatermarkPng(width, height, opts, file) {
   const blob = await new Promise((resolve, reject) => canvas.toBlob((b) => b ? resolve(b) : reject(new Error("Nem sikerült elkészíteni a vízjel képrétegét.")), "image/png"));
   return new Uint8Array(await blob.arrayBuffer());
 }
-async function ensureFFmpeg() {
-  if (ffmpegReady && ffmpeg) return;
-  if (!window.FFmpegWASM || !window.FFmpegUtil) {
-    throw new Error("Az FFmpeg motor nem töltődött be. Ellenőrizd az internetkapcsolatot, majd frissítsd az oldalt.");
-  }
-  $("info").textContent = "Az FFmpeg videómotor első betöltése folyamatban van… (ez több tíz MB is lehet).";
-  ffmpeg = new window.FFmpegWASM.FFmpeg();
-  ffmpeg.on("progress", ({ progress }) => {
+// Several CDN/version combinations are tried one after another; every failure is written to the log box.
+const FFMPEG_SOURCES = [
+  { name: "unpkg core 0.12.6", lib: "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd", core: "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd" },
+  { name: "jsdelivr core 0.12.6", lib: "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd", core: "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd" },
+  { name: "unpkg core 0.12.4", lib: "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd", core: "https://unpkg.com/@ffmpeg/core@0.12.4/dist/umd" }
+];
+function errText(e) { return e && e.message ? e.message : String(e); }
+async function loadFFmpegWith(src) {
+  const toBlobURL = window.FFmpegUtil.toBlobURL;
+  const inst = new window.FFmpegWASM.FFmpeg();
+  inst.on("progress", ({ progress }) => {
     if (typeof progress === "number" && Number.isFinite(progress)) {
       window.__ffmpegProgress = Math.max(0, Math.min(1, progress));
       if (window.__progressFill) window.__progressFill.style.width = Math.round(window.__ffmpegProgress * 100) + "%";
     }
   });
-  ffmpeg.on("log", ({ message }) => {
+  inst.on("log", ({ message }) => {
     if (message && /error|failed|invalid/i.test(message)) log("FFmpeg: " + message.slice(0, 220));
   });
-  // Single-thread core (no SharedArrayBuffer needed). Everything goes through blob URLs
-  // so the worker and the core can be loaded from a CDN on GitHub Pages.
-  const libBase = "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd";
-  const coreBase = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
-  const toBlobURL = window.FFmpegUtil.toBlobURL;
-  await ffmpeg.load({
-    classWorkerURL: await toBlobURL(libBase + "/814.ffmpeg.js", "text/javascript"),
-    coreURL: await toBlobURL(coreBase + "/ffmpeg-core.js", "text/javascript"),
-    wasmURL: await toBlobURL(coreBase + "/ffmpeg-core.wasm", "application/wasm")
-  });
-  ffmpegReady = true;
-  $("info").textContent = "FFmpeg készen áll. A feldolgozás képkockánként történik.";
-  log("FFmpeg videómotor betöltve.");
+  try {
+    // Sanity check: is the core script reachable and really JavaScript (not an error page)?
+    const res = await fetch(src.core + "/ffmpeg-core.js");
+    const text = await res.text();
+    log(`Core script: HTTP ${res.status}, ${text.length} chars, starts with: ${text.slice(0, 40).replace(/\s+/g, " ")}`);
+    if (!res.ok || text.indexOf("createFFmpegCore") < 0) throw new Error("core script is not valid JavaScript");
+    await inst.load({
+      classWorkerURL: await toBlobURL(src.lib + "/814.ffmpeg.js", "text/javascript"),
+      coreURL: await toBlobURL(src.core + "/ffmpeg-core.js", "text/javascript"),
+      wasmURL: await toBlobURL(src.core + "/ffmpeg-core.wasm", "application/wasm")
+    });
+    return inst;
+  } catch (e) {
+    try { inst.terminate(); } catch (_) {}
+    throw e;
+  }
+}
+async function ensureFFmpeg() {
+  if (ffmpegReady && ffmpeg) return;
+  if (!window.FFmpegWASM || !window.FFmpegUtil) {
+    throw new Error("The FFmpeg library did not load. Check your internet connection and reload the page.");
+  }
+  $("info").textContent = "Loading the FFmpeg video engine for the first time (can be tens of MB)...";
+  let lastError = null;
+  for (const src of FFMPEG_SOURCES) {
+    try {
+      log("Trying FFmpeg source: " + src.name);
+      ffmpeg = await loadFFmpegWith(src);
+      ffmpegReady = true;
+      $("info").textContent = "FFmpeg is ready.";
+      log("FFmpeg engine loaded from: " + src.name);
+      return;
+    } catch (e) {
+      lastError = e;
+      log(`Source failed (${src.name}): ${errText(e)}`);
+    }
+  }
+  throw lastError || new Error("FFmpeg could not be loaded");
 }
 function safeName(name) {
   return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80) || "video";
