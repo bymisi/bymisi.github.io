@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPS picker test 2</title>
+<style>
+  :root { color-scheme: dark; }
+  body { font-family: sans-serif; margin: 0; padding: 12px; background: #14161a; color: #e8e8e8; }
+  h1 { font-size: 18px; margin: 0 0 4px 0; }
+  p { font-size: 14px; color: #b8bec8; line-height: 1.45; margin: 6px 0; }
+  .btn { display: block; background: #2f6fed; color: #fff; padding: 12px 14px; border-radius: 8px;
+         font-size: 15px; margin: 8px 0; cursor: pointer; user-select: none; }
+  .btn small { display: block; color: #cfe0ff; font-size: 12px; margin-top: 2px; }
+  .btn:active { background: #2457b8; }
+  #log { margin-top: 14px; font-family: monospace; font-size: 13px; line-height: 1.45; }
+  .run { border-top: 1px solid #333; padding: 8px 0; white-space: pre-wrap; word-break: break-all; }
+  .good { color: #6fdc8c; }
+  .bad { color: #ff8a80; }
+</style>
+</head>
+<body>
+<h1>GPS picker test 2</h1>
+<p>Pick a few photos that you know have GPS data, using each method in turn. The result of each
+   method is shown below. Nothing is uploaded anywhere.</p>
+
+<label class="btn">A) Folder picker
+  <small>input with webkitdirectory</small>
+  <input type="file" id="inputA" webkitdirectory multiple hidden>
+</label>
+<label class="btn">B) Photos picker
+  <small>accept="image/jpeg"</small>
+  <input type="file" id="inputB" multiple accept="image/jpeg" hidden>
+</label>
+<label class="btn">C) File browser, no filter
+  <small>no accept attribute (should open the Files / Documents browser)</small>
+  <input type="file" id="inputC" multiple hidden>
+</label>
+<label class="btn">D) File browser, .jpg filter
+  <small>accept=".jpg,.jpeg"</small>
+  <input type="file" id="inputD" multiple accept=".jpg,.jpeg" hidden>
+</label>
+
+<div id="log"></div>
+
+<script>
+"use strict";
+
+var HEADER_BYTES = 262144;
+
+/** Inspect the EXIF header of a JPEG. Returns {state, point}. */
+function inspectExif(buffer) {
+  try {
+    var view = new DataView(buffer);
+    var length = view.byteLength;
+    if (length < 4 || view.getUint16(0) !== 0xFFD8) return { state: "not-jpeg", point: null };
+    var offset = 2;
+    while (offset + 4 <= length) {
+      var marker = view.getUint16(offset);
+      if ((marker & 0xFF00) !== 0xFF00 || marker === 0xFFDA) break;
+      if (marker === 0xFFE1 && view.getUint32(offset + 4) === 0x45786966) {
+        return readTiffGps(view, offset + 10);
+      }
+      offset += 2 + view.getUint16(offset + 2);
+    }
+    return { state: "no-exif", point: null };
+  } catch (error) {
+    return { state: "error", point: null };
+  }
+}
+
+function readTiffGps(view, tiff) {
+  var little = view.getUint16(tiff) === 0x4949;
+  var ifd0 = tiff + view.getUint32(tiff + 4, little);
+  var entryCount = view.getUint16(ifd0, little);
+  var gpsOffset = 0;
+  for (var i = 0; i < entryCount; i++) {
+    var entry = ifd0 + 2 + i * 12;
+    if (view.getUint16(entry, little) === 0x8825) {
+      gpsOffset = view.getUint32(entry + 8, little);
+      break;
+    }
+  }
+  if (!gpsOffset) return { state: "no-gps-tag", point: null };
+
+  var gps = tiff + gpsOffset;
+  var gpsCount = view.getUint16(gps, little);
+  var latRef = "N", lonRef = "E", lat = null, lon = null;
+  for (var j = 0; j < gpsCount; j++) {
+    var e = gps + 2 + j * 12;
+    var tag = view.getUint16(e, little);
+    if (tag === 1) latRef = String.fromCharCode(view.getUint8(e + 8));
+    else if (tag === 3) lonRef = String.fromCharCode(view.getUint8(e + 8));
+    else if (tag === 2) lat = readDms(view, tiff + view.getUint32(e + 8, little), little);
+    else if (tag === 4) lon = readDms(view, tiff + view.getUint32(e + 8, little), little);
+  }
+  if (lat === null || lon === null) return { state: "gps-empty", point: null };
+  if (latRef === "S") lat = -lat;
+  if (lonRef === "W") lon = -lon;
+  if (lat === 0 && lon === 0) return { state: "gps-empty", point: null };
+  if (!isFinite(lat) || !isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+    return { state: "gps-empty", point: null };
+  }
+  return { state: "ok", point: { lat: lat, lon: lon } };
+}
+
+function readDms(view, pos, little) {
+  var parts = [];
+  for (var i = 0; i < 3; i++) {
+    var numerator = view.getUint32(pos + i * 8, little);
+    var denominator = view.getUint32(pos + i * 8 + 4, little);
+    parts.push(denominator ? numerator / denominator : 0);
+  }
+  return parts[0] + parts[1] / 60 + parts[2] / 3600;
+}
+
+function hexBytes(view, pos, length) {
+  var out = [];
+  for (var i = 0; i < length; i++) {
+    if (pos + i >= view.byteLength) break;
+    out.push(("0" + view.getUint8(pos + i).toString(16)).slice(-2));
+  }
+  return out.join(" ");
+}
+
+/** Describe the raw GPS section of a JPEG, to see what the browser really received. */
+function dumpGps(buffer) {
+  try {
+    var view = new DataView(buffer);
+    if (view.byteLength < 4 || view.getUint16(0) !== 0xFFD8) return "not a JPEG";
+    var offset = 2, tiff = -1;
+    while (offset + 4 <= view.byteLength) {
+      var marker = view.getUint16(offset);
+      if ((marker & 0xFF00) !== 0xFF00 || marker === 0xFFDA) break;
+      if (marker === 0xFFE1 && view.getUint32(offset + 4) === 0x45786966) { tiff = offset + 10; break; }
+      offset += 2 + view.getUint16(offset + 2);
+    }
+    if (tiff < 0) return "no EXIF segment";
+    var little = view.getUint16(tiff) === 0x4949;
+    var ifd0 = tiff + view.getUint32(tiff + 4, little);
+    var count0 = view.getUint16(ifd0, little);
+    var gpsOffset = 0;
+    for (var i = 0; i < count0; i++) {
+      var entry = ifd0 + 2 + i * 12;
+      if (view.getUint16(entry, little) === 0x8825) { gpsOffset = view.getUint32(entry + 8, little); break; }
+    }
+    if (!gpsOffset) return "IFD0 has no GPS pointer (" + count0 + " IFD0 entries)";
+    var gps = tiff + gpsOffset;
+    if (gps + 2 > view.byteLength) return "GPS section lies outside the first " + view.byteLength + " bytes";
+    var count = view.getUint16(gps, little);
+    var lines = ["byte order " + (little ? "little" : "big") + ", GPS section at " + gpsOffset + ", entries " + count];
+    for (var j = 0; j < Math.min(count, 12); j++) {
+      var e = gps + 2 + j * 12;
+      var tag = view.getUint16(e, little);
+      var line = "tag " + tag + " type " + view.getUint16(e + 2, little) +
+                 " count " + view.getUint32(e + 4, little) + " value " + hexBytes(view, e + 8, 4);
+      if (tag === 2 || tag === 4) {
+        line += "\n  data " + hexBytes(view, tiff + view.getUint32(e + 8, little), 24);
+      }
+      lines.push(line);
+    }
+    return lines.join("\n");
+  } catch (error) {
+    return "dump failed: " + error;
+  }
+}
+
+var log = document.getElementById("log");
+
+async function runTest(label, fileList) {
+  var files = Array.from(fileList);
+  var counts = { "ok": 0, "no-exif": 0, "no-gps-tag": 0, "gps-empty": 0, "not-jpeg": 0, "error": 0 };
+  var firstOk = null;
+  var firstFile = files.length ? files[0] : null;
+  var problemDump = null;
+
+  for (var i = 0; i < files.length; i++) {
+    try {
+      var buffer = await files[i].slice(0, HEADER_BYTES).arrayBuffer();
+      var result = inspectExif(buffer);
+      counts[result.state]++;
+      if (result.state !== "ok" && problemDump === null) {
+        problemDump = "raw GPS section of " + files[i].name + " (" + files[i].size + " bytes):\n" + dumpGps(buffer);
+      }
+      if (result.point && !firstOk) {
+        firstOk = files[i].name + " -> " + result.point.lat.toFixed(5) + ", " + result.point.lon.toFixed(5);
+      }
+    } catch (error) {
+      counts["error"]++;
+    }
+  }
+
+  var verdict = counts["ok"] > 0 ? "GPS READABLE" : "no GPS readable";
+  var text = label + ": " + files.length + " files\n" +
+             verdict + "\n" +
+             "ok " + counts["ok"] + ", GPS empty " + counts["gps-empty"] +
+             ", EXIF without GPS " + counts["no-gps-tag"] + ", no EXIF " + counts["no-exif"] +
+             ", not JPEG " + counts["not-jpeg"] + ", errors " + counts["error"] + "\n" +
+             (firstFile ? "first file: " + (firstFile.webkitRelativePath || firstFile.name) +
+                          " (" + firstFile.size + " bytes)\n" : "") +
+             (firstOk ? "first GPS: " + firstOk + "\n" : "") +
+             (problemDump ? problemDump : "");
+
+  var box = document.createElement("div");
+  box.className = "run " + (counts["ok"] > 0 ? "good" : "bad");
+  box.textContent = text;
+  log.insertBefore(box, log.firstChild);
+}
+
+[["inputA", "A) Folder picker"],
+ ["inputB", "B) Photos picker"],
+ ["inputC", "C) File browser, no filter"],
+ ["inputD", "D) File browser, .jpg filter"]].forEach(function (pair) {
+  var input = document.getElementById(pair[0]);
+  input.addEventListener("change", function () {
+    if (input.files && input.files.length) {
+      runTest(pair[1], input.files);
+    }
+  });
+});
+</script>
+</body>
+</html>
